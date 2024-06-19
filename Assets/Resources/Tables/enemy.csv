@@ -1,0 +1,4 @@
+eid,name,speed,maxHp
+1001,normal,0.5,100
+1002,power,0.5,200
+1003,speed,1,75
