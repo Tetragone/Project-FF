@@ -21,26 +21,26 @@ public class UI_GamePlay : MonoBehaviour
     {
         ButtonBlockCreate.onClick.AddListener(() =>
         {
-            if (!GameMgr.Instance.IsSelectBlock)
+            if (!AquaMgr.Instance.IsSelectBlock)
             {
-                GameMgr.Instance.CreateBlock();
-                GameMgr.Instance.SetBlockParent(TransformCreate);
+                AquaMgr.Instance.CreateBlock();
+                AquaMgr.Instance.SetBlockParent(TransformCreate);
             }
         });
 
         ButtonAttack.onClick.AddListener(() =>
         {
-            if (!GameMgr.Instance.IsSelectBlock)
+            if (!AquaMgr.Instance.IsSelectBlock)
             {
-                GameMgr.Instance.Attack();
+                AquaMgr.Instance.Attack();
             }
         });
 
         ButtonSelectBlock.onClick.AddListener(() =>
         {
-            if (GameMgr.Instance.IsSelectBlock)
+            if (AquaMgr.Instance.IsSelectBlock)
             {
-                GameMgr.Instance.Board.FilledSelectedBlock();
+                AquaMgr.Instance.Board.FilledSelectedBlock();
             }
         });
     }

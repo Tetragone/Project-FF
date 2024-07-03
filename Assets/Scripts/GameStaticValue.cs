@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameStaticValue
+public static class GameStaticValue
 {
     public static readonly List<Color> LIST_COLOR_BLOCK = new List<Color>() { Color.blue, Color.yellow, Color.magenta, Color.cyan, Color.red, Color.green, Color.black };
     public static readonly Color BASE_COLOR = Color.white;
@@ -22,10 +22,9 @@ public class GameStaticValue
 
 }
 
-public class InGameStaticValue
+public static class InGameStaticValue
 {
-    public static Vector3 StartPosition = new Vector3(-2, -4);
-    public static List<Vector3> HitPosition = new List<Vector3>() { new Vector3(-2, 0), new Vector3(2, 0) };
+    public static float AroundTime = 5f;
 }
 
 public enum BlockType

@@ -38,9 +38,9 @@ public class UI_Board : MonoBehaviour, IObserver
 
                 ListBlock[i][j].ButtonBlockSelet.onClick.AddListener(() =>
                 {
-                    if (GameMgr.Instance.Board.IsValidPosition(new Vector2(tempI, tempJ), GameMgr.Instance.GetNowBlock()))
+                    if (AquaMgr.Instance.Board.IsValidPosition(new Vector2(tempI, tempJ), AquaMgr.Instance.GetNowBlock()))
                     {
-                        GameMgr.Instance.Board.ChangeSelectedBlockColor(new Vector2(tempI, tempJ), GameMgr.Instance.GetNowBlock());
+                        AquaMgr.Instance.Board.ChangeSelectedBlockColor(new Vector2(tempI, tempJ), AquaMgr.Instance.GetNowBlock());
                     }
                 });
             }
@@ -49,7 +49,7 @@ public class UI_Board : MonoBehaviour, IObserver
 
     public void UpdateObserver()
     {
-        BlockType[][] blocks = GameMgr.Instance.Board.GetBlocks();
+        BlockType[][] blocks = AquaMgr.Instance.Board.GetBlocks();
         for (int i = 0; i < blocks.Length; i++)
         {
             for (int j = 0; j < blocks[i].Length; j++)
@@ -64,10 +64,10 @@ public class UI_Board : MonoBehaviour, IObserver
                     ListBlock[i][j].IsFilled = false;
                     ListBlock[i][j].ColorBlock = GameStaticValue.BASE_COLOR;
 
-                    if (GameMgr.Instance.IsSelectBlock)
+                    if (AquaMgr.Instance.IsSelectBlock)
                     {
                         ListBlock[i][j].ButtonBlockSelet.interactable
-                            = GameMgr.Instance.Board.IsValidPosition(new Vector2(i, j), GameMgr.Instance.GetNowBlock());
+                            = AquaMgr.Instance.Board.IsValidPosition(new Vector2(i, j), AquaMgr.Instance.GetNowBlock());
                     }
                 }
             }

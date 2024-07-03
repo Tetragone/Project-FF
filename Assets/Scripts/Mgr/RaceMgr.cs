@@ -2,12 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameMgr : Singleton<GameMgr>
-{
+public class RaceMgr : Singleton<RaceMgr> {
     [HideInInspector] public Board Board;
     [HideInInspector] public Block NowBlock;
     [HideInInspector] public List<BaseCharacters> ListEnemy = new List<BaseCharacters>();
-    // Enemyì™€ì˜ ê±°ë¦¬ ê³„ì‚°ì„ í†µí•´ì„œ ì–´ë–¤ ì ì´ ê°€ì¥ ì¶œêµ¬ì— ê°€ê¹Œì´ ìˆëŠ”ì§€ ê³„ì‚°.
+    // Enemy¿ÍÀÇ °Å¸® °è»êÀ» ÅëÇØ¼­ ¾î¶² ÀûÀÌ °¡Àå Ãâ±¸¿¡ °¡±îÀÌ ÀÖ´ÂÁö °è»ê.
     public Transform CenterPosition;
 
     public EnemyMgr EnemyMgr { get; private set; }
@@ -23,94 +22,76 @@ public class GameMgr : Singleton<GameMgr>
     private float Diff = 1f;
 
     #region Unity Function
-    // awakeë¡œ í•˜ë©´ instanceê°€ ì—†ì„ìˆ˜ë„ ìˆë‹¤. 
-    private void Start()
-    {
+    // awake·Î ÇÏ¸é instance°¡ ¾øÀ»¼öµµ ÀÖ´Ù. 
+    private void Start() {
         StartCoroutine(InitPools());
     }
 
-    private void Update()
-    {
-        if (!IsInited)
-        {
+    private void Update() {
+        if (!IsInited) {
             return;
         }
 
-        if (IsCheckingDied)
-        {
+        if (IsCheckingDied) {
             CheckListEnemy();
         }
 
-        if (EnemyCreateTimer <= 0.0f)
-        {
+        if (EnemyCreateTimer <= 0.0f) {
             ResponeEnemy();
             EnemyCreateTimer += GameStaticValue.ENEMY_INTERVAL;
         }
     }
     #endregion
 
-    private IEnumerator InitPools()
-    {
+    private IEnumerator InitPools() {
         Board = new Board();
         EnemyMgr = new EnemyMgr();
 
-        foreach (var date in GameStaticValue.DIC_EMENY)
-        {
+        foreach (var date in GameStaticValue.DIC_EMENY) {
             BaseCharacters character = Resources.Load<BaseCharacters>(date.Value);
             ObjectPoolMgr.Instance.InitPools(date.Key, character);
         }
 
         yield return null;
 
-        while (ObjectPoolMgr.Instance.MakePoolCount != 0) 
-        {
+        while (ObjectPoolMgr.Instance.MakePoolCount != 0) {
             yield return null;
         }
         IsLoadingObjectPool = true;
         IsInited = true;
     }
 
-    public void AddBoardObserver(IObserver observer)
-    {
+    public void AddBoardObserver(IObserver observer) {
         Board.RegistObserver(observer);
     }
 
-    public void RemoveBoardObserver(IObserver observer)
-    {
+    public void RemoveBoardObserver(IObserver observer) {
         Board.RemoveObserver(observer);
     }
 
     #region block_controll
-    public void CreateBlock()
-    {
+    public void CreateBlock() {
         IsSelectBlock = true;
         NowBlock.InitBlock();
     }
 
-    public void SetBlockParent(Transform parent)
-    {
+    public void SetBlockParent(Transform parent) {
         NowBlock.gameObject.transform.parent = transform;
         NowBlock.gameObject.transform.localPosition = Vector3.zero;
     }
 
-    public void Attack()
-    {
-        for (int i = 0; i < GameStaticValue.BOARD_WIDTH; i++)
-        {
+    public void Attack() {
+        for (int i = 0; i < GameStaticValue.BOARD_WIDTH; i++) {
 
         }
 
         Board.ClearBlocks();
     }
 
-    public Block GetNowBlock()
-    {
-        if (IsSelectBlock && NowBlock != null)
-        {
+    public Block GetNowBlock() {
+        if (IsSelectBlock && NowBlock != null) {
             return NowBlock;
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
@@ -118,30 +99,25 @@ public class GameMgr : Singleton<GameMgr>
 
     #region enemy controll
     #region get enemy
-    // í¼í¬ë¨¼ìŠ¤ ê´€ë ¨ëœ ì´ìœ ë¡œ ì£½ì€ ê²ƒì€ í•œë²ˆì— ì²˜ë¦¬ ë”°ë¼ì„œ ì ì„ ì°¾ì„ë•ŒëŠ” ë¨¼ì € í™•ì¸ì„ í•´ì¤˜ì•¼ í•œë‹¤.
-    public BaseCharacters GetFirstEnemy()
-    {
-        if (IsCheckingDied) CheckListEnemy();
-        if (ListEnemy.Count == 0) return null;
+    // ÆÛÆ÷¸Õ½º °ü·ÃµÈ ÀÌÀ¯·Î Á×Àº °ÍÀº ÇÑ¹ø¿¡ Ã³¸® µû¶ó¼­ ÀûÀ» Ã£À»¶§´Â ¸ÕÀú È®ÀÎÀ» ÇØÁà¾ß ÇÑ´Ù.
+    public BaseCharacters GetFirstEnemy() {
+        if (IsCheckingDied)
+            CheckListEnemy();
+        if (ListEnemy.Count == 0)
+            return null;
 
         BaseCharacters enemy = ListEnemy[0];
 
-        for (int i = 0; i < ListEnemy.Count; i++)
-        {
+        for (int i = 0; i < ListEnemy.Count; i++) {
             Vector3 diffNearest = enemy.GetPosition() - CenterPosition.position;
             Vector3 diff = ListEnemy[i].GetPosition() - CenterPosition.position;
 
-            if (diff.x == diffNearest.x)
-            {
-                if (diff.y * diff.x < diffNearest.y * diffNearest.x)
-                {
+            if (diff.x == diffNearest.x) {
+                if (diff.y * diff.x < diffNearest.y * diffNearest.x) {
                     enemy = ListEnemy[i];
                 }
-            }
-            else
-            {
-                if (diff.x < diffNearest.x)
-                {
+            } else {
+                if (diff.x < diffNearest.x) {
                     enemy = ListEnemy[i];
                 }
             }
@@ -150,64 +126,52 @@ public class GameMgr : Singleton<GameMgr>
         return enemy;
     }
 
-    // í¼í¬ë¨¼ìŠ¤ ê´€ë ¨ëœ ì´ìœ ë¡œ ì£½ì€ ê²ƒì€ í•œë²ˆì— ì²˜ë¦¬ ë”°ë¼ì„œ ì ì„ ì°¾ì„ë•ŒëŠ” ë¨¼ì € í™•ì¸ì„ í•´ì¤˜ì•¼ í•œë‹¤.
-    public List<BaseCharacters> GetAllEnemy()
-    {
-        if (IsCheckingDied) CheckListEnemy();
+    // ÆÛÆ÷¸Õ½º °ü·ÃµÈ ÀÌÀ¯·Î Á×Àº °ÍÀº ÇÑ¹ø¿¡ Ã³¸® µû¶ó¼­ ÀûÀ» Ã£À»¶§´Â ¸ÕÀú È®ÀÎÀ» ÇØÁà¾ß ÇÑ´Ù.
+    public List<BaseCharacters> GetAllEnemy() {
+        if (IsCheckingDied)
+            CheckListEnemy();
         return ListEnemy;
     }
 
-    // í¼í¬ë¨¼ìŠ¤ ê´€ë ¨ëœ ì´ìœ ë¡œ ì£½ì€ ê²ƒì€ í•œë²ˆì— ì²˜ë¦¬ ë”°ë¼ì„œ ì ì„ ì°¾ì„ë•ŒëŠ” ë¨¼ì € í™•ì¸ì„ í•´ì¤˜ì•¼ í•œë‹¤.
-    public BaseCharacters GetRandomEnemy()
-    {
-        if (IsCheckingDied) CheckListEnemy();
-        if (ListEnemy.Count > 0)
-        {
+    // ÆÛÆ÷¸Õ½º °ü·ÃµÈ ÀÌÀ¯·Î Á×Àº °ÍÀº ÇÑ¹ø¿¡ Ã³¸® µû¶ó¼­ ÀûÀ» Ã£À»¶§´Â ¸ÕÀú È®ÀÎÀ» ÇØÁà¾ß ÇÑ´Ù.
+    public BaseCharacters GetRandomEnemy() {
+        if (IsCheckingDied)
+            CheckListEnemy();
+        if (ListEnemy.Count > 0) {
             int rand = Random.Range(0, ListEnemy.Count);
             return ListEnemy[rand];
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
     #endregion
 
-    public void DiedEnmey()
-    {
+    public void DiedEnmey() {
         IsCheckingDied = true;
     }
 
-    // ì£½ì€ ê²ƒì€ í•œë²ˆì— ì²˜ë¦¬í•´ì•¼í•œë‹¤. (í¼í¬ë¨¼ìŠ¤ ê´€ë ¨ --> ëª¨ë“  ëª¬ìŠ¤í„°ê°€ í•œë²ˆì— ë‹¤ ì£½ì—ˆì„ ê²½ìš° n^3ì´ê¸° ë•Œë¬¸. í•œë²ˆì— ì²˜ë¦¬í•˜ë©´ n^2)
-    private void CheckListEnemy()
-    {
+    // Á×Àº °ÍÀº ÇÑ¹ø¿¡ Ã³¸®ÇØ¾ßÇÑ´Ù. (ÆÛÆ÷¸Õ½º °ü·Ã --> ¸ğµç ¸ó½ºÅÍ°¡ ÇÑ¹ø¿¡ ´Ù Á×¾úÀ» °æ¿ì n^3ÀÌ±â ¶§¹®. ÇÑ¹ø¿¡ Ã³¸®ÇÏ¸é n^2)
+    private void CheckListEnemy() {
         IsCheckingDied = false;
 
-        for (int i = 0; i < ListEnemy.Count; i++)
-        {
-            if (ListEnemy[i].GetHp() <= 0L)
-            {
+        for (int i = 0; i < ListEnemy.Count; i++) {
+            if (ListEnemy[i].GetHp() <= 0L) {
                 ListEnemy.RemoveAt(i);
                 i--;
             }
         }
     }
 
-    private void ResponeEnemy()
-    {
+    private void ResponeEnemy() {
         string now = "";
 
-        if (IndexEnemy < Mathf.CeilToInt(GameStaticValue.SPECIAL_ENEMY_INTERVAL * Diff))
-        {
+        if (IndexEnemy < Mathf.CeilToInt(GameStaticValue.SPECIAL_ENEMY_INTERVAL * Diff)) {
             now = "normal";
-        }
-        else
-        {
+        } else {
             IndexEnemy = 0;
             now = GameStaticValue.SPECIAL_ENEMY_ID[SpecialIndex++];
 
-            if (SpecialIndex >= GameStaticValue.SPECIAL_ENEMY_ID.Length)
-            {
+            if (SpecialIndex >= GameStaticValue.SPECIAL_ENEMY_ID.Length) {
                 SpecialIndex = 0;
             }
         }
@@ -218,22 +182,17 @@ public class GameMgr : Singleton<GameMgr>
     #endregion
 
     #region game controll
-    public void AddLife(int value)
-    {
+    public void AddLife(int value) {
         Life += value;
 
-        if (Life <= 0)
-        {
+        if (Life <= 0) {
             EndGame();
-        }
-        else if (Life >= GameStaticValue.MAX_LIFE)
-        {
+        } else if (Life >= GameStaticValue.MAX_LIFE) {
             Life = GameStaticValue.MAX_LIFE;
         }
     }
 
-    public void EndGame()
-    {
+    public void EndGame() {
 
     }
     #endregion

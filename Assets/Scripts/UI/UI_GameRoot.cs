@@ -13,10 +13,10 @@ public class UI_GameRoot : MonoBehaviour
 
     private void Update()
     {
-        if (GameMgr.Instance.IsLoadingObjectPool)
+        if (AquaMgr.Instance.IsLoadingObjectPool)
         {
             ObjLoading.SetActive(false);
-            GameMgr.Instance.IsLoadingObjectPool = false;
+            AquaMgr.Instance.IsLoadingObjectPool = false;
         }
     }
 }
