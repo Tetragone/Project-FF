@@ -6,7 +6,7 @@ public class RaceMgr : Singleton<RaceMgr> {
     [HideInInspector] public Board Board;
     [HideInInspector] public Block NowBlock;
     [HideInInspector] public List<BaseCharacters> ListEnemy = new List<BaseCharacters>();
-    // Enemy¿ÍÀÇ °Å¸® °è»êÀ» ÅëÇØ¼­ ¾î¶² ÀûÀÌ °¡Àå Ãâ±¸¿¡ °¡±îÀÌ ÀÖ´ÂÁö °è»ê.
+    // Enemyì™€ì˜ ê±°ë¦¬ ê³„ì‚°ì„ í†µí•´ì„œ ì–´ë–¤ ì ì´ ê°€ì¥ ì¶œêµ¬ì— ê°€ê¹Œì´ ìˆëŠ”ì§€ ê³„ì‚°.
     public Transform CenterPosition;
 
     public EnemyMgr EnemyMgr { get; private set; }
@@ -22,7 +22,7 @@ public class RaceMgr : Singleton<RaceMgr> {
     private float Diff = 1f;
 
     #region Unity Function
-    // awake·Î ÇÏ¸é instance°¡ ¾øÀ»¼öµµ ÀÖ´Ù. 
+    // awakeë¡œ í•˜ë©´ instanceê°€ ì—†ì„ìˆ˜ë„ ìˆë‹¤. 
     private void Start() {
         StartCoroutine(InitPools());
     }
@@ -99,7 +99,7 @@ public class RaceMgr : Singleton<RaceMgr> {
 
     #region enemy controll
     #region get enemy
-    // ÆÛÆ÷¸Õ½º °ü·ÃµÈ ÀÌÀ¯·Î Á×Àº °ÍÀº ÇÑ¹ø¿¡ Ã³¸® µû¶ó¼­ ÀûÀ» Ã£À»¶§´Â ¸ÕÀú È®ÀÎÀ» ÇØÁà¾ß ÇÑ´Ù.
+    // í¼í¬ë¨¼ìŠ¤ ê´€ë ¨ëœ ì´ìœ ë¡œ ì£½ì€ ê²ƒì€ í•œë²ˆì— ì²˜ë¦¬ ë”°ë¼ì„œ ì ì„ ì°¾ì„ë•ŒëŠ” ë¨¼ì € í™•ì¸ì„ í•´ì¤˜ì•¼ í•œë‹¤.
     public BaseCharacters GetFirstEnemy() {
         if (IsCheckingDied)
             CheckListEnemy();
@@ -126,14 +126,14 @@ public class RaceMgr : Singleton<RaceMgr> {
         return enemy;
     }
 
-    // ÆÛÆ÷¸Õ½º °ü·ÃµÈ ÀÌÀ¯·Î Á×Àº °ÍÀº ÇÑ¹ø¿¡ Ã³¸® µû¶ó¼­ ÀûÀ» Ã£À»¶§´Â ¸ÕÀú È®ÀÎÀ» ÇØÁà¾ß ÇÑ´Ù.
+    // í¼í¬ë¨¼ìŠ¤ ê´€ë ¨ëœ ì´ìœ ë¡œ ì£½ì€ ê²ƒì€ í•œë²ˆì— ì²˜ë¦¬ ë”°ë¼ì„œ ì ì„ ì°¾ì„ë•ŒëŠ” ë¨¼ì € í™•ì¸ì„ í•´ì¤˜ì•¼ í•œë‹¤.
     public List<BaseCharacters> GetAllEnemy() {
         if (IsCheckingDied)
             CheckListEnemy();
         return ListEnemy;
     }
 
-    // ÆÛÆ÷¸Õ½º °ü·ÃµÈ ÀÌÀ¯·Î Á×Àº °ÍÀº ÇÑ¹ø¿¡ Ã³¸® µû¶ó¼­ ÀûÀ» Ã£À»¶§´Â ¸ÕÀú È®ÀÎÀ» ÇØÁà¾ß ÇÑ´Ù.
+    // í¼í¬ë¨¼ìŠ¤ ê´€ë ¨ëœ ì´ìœ ë¡œ ì£½ì€ ê²ƒì€ í•œë²ˆì— ì²˜ë¦¬ ë”°ë¼ì„œ ì ì„ ì°¾ì„ë•ŒëŠ” ë¨¼ì € í™•ì¸ì„ í•´ì¤˜ì•¼ í•œë‹¤.
     public BaseCharacters GetRandomEnemy() {
         if (IsCheckingDied)
             CheckListEnemy();
@@ -150,7 +150,7 @@ public class RaceMgr : Singleton<RaceMgr> {
         IsCheckingDied = true;
     }
 
-    // Á×Àº °ÍÀº ÇÑ¹ø¿¡ Ã³¸®ÇØ¾ßÇÑ´Ù. (ÆÛÆ÷¸Õ½º °ü·Ã --> ¸ğµç ¸ó½ºÅÍ°¡ ÇÑ¹ø¿¡ ´Ù Á×¾úÀ» °æ¿ì n^3ÀÌ±â ¶§¹®. ÇÑ¹ø¿¡ Ã³¸®ÇÏ¸é n^2)
+    // ì£½ì€ ê²ƒì€ í•œë²ˆì— ì²˜ë¦¬í•´ì•¼í•œë‹¤. (í¼í¬ë¨¼ìŠ¤ ê´€ë ¨ --> ëª¨ë“  ëª¬ìŠ¤í„°ê°€ í•œë²ˆì— ë‹¤ ì£½ì—ˆì„ ê²½ìš° n^3ì´ê¸° ë•Œë¬¸. í•œë²ˆì— ì²˜ë¦¬í•˜ë©´ n^2)
     private void CheckListEnemy() {
         IsCheckingDied = false;
 
