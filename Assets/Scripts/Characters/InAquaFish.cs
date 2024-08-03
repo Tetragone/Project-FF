@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InAquaFish : PoolableObject
+public class InAquaFish : MonoBehaviour
 {
     public Transform Position;
     public Rigidbody2D Body;
@@ -52,15 +52,22 @@ public class InAquaFish : PoolableObject
                     int angle = UnityEngine.Random.Range(0, 360);
 
                     // 각도 계산을 편하게 하기 위해 sin, cos으로 계산
-                    Move(new Vector3(Mathf.Sin(Mathf.Deg2Rad * angle), Mathf.Cos(Mathf.Deg2Rad * angle)) * RandomMoveSpeed);
+                    Move(new Vector3(Mathf.Sin(Mathf.Deg2Rad * angle), Mathf.Cos(Mathf.Deg2Rad * angle)), RandomMoveSpeed);
                     FilpObejct(angle > 180);
                 }
             }
             else
             {
-                Vector3 dir = (food.transform.position - transform.position).normalized;
-                Move(dir);
-                FilpObejct(dir.x > 0);
+                Vector3 dir = food.transform.position - transform.position;
+                if (dir.magnitude < GameStaticValue.FoodEatRange)
+                {
+                    Data.EatFood(food);
+                }
+                else
+                {
+                    Move(dir);
+                    FilpObejct(dir.x > 0);
+                }
             } 
         }
     }
@@ -70,10 +77,10 @@ public class InAquaFish : PoolableObject
 
     }
 
-    // 움직임을 자연스럽게 하기 위한 방법이 필요함.
-    private void Move(Vector3 dir)
+    // 움직임을 자연스럽게 하기 위한 방법이 필요함. normalized된 값으로 바꾼다.
+    private void Move(Vector3 dir, float speed = 1f)
     {
-        Body.velocity = dir;
+        Body.velocity = dir.normalized * speed;
     }
 
     private void OnDisable()

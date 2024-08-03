@@ -4,29 +4,45 @@ using UnityEngine;
 
 public class AquaMgr : Singleton<AquaMgr>
 {
-    [HideInInspector] public List<InAquaFish> ListFishes = new List<InAquaFish>();
-    [HideInInspector] public List<Food> ListFoods = new List<Food>();
-
-    public void CreateFood(string id, Vector3 position)
+    public PoolData<InAquaFish> PoolFish = new PoolData<InAquaFish>(GameStaticValue.FishPath);
+    public PoolData<Food> PoolFood = new PoolData<Food>(GameStaticValue.FoodPath);
+    
+    public void CreateFood()
     {
+        Food newFood = PoolFood.GetNew();
+        newFood.InitValue("");
+        PoolFood.Add(newFood);
+    }
 
+    public void CreateFish()
+    {
+        InAquaFish newFish = PoolFish.GetNew();
+        newFish.Init("");
+        PoolFish.Add(newFish);
     }
 
     public Food GetClosestFood(Vector3 position, float radius = 0f)
     {
-        if (ListFoods.Count > 0)
+        List<Food> foodes = PoolFood.GetNow();
+
+        if (foodes.Count > 0)
         {
             float distace = float.MaxValue;
             Food result = null;
 
-            for (int i = 0; i < ListFoods.Count; i++)
+            for (int i = 0; i < foodes.Count; i++)
             {
-                float nowDistance = Vector3.Distance(position, ListFoods[i].transform.position) - radius;
+                if (!foodes[i].EatableFood())
+                {
+                    continue;
+                }
+
+                float nowDistance = Vector3.Distance(position, foodes[i].transform.position) - radius;
 
                 if (distace > nowDistance)
                 {
                     distace = nowDistance;
-                    result = ListFoods[i];
+                    result = foodes[i];
                 }
             }
 

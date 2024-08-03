@@ -5,8 +5,9 @@ public class FishData
     public float Size = 0f;
     public float Speed = 0f;
 
-    public void EatFood() 
+    public void EatFood(Food food) 
     {
-            
+        food.GetValue();
+        food.EatThis();
     }
 }

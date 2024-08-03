@@ -6,9 +6,9 @@ using UnityEngine.UI;
 public class UI_GamePlay : MonoBehaviour
 {
     #region inspector
-    public Button ButtonBlockCreate;
-    public Button ButtonSelectBlock;
-    public Button ButtonAttack;
+    public Button ButtonCreateFood;
+    public Button ButtonCreateRandomFish;
+    public Button ButtonPause;
     #endregion
 
     private void Awake()
@@ -18,17 +18,17 @@ public class UI_GamePlay : MonoBehaviour
 
     private void InitButtonCallback()
     {
-        ButtonBlockCreate.onClick.AddListener(() =>
+        ButtonCreateFood.onClick.AddListener(() =>
+        {
+            AquaMgr.Instance.CreateFood();
+        });
+
+        ButtonPause.onClick.AddListener(() =>
         {
 
         });
 
-        ButtonAttack.onClick.AddListener(() =>
-        {
-
-        });
-
-        ButtonSelectBlock.onClick.AddListener(() =>
+        ButtonCreateRandomFish.onClick.AddListener(() =>
         {
 
         });

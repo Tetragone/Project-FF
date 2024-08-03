@@ -10,6 +10,11 @@ public static class GameStaticValue
     public static readonly float FishRandomMoveMinTime = 1f;
     public static readonly float FishRandomMoveMaxSpeed = 3f;
     public static readonly float FishRandomMoveMinSpeed = 1f;
+
+    public static readonly float FoodEatRange = 0.5f;
+
+    public static readonly string FishPath = "";
+    public static readonly string FoodPath = "";
     #endregion
 
     public static readonly List<Color> LIST_COLOR_BLOCK = new List<Color>() { Color.blue, Color.yellow, Color.magenta, Color.cyan, Color.red, Color.green, Color.black };
