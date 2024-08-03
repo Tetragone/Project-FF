@@ -4,6 +4,14 @@ using UnityEngine;
 
 public static class GameStaticValue
 {
+    #region InAquaFish
+    public static readonly float BaseFoodRandomValue = 0.5f;
+    public static readonly float FishRandomMoveMaxTime = 5f;
+    public static readonly float FishRandomMoveMinTime = 1f;
+    public static readonly float FishRandomMoveMaxSpeed = 3f;
+    public static readonly float FishRandomMoveMinSpeed = 1f;
+    #endregion
+
     public static readonly List<Color> LIST_COLOR_BLOCK = new List<Color>() { Color.blue, Color.yellow, Color.magenta, Color.cyan, Color.red, Color.green, Color.black };
     public static readonly Color BASE_COLOR = Color.white;
     public static readonly int BOARD_WIDTH = 5;
@@ -20,11 +28,6 @@ public static class GameStaticValue
     public static readonly string[] SPECIAL_ENEMY_ID = new string[] { "power", "speed" };
     public static readonly int MAX_LIFE = 3;
 
-}
-
-public static class InGameStaticValue
-{
-    public static float AroundTime = 5f;
 }
 
 public enum BlockType

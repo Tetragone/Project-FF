@@ -9,7 +9,6 @@ public class UI_GamePlay : MonoBehaviour
     public Button ButtonBlockCreate;
     public Button ButtonSelectBlock;
     public Button ButtonAttack;
-    public Transform TransformCreate;
     #endregion
 
     private void Awake()
@@ -21,27 +20,17 @@ public class UI_GamePlay : MonoBehaviour
     {
         ButtonBlockCreate.onClick.AddListener(() =>
         {
-            if (!AquaMgr.Instance.IsSelectBlock)
-            {
-                AquaMgr.Instance.CreateBlock();
-                AquaMgr.Instance.SetBlockParent(TransformCreate);
-            }
+
         });
 
         ButtonAttack.onClick.AddListener(() =>
         {
-            if (!AquaMgr.Instance.IsSelectBlock)
-            {
-                AquaMgr.Instance.Attack();
-            }
+
         });
 
         ButtonSelectBlock.onClick.AddListener(() =>
         {
-            if (AquaMgr.Instance.IsSelectBlock)
-            {
-                AquaMgr.Instance.Board.FilledSelectedBlock();
-            }
+
         });
     }
 }
