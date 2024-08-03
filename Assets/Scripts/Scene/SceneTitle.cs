@@ -53,14 +53,14 @@ public class SceneTitle : MonoBehaviour
 
                 if (_frame == 0)
                 {
-                    UserData.Instance.LoadData();
+                    //UserDataMgr.Instance.LoadData();
                 }
 
-                if (UserData.Instance.IsLoadingAll)
-                {
-                    _state = LoadingState.done;
-                    _frame = 0;
-                }
+                //if (UserDataMgr.Instance.IsLoadingAll)
+                //{
+                //    _state = LoadingState.done;
+                //    _frame = 0;
+                //}
                 break;
 
             case LoadingState.done:
