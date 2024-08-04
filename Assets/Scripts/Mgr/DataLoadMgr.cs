@@ -20,7 +20,7 @@ public class DataLoadMgr : MonoBehaviour
         }
         else
         {
-
+            UserDataMgr.Instance.SaveData();
         }
     }
 
@@ -32,7 +32,7 @@ public class DataLoadMgr : MonoBehaviour
         }
         else
         {
-
+            UserDataMgr.Instance.LoadData();
         }
     }
 }
@@ -42,7 +42,7 @@ public class DataLoad
     public bool IsSaveServer = false;
     private static string KeySaveServer = "is_save_server";
 
-    public void SaveLocal(DataLoad data)
+    public static void SaveLocal(DataLoad data)
     {
         PlayerPrefs.SetInt(KeySaveServer, data.IsSaveServer ? 1 : 0);
         PlayerPrefs.Save();
