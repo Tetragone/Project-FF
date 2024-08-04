@@ -15,6 +15,9 @@ public static class GameStaticValue
 
     public static readonly string FishPath = "";
     public static readonly string FoodPath = "";
+
+    public static readonly int CostFood = 1;
+    public static readonly int CostFish = 20;
     #endregion
 
     public static readonly List<Color> LIST_COLOR_BLOCK = new List<Color>() { Color.blue, Color.yellow, Color.magenta, Color.cyan, Color.red, Color.green, Color.black };

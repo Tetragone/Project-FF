@@ -20,7 +20,11 @@ public class UI_GamePlay : MonoBehaviour
     {
         ButtonCreateFood.onClick.AddListener(() =>
         {
-            AquaMgr.Instance.CreateFood();
+            if (AquaMgr.Instance.IsEnoughMoney(GameStaticValue.CostFood))
+            {
+                AquaMgr.Instance.UseMoney(GameStaticValue.CostFood);
+                AquaMgr.Instance.CreateFood();
+            }
         });
 
         ButtonPause.onClick.AddListener(() =>
@@ -30,7 +34,17 @@ public class UI_GamePlay : MonoBehaviour
 
         ButtonCreateRandomFish.onClick.AddListener(() =>
         {
-
+            if (AquaMgr.Instance.IsEnoughMoney(GameStaticValue.CostFish))
+            {
+                AquaMgr.Instance.UseMoney(GameStaticValue.CostFish);
+                AquaMgr.Instance.CreateFish();
+            }
         });
+    }
+
+    private void Update()
+    {
+        AquaMgr.Instance.IsEnoughMoney(GameStaticValue.CostFish);
+        AquaMgr.Instance.IsEnoughMoney(GameStaticValue.CostFood);
     }
 }
