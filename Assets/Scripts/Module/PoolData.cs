@@ -7,10 +7,11 @@ public class PoolData<T> where T : MonoBehaviour
     private List<T> NowObjects = new List<T>();
     private Queue<T> QueueValues = new Queue<T>();
     private T Res;
+    private string ResPath;
 
     public PoolData(string path)
     {
-        Res = Resources.Load<T>(path);
+        ResPath = path;
     }
 
     public List<T> GetNow()
@@ -26,6 +27,10 @@ public class PoolData<T> where T : MonoBehaviour
         }
         else
         {
+            if (Res == null)
+            {
+                Res = Resources.Load<T>(ResPath);
+            }
             return Object.Instantiate<T>(Res);
         }
     }

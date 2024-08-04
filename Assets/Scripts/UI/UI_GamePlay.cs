@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,8 @@ public class UI_GamePlay : MonoBehaviour
     public Button ButtonCreateFood;
     public Button ButtonCreateRandomFish;
     public Button ButtonPause;
+
+    public TextMeshProUGUI TextMoney;
     #endregion
 
     private void Awake()
@@ -44,6 +47,7 @@ public class UI_GamePlay : MonoBehaviour
 
     private void Update()
     {
+        TextMoney.text = AquaMgr.Instance.GetMoney().ToString();
         AquaMgr.Instance.IsEnoughMoney(GameStaticValue.CostFish);
         AquaMgr.Instance.IsEnoughMoney(GameStaticValue.CostFood);
     }

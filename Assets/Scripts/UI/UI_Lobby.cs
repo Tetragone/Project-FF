@@ -3,26 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_Lobby : MonoBehaviour
+public class UI_Lobby : Singleton<UI_Lobby>
 {
-    [Header("Åä±Û")]
+    public static GameObject Root;
+
+    [SerializeField] private GameObject _root;
+
+    [Header("í† ê¸€")]
+    public Toggle ToggleUpgradeMenu;
     public Toggle ToggleGameMenu;
     public Toggle ToggleShopMenu;
-    public Toggle TogglePlayerMenu;
 
-    [Header("È°¼ºÈ­ ¸Þ´ºµé")]
+    public Button ButtonPlay;
+
+    [Header("í™œì„±í™” ë©”ë‰´ë“¤")]
+    public GameObject ObjUpgradeMenu;
     public GameObject ObjGameMenu;
     public GameObject ObjShopMenu;
-    public GameObject ObjPlayerMenu;
+    public GameObject ObjGamePlayMenu;
 
-    private void Awake()
+    protected override void Awake()
     {
-        // ÄÝ¹é ¼³Á¤ÇÏ±â Àü¿¡ ÇØÁÖ´ÂÆíÀÌ ÁÁ´Ù.
+        base.Awake();
+
+        if (Root == null)
+        {
+            Root = _root;
+        }
+
+        // ì½œë°± ì„¤ì •í•˜ê¸° ì „ì— í•´ì£¼ëŠ”íŽ¸ì´ ì¢‹ë‹¤.
         ToggleGameMenu.isOn = true;
         ToggleShopMenu.isOn = false;
-        TogglePlayerMenu.isOn = false;
+        ToggleUpgradeMenu.isOn = false;
         InitButtonCallback();
-        SetActiveMenu(MenuType.main_menu);
+        SetActiveMenu(MenuType.game_menu);
     }
 
     private void InitButtonCallback()
@@ -31,7 +45,7 @@ public class UI_Lobby : MonoBehaviour
         {
             if (isOn) 
             {
-                SetActiveMenu(MenuType.main_menu);
+                SetActiveMenu(MenuType.game_menu);
             }
         });
 
@@ -43,12 +57,17 @@ public class UI_Lobby : MonoBehaviour
             }
         });
 
-        TogglePlayerMenu.onValueChanged.AddListener((isOn) =>
+        ToggleUpgradeMenu.onValueChanged.AddListener((isOn) =>
         {
             if (isOn)
             {
-                SetActiveMenu(MenuType.player_menu);
+                SetActiveMenu(MenuType.upgrade_menu);
             }
+        });
+
+        ButtonPlay.onClick.AddListener(() =>
+        {
+            SetActiveMenu(MenuType.game_play_menu);
         });
     }
 
@@ -56,26 +75,35 @@ public class UI_Lobby : MonoBehaviour
     {
         switch (menu)
         {
-            case MenuType.main_menu:
+            case MenuType.game_menu:
                 ObjGameMenu.SetActive(true);
                 ObjShopMenu.SetActive(false);
-                ObjPlayerMenu.SetActive(false);
+                ObjUpgradeMenu.SetActive(false);
+                ObjGamePlayMenu.SetActive(false);
                 break;
             case MenuType.shop_menu:
                 ObjGameMenu.SetActive(false);
                 ObjShopMenu.SetActive(true);
-                ObjPlayerMenu.SetActive(false);
+                ObjUpgradeMenu.SetActive(false);
+                ObjGamePlayMenu.SetActive(false);
                 break;
-            case MenuType.player_menu:
+            case MenuType.upgrade_menu:
                 ObjGameMenu.SetActive(false);
                 ObjShopMenu.SetActive(false);
-                ObjPlayerMenu.SetActive(true);
+                ObjUpgradeMenu.SetActive(true);
+                ObjGamePlayMenu.SetActive(true);
+                break;
+            case MenuType.game_play_menu:
+                ObjGameMenu.SetActive(false);
+                ObjShopMenu.SetActive(false);
+                ObjUpgradeMenu.SetActive(false);
+                ObjGamePlayMenu.SetActive(true);
                 break;
         }
     }
 
     private enum MenuType
     {
-        main_menu, shop_menu, player_menu,
+        game_menu, shop_menu, upgrade_menu, game_play_menu
     }
 }

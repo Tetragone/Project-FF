@@ -41,6 +41,7 @@ public class AquaMgr : Singleton<AquaMgr>
     {
         Food newFood = PoolFood.GetNew();
         newFood.InitValue("");
+        newFood.transform.position = SetFoodPosition();
         PoolFood.Add(newFood);
     }
 
