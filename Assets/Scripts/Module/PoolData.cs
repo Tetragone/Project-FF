@@ -15,7 +15,7 @@ public class PoolData<T> where T : MonoBehaviour
         ResPath = path;
     }
 
-    public List<T> GetNow()
+    public List<T> GetNowList()
     {
         return NowObjects;
     }

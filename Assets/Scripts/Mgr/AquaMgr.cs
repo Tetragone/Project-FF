@@ -67,7 +67,7 @@ public class AquaMgr : Singleton<AquaMgr>
 
     public Food GetClosestFood(Vector3 position, float radius = 0f)
     {
-        List<Food> foodes = PoolFood.GetNow();
+        List<Food> foodes = PoolFood.GetNowList();
 
         if (foodes.Count > 0)
         {

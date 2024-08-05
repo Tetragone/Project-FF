@@ -6,10 +6,14 @@ using UnityEngine;
 [RequireComponent(typeof(CircleCollider2D))]
 public class InRaceFish : MonoBehaviour
 {
+    private Rigidbody2D Rigid;
+    private CircleCollider2D Collider;
     private FishData Data;
 
-    public void InitData(FishData data)
+    public void InitData(FishData data, bool isMy)
     {
         Data = data;
     }
+
+
 }
