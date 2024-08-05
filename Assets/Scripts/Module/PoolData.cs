@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PoolData<T> where T : MonoBehaviour
 {
+    private Transform Pool;
     private List<T> NowObjects = new List<T>();
     private Queue<T> QueueValues = new Queue<T>();
     private T Res;
@@ -23,7 +24,10 @@ public class PoolData<T> where T : MonoBehaviour
     {
         if (QueueValues.Count > 0)
         {
-            return QueueValues.Dequeue();
+            T result = QueueValues.Dequeue();
+            result.gameObject.SetActive(true);
+
+            return result;
         }
         else
         {
@@ -31,12 +35,29 @@ public class PoolData<T> where T : MonoBehaviour
             {
                 Res = Resources.Load<T>(ResPath);
             }
-            return Object.Instantiate<T>(Res);
+
+            if (Pool == null)
+            {
+                GameObject trans = new GameObject();
+                trans.name = string.Format("pool parent {0}", Res.gameObject.name);
+                Pool = trans.transform;
+            }
+
+            T result = Object.Instantiate<T>(Res, Pool);
+
+            return result;
         }
     }
 
     public void Add(T obj)
     {
         NowObjects.Add(obj);
+    }
+
+    public void Remove(T obj)
+    {
+        obj.gameObject.SetActive(false);
+        QueueValues.Enqueue(obj);
+        NowObjects.Remove(obj);
     }
 }

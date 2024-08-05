@@ -45,9 +45,15 @@ public class AquaMgr : Singleton<AquaMgr>
         PoolFood.Add(newFood);
     }
 
+    public void DisableFood(Food food)
+    {
+        PoolFood.Remove(food);
+    }
+
     private Vector3 SetFoodPosition()
     {
-        return new Vector3(1, 2, 0);
+        float x = UnityEngine.Random.Range(CameraMgr.CameraSize * GameStaticValue.NonWhiteSpaceOnX * -1, CameraMgr.CameraSize * GameStaticValue.NonWhiteSpaceOnX);
+        return new Vector3(x, CameraMgr.CameraSize * GameStaticValue.FoodCreateYPercent, 0);
     }
 
     public void CreateFish()

@@ -135,6 +135,7 @@ MonoBehaviour:
   ToggleGameMenu: {fileID: 6467197855582016141}
   ToggleShopMenu: {fileID: 7015814527671074472}
   ButtonPlay: {fileID: 45821525305070659}
+  ObjMenu: {fileID: 8224291219774022511}
   ObjUpgradeMenu: {fileID: 8202145030667344628}
   ObjGameMenu: {fileID: 2511508071210087524}
   ObjShopMenu: {fileID: 6952707856888893246}

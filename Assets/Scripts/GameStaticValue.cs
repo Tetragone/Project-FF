@@ -13,11 +13,19 @@ public static class GameStaticValue
 
     public static readonly float FoodEatRange = 0.5f;
 
-    public static readonly string FishPath = "";
-    public static readonly string FoodPath = "";
+    public static readonly string FishPath = "Prefabs/aqua_fish";
+    public static readonly string FoodPath = "Prefabs/food";
 
     public static readonly int CostFood = 1;
     public static readonly int CostFish = 20;
+
+    // Camera size에 따라서 다르게 하기 위해서 
+    public static readonly float NonWhiteSpaceOnX = 0.8f;
+    public static readonly float FishMaxYPercent = 0.7f;
+    public static readonly float FishMinYPercent = -1f;
+    public static readonly float FoodCreateYPercent = 0.8f;
+
+    public static readonly float FoodDisableTime = 3f;
     #endregion
 
     public static readonly List<Color> LIST_COLOR_BLOCK = new List<Color>() { Color.blue, Color.yellow, Color.magenta, Color.cyan, Color.red, Color.green, Color.black };

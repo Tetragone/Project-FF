@@ -80,6 +80,21 @@ public class InAquaFish : MonoBehaviour
     // 움직임을 자연스럽게 하기 위한 방법이 필요함. normalized된 값으로 바꾼다.
     private void Move(Vector3 dir, float speed = 1f)
     {
+        if (Mathf.Abs(transform.position.x) > CameraMgr.CameraSize * GameStaticValue.NonWhiteSpaceOnX && dir.x * transform.position.x > 0)
+        {
+            dir = new Vector3(0, dir.y);
+        }
+
+        if (transform.position.y > CameraMgr.CameraSize * GameStaticValue.FishMaxYPercent && dir.y > 0)
+        {
+            dir = new Vector3(dir.x, 0);
+        }
+
+        if (transform.position.y < CameraMgr.CameraSize * GameStaticValue.FishMinYPercent && dir.y < 0)
+        {
+            dir = new Vector3(dir.x, 0);
+        }
+
         Body.velocity = dir.normalized * speed;
     }
 
