@@ -22,6 +22,7 @@ public class UI_Lobby : Singleton<UI_Lobby>
     public GameObject ObjGameMenu;
     public GameObject ObjShopMenu;
     public GameObject ObjGamePlayMenu;
+    public GameObject ObjGameRaceMenu;
 
     protected override void Awake()
     {

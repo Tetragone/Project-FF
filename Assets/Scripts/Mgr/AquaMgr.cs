@@ -10,7 +10,7 @@ public class AquaMgr : Singleton<AquaMgr>
     private float Money = 0f;
     private float EanMoney = 2f;
     private bool IsStart = false;
-
+    private float GameTimer = 0f;
     
     // 굳이 새로 만들지 말고 있는거 껏다 키는 방식으로 제어하자
     private void OnEnable()
@@ -22,6 +22,7 @@ public class AquaMgr : Singleton<AquaMgr>
     {
         Money = 0f;
         EanMoney = 2f;
+        GameTimer = 0f;
         IsStart = true;
     }
 
@@ -35,6 +36,7 @@ public class AquaMgr : Singleton<AquaMgr>
         Money = 0f;
         EanMoney = 2f;
         IsStart = false;
+        GameTimer = 0f;
     }
 
     public void CreateFood()
@@ -118,7 +120,19 @@ public class AquaMgr : Singleton<AquaMgr>
     {
         if (IsStart)
         {
+            GameTimer += Time.deltaTime;
             Money += EanMoney * Time.deltaTime;
+
+            if (GameTimer > GameStaticValue.AquaTime)
+            {
+                GameEndEffect();
+            }
         }
+    }
+
+    private void GameEndEffect()
+    {
+        // 물고기가 각 종류 별로 합쳐지면서 어떤 녀석을 고를건지 선택지가 나오도록 하자
+
     }
 }

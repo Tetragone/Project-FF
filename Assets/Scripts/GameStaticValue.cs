@@ -26,6 +26,8 @@ public static class GameStaticValue
     public static readonly float FoodCreateYPercent = 0.8f;
 
     public static readonly float FoodDisableTime = 3f;
+
+    public static readonly float AquaTime = 100f;
     #endregion
 
     public static readonly List<Color> LIST_COLOR_BLOCK = new List<Color>() { Color.blue, Color.yellow, Color.magenta, Color.cyan, Color.red, Color.green, Color.black };
