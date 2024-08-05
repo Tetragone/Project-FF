@@ -14,7 +14,7 @@ public class FishData
         AddValue(food.GetValue());
         food.EatThis();
     }
-
+    
     private void AddValue(float value)
     {
         float sum = TotalValue + value;

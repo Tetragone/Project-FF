@@ -11,18 +11,18 @@ public class InAquaFish : MonoBehaviour
     private bool IsInit = false;
     private float RandomMoveTime;
     private float RandomMoveSpeed;
+    private Vector3 NowDir;
 
-    public void Init(string eid)
+    public void Init(string fid)
     {
-        if (eid == "")
-        {
-            return;
-        }
-
         Body.velocity = new Vector2(0, 0);
         Position.rotation = Quaternion.Euler(0, 0, 0);
         RandomMoveTime = 0f;
         IsInit = true;
+        if (Data == null)
+        {
+            Data = new FishData();
+        }
     }
 
     public FishData GetNowData()
@@ -54,18 +54,26 @@ public class InAquaFish : MonoBehaviour
                     // 각도 계산을 편하게 하기 위해 sin, cos으로 계산
                     Move(new Vector3(Mathf.Sin(Mathf.Deg2Rad * angle), Mathf.Cos(Mathf.Deg2Rad * angle)), RandomMoveSpeed);
                     FilpObejct(angle > 180);
+                } 
+                else
+                {
+                    if (IsChangeMove())
+                    {
+                        RandomMoveTime = 0f;
+                    }
                 }
             }
             else
             {
                 Vector3 dir = food.transform.position - transform.position;
+                dir = new Vector3(dir.x, dir.y, 0);
                 if (dir.magnitude < GameStaticValue.FoodEatRange)
                 {
                     Data.EatFood(food);
                 }
                 else
                 {
-                    Move(dir);
+                    Move(dir, 10f);
                     FilpObejct(dir.x > 0);
                 }
             } 
@@ -94,12 +102,23 @@ public class InAquaFish : MonoBehaviour
         {
             dir = new Vector3(dir.x, 0);
         }
-
+        NowDir = dir;
         Body.velocity = dir.normalized * speed;
     }
 
     private void OnDisable()
     {
         IsInit = false;
+    }
+
+    private bool IsChangeMove()
+    {
+        bool result = false;
+
+        result = Mathf.Abs(transform.position.x) > CameraMgr.CameraSize * GameStaticValue.NonWhiteSpaceOnX && NowDir.x * transform.position.x > 0;
+        result = (transform.position.y > CameraMgr.CameraSize * GameStaticValue.FishMaxYPercent && NowDir.y > 0) || result;
+        result = (transform.position.y < CameraMgr.CameraSize * GameStaticValue.FishMinYPercent && NowDir.y < 0) || result;
+
+        return result;
     }
 }

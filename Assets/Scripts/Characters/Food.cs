@@ -38,7 +38,7 @@ public class Food : MonoBehaviour
 
     public bool EatableFood()
     {
-        return IsEating;
+        return !IsEating;
     }
 
     public float GetValue()
