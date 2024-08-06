@@ -1,0 +1,3 @@
+fid,size,speed,base_value,random_value,res
+1001,10,10,100,50,SimpleBlock
+1002,5,5,50,20,SimpleBlock

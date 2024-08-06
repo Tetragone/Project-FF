@@ -10,8 +10,7 @@ public class TableMgr : SingletonAllTime<TableMgr>
     private Dictionary<string, Dictionary<string, Dictionary<string, string>>> Tables = new Dictionary<string, Dictionary<string, Dictionary<string, string>>>();
     private Dictionary<string, string> TableName = new Dictionary<string, string>() 
     {
-        { "race", "Tables/race" },
-        { "enemy", "Tables/enemy" }
+        { "fish", "Tables/ff_fish" },
     };
 
     private int CorutineCount = 10;
@@ -48,7 +47,7 @@ public class TableMgr : SingletonAllTime<TableMgr>
         }
         else
         {
-            Debug.LogErrorFormat("{0}Àº ¾ø´Â Å×ÀÌºíÀÔ´Ï´Ù.", name);
+            Debug.LogErrorFormat("{0}ì€ ì—†ëŠ” í…Œì´ë¸”ì…ë‹ˆë‹¤.", name);
             return null;
         }
     }
