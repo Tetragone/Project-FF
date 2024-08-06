@@ -73,7 +73,7 @@ public class UI_Lobby : Singleton<UI_Lobby>
         });
     }
 
-    private void SetActiveMenu(MenuType menu)
+    public void SetActiveMenu(MenuType menu)
     {
         switch (menu)
         {
@@ -83,6 +83,7 @@ public class UI_Lobby : Singleton<UI_Lobby>
                 ObjUpgradeMenu.SetActive(false);
                 ObjGamePlayMenu.SetActive(false);
                 ObjMenu.SetActive(true);
+                ObjGameRaceMenu.SetActive(false);
                 break;
             case MenuType.shop_menu:
                 ObjGameMenu.SetActive(false);
@@ -90,6 +91,7 @@ public class UI_Lobby : Singleton<UI_Lobby>
                 ObjUpgradeMenu.SetActive(false);
                 ObjGamePlayMenu.SetActive(false);
                 ObjMenu.SetActive(true);
+                ObjGameRaceMenu.SetActive(false);
                 break;
             case MenuType.upgrade_menu:
                 ObjGameMenu.SetActive(false);
@@ -97,6 +99,7 @@ public class UI_Lobby : Singleton<UI_Lobby>
                 ObjUpgradeMenu.SetActive(true);
                 ObjGamePlayMenu.SetActive(true);
                 ObjMenu.SetActive(true);
+                ObjGameRaceMenu.SetActive(false);
                 break;
             case MenuType.game_play_menu:
                 ObjGameMenu.SetActive(false);
@@ -104,12 +107,22 @@ public class UI_Lobby : Singleton<UI_Lobby>
                 ObjUpgradeMenu.SetActive(false);
                 ObjGamePlayMenu.SetActive(true);
                 ObjMenu.SetActive(false);
+                ObjGameRaceMenu.SetActive(false);
+                AquaMgr.Instance.InitStart();
+                break;
+            case MenuType.game_race_menu:
+                ObjGameMenu.SetActive(false);
+                ObjShopMenu.SetActive(false);
+                ObjUpgradeMenu.SetActive(false);
+                ObjGamePlayMenu.SetActive(true);
+                ObjMenu.SetActive(false);
+                ObjGameRaceMenu.SetActive(true);
                 break;
         }
     }
 
-    private enum MenuType
+    public enum MenuType
     {
-        game_menu, shop_menu, upgrade_menu, game_play_menu
+        game_menu, shop_menu, upgrade_menu, game_play_menu, game_race_menu,
     }
 }

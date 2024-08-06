@@ -12,23 +12,12 @@ public class AquaMgr : Singleton<AquaMgr>
     private bool IsStart = false;
     private float GameTimer = 0f;
     
-    // 굳이 새로 만들지 말고 있는거 껏다 키는 방식으로 제어하자
-    private void OnEnable()
-    {
-        InitStart();
-    }
-
     public void InitStart()
     {
         Money = 0f;
         EanMoney = 2f;
         GameTimer = 0f;
         IsStart = true;
-    }
-
-    private void OnDisable()
-    {
-        EndGame();
     }
 
     public void EndGame()
@@ -133,6 +122,8 @@ public class AquaMgr : Singleton<AquaMgr>
     private void GameEndEffect()
     {
         // 물고기가 각 종류 별로 합쳐지면서 어떤 녀석을 고를건지 선택지가 나오도록 하자
-
+        UI_Lobby.Instance.SetActiveMenu(UI_Lobby.MenuType.game_race_menu);
+        RaceMgr.Instance.InitRace(PoolFish.GetNowList()[0].GetNowData());
+        EndGame();
     }
 }

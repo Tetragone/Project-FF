@@ -11,15 +11,20 @@ public class FishData
 
     public void EatFood(Food food) 
     {
-        AddValue(food.GetValue());
+        AddValue(food.GetValue(), false);
         food.EatThis();
     }
     
-    private void AddValue(float value)
+    public void EatFish(FishData data)
+    {
+        AddValue(data.TotalValue, true);
+    }
+
+    private void AddValue(float value, bool isAlwaysDiscount)
     {
         float sum = TotalValue + value;
 
-        if (sum < MaxGrowValue)
+        if (sum < MaxGrowValue && !isAlwaysDiscount)
         {
             TotalValue = sum;
         }
@@ -27,7 +32,7 @@ public class FishData
         {
             float discount = sum - MaxGrowValue;
 
-            if (discount > value)
+            if (discount > value || isAlwaysDiscount)
             {
                 discount = value;
             }
