@@ -18,10 +18,17 @@ public class AquaMgr : Singleton<AquaMgr>
         EanMoney = 2f;
         GameTimer = 0f;
         IsStart = true;
+
+        for (int i = 0; i < GameStaticValue.AquaInitFishCount; i++)
+        {
+            CreateFish();
+        }
     }
 
     public void EndGame()
     {
+        PoolFish.RemoveAll();
+        PoolFood.RemoveAll();
         Money = 0f;
         EanMoney = 2f;
         IsStart = false;
@@ -43,7 +50,8 @@ public class AquaMgr : Singleton<AquaMgr>
 
     private Vector3 SetFoodPosition()
     {
-        float x = UnityEngine.Random.Range(CameraMgr.CameraSize * GameStaticValue.NonWhiteSpaceOnX * -1, CameraMgr.CameraSize * GameStaticValue.NonWhiteSpaceOnX);
+        float range = CameraMgr.CameraSize * GameStaticValue.NonWhiteSpaceOnX;
+        float x = UnityEngine.Random.Range(range* -1, range);
         return new Vector3(x, CameraMgr.CameraSize * GameStaticValue.FoodCreateYPercent, 0);
     }
 
@@ -51,7 +59,16 @@ public class AquaMgr : Singleton<AquaMgr>
     {
         InAquaFish newFish = PoolFish.GetNew();
         newFish.Init("");
+        newFish.transform.position = SetFishPosition();
         PoolFish.Add(newFish);
+    }
+
+    private Vector3 SetFishPosition()
+    {
+        float rangeX = CameraMgr.CameraSize * GameStaticValue.NonWhiteSpaceOnX;
+        float x = UnityEngine.Random.Range(rangeX * -1, rangeX);
+        float y = UnityEngine.Random.Range(CameraMgr.CameraSize * GameStaticValue.FishMinYPercent, CameraMgr.CameraSize * GameStaticValue.FishMaxYPercent);
+        return new Vector3(x, y, 0);
     }
 
     public Food GetClosestFood(Vector3 position, float radius = 0f)
@@ -103,6 +120,13 @@ public class AquaMgr : Singleton<AquaMgr>
         {
             Money -= cost;
         }
+    }
+
+    public string GetLeftGameTime()
+    {
+        int leftTime = Mathf.CeilToInt(GameStaticValue.AquaTime - GameTimer);
+
+        return string.Format("{0}:{1}", (leftTime / 60).ToString("D2"), (leftTime % 60).ToString("D2"));
     }
 
     private void Update()

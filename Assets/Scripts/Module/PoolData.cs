@@ -60,4 +60,15 @@ public class PoolData<T> where T : MonoBehaviour
         QueueValues.Enqueue(obj);
         NowObjects.Remove(obj);
     }
+
+    public void RemoveAll()
+    {
+        for (int i = 0; i < NowObjects.Count; i++)
+        {
+            NowObjects[i].gameObject.SetActive(false);
+            QueueValues.Enqueue(NowObjects[i]);
+        }
+
+        NowObjects.Clear();
+    }
 }

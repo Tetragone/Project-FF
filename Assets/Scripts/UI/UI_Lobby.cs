@@ -114,7 +114,7 @@ public class UI_Lobby : Singleton<UI_Lobby>
                 ObjGameMenu.SetActive(false);
                 ObjShopMenu.SetActive(false);
                 ObjUpgradeMenu.SetActive(false);
-                ObjGamePlayMenu.SetActive(true);
+                ObjGamePlayMenu.SetActive(false);
                 ObjMenu.SetActive(false);
                 ObjGameRaceMenu.SetActive(true);
                 break;

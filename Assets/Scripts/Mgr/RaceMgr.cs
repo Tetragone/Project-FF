@@ -78,7 +78,7 @@ public class RaceMgr : Singleton<RaceMgr>
 
     public string GetMeterToString()
     {
-        return Mathf.RoundToInt(Meter).ToString();
+        return string.Format("{0}m", Mathf.RoundToInt(Meter));
     }
 
     private void Update()

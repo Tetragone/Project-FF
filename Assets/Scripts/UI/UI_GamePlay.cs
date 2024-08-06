@@ -12,6 +12,8 @@ public class UI_GamePlay : MonoBehaviour
     public Button ButtonPause;
 
     public TextMeshProUGUI TextMoney;
+
+    public TextMeshProUGUI TextTime;
     #endregion
 
     private void Awake()
@@ -50,5 +52,6 @@ public class UI_GamePlay : MonoBehaviour
         TextMoney.text = AquaMgr.Instance.GetMoney().ToString();
         AquaMgr.Instance.IsEnoughMoney(GameStaticValue.CostFish);
         AquaMgr.Instance.IsEnoughMoney(GameStaticValue.CostFood);
+        TextTime.text = AquaMgr.Instance.GetLeftGameTime();
     }
 }

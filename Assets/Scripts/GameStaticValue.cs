@@ -16,6 +16,7 @@ public static class GameStaticValue
     public static readonly string FishPath = "Prefabs/aqua_fish";
     public static readonly string FoodPath = "Prefabs/food";
 
+    public static readonly int AquaInitFishCount = 2;
     public static readonly int CostFood = 1;
     public static readonly int CostFish = 20;
 

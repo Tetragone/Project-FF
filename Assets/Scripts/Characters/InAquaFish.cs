@@ -65,6 +65,7 @@ public class InAquaFish : MonoBehaviour
             }
             else
             {
+                RandomMoveTime = 0f;
                 Vector3 dir = food.transform.position - transform.position;
                 dir = new Vector3(dir.x, dir.y, 0);
                 if (dir.magnitude < GameStaticValue.FoodEatRange)
