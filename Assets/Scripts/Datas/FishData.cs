@@ -45,4 +45,12 @@ public class FishData
     {
         return TotalValue > MaxGrowValue;
     }
+
+    public void SetDataValueForEnemy(float speed, float size)
+    {
+        Speed = speed;
+        Size = size;
+        // value 계산법을 만든다면 역산을 해서 넣어두자.
+        TotalValue = 0f;
+    }
 }

@@ -39,6 +39,7 @@ public class UI_GameRace : MonoBehaviour
                     diff = diff.normalized * Range; 
                 }
                 ObjTouchFront.transform.localPosition = diff;
+                RaceMgr.Instance.SetMyFishDir(diff);
             }
             else if (touch.phase == TouchPhase.Ended)
             {

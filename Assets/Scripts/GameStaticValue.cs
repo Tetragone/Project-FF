@@ -32,10 +32,15 @@ public static class GameStaticValue
 
     #region Race Fish
     public static readonly string RaceFishPath = "Prefabs/race_fish";
+
     public static readonly float RaceFishMaxSpeed = 30f;
     public static readonly float RaceFishMinSpeed = 5f;
+    public static readonly int RaceInitFishCount = 5;
+    public static readonly float RaceFishCreateTime = 1.5f;
 
     public static readonly int MyFishLayer = 8;
     public static readonly int EnemyFishLayer = 9;
+
+    public static readonly float FishRaceYPercent = 3f;
     #endregion
 }

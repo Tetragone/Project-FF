@@ -9,6 +9,8 @@ public class InRaceFish : MonoBehaviour
     private Rigidbody2D Rigid;
     private CircleCollider2D Collider;
     private FishData Data;
+    private bool IsMy = false;
+    private Vector3 NowDir;
 
     public void InitData(FishData data, bool isMy)
     {
@@ -24,6 +26,44 @@ public class InRaceFish : MonoBehaviour
 
         Data = data;
         gameObject.layer = isMy ? GameStaticValue.MyFishLayer : GameStaticValue.EnemyFishLayer;
+        IsMy = isMy;
+        if (!IsMy)
+        {
+            SetMove(new Vector3(0, data.Speed - RaceMgr.Instance.GameBaseSpeed(), 0));
+        }
+    }
+
+    private void SetMove(Vector3 vel)
+    {
+        Rigid.velocity = vel;
+    }
+
+    public void SetDirForMy(Vector3 dir)
+    {
+        if (!IsMy)
+        {
+            return;
+        }
+
+        dir = dir.normalized;
+
+        if (Mathf.Abs(transform.position.x) > CameraMgr.CameraSize * GameStaticValue.NonWhiteSpaceOnX && dir.x * transform.position.x > 0)
+        {
+            dir = new Vector3(0, dir.y);
+        }
+
+        if (transform.position.y > CameraMgr.CameraSize * GameStaticValue.FishMaxYPercent && dir.y > 0)
+        {
+            dir = new Vector3(dir.x, 0);
+        }
+
+        if (transform.position.y < CameraMgr.CameraSize * GameStaticValue.FishMinYPercent && dir.y < 0)
+        {
+            dir = new Vector3(dir.x, 0);
+        }
+        NowDir = dir;
+
+        SetMove(dir * 3f);
     }
 
     public FishData GetData()
@@ -53,5 +93,24 @@ public class InRaceFish : MonoBehaviour
                 raceFish.Die();
             }
         }
+    }
+
+    private void Update()
+    {
+        if (IsMy && IsChangeMove())
+        {
+            SetDirForMy(NowDir);
+        }
+    }
+
+    private bool IsChangeMove()
+    {
+        bool result = false;
+
+        result = Mathf.Abs(transform.position.x) > CameraMgr.CameraSize * GameStaticValue.NonWhiteSpaceOnX && NowDir.x * transform.position.x > 0;
+        result = (transform.position.y > CameraMgr.CameraSize * GameStaticValue.FishMaxYPercent && NowDir.y > 0) || result;
+        result = (transform.position.y < CameraMgr.CameraSize * GameStaticValue.FishMinYPercent && NowDir.y < 0) || result;
+
+        return result;
     }
 }
