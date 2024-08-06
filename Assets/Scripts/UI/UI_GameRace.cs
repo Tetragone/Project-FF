@@ -47,5 +47,7 @@ public class UI_GameRace : MonoBehaviour
                 IsDragging = false;
             }
         }
+
+        TextMeter.text = RaceMgr.Instance.GetMeterToString();
     }
 }

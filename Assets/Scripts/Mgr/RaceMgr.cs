@@ -76,6 +76,11 @@ public class RaceMgr : Singleton<RaceMgr>
         IsStart = false;
     }
 
+    public string GetMeterToString()
+    {
+        return Mathf.RoundToInt(Meter).ToString();
+    }
+
     private void Update()
     {
         if (IsStart)
