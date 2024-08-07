@@ -80,5 +80,6 @@ public class UI_GameRace : MonoBehaviour
     {
         IsDragging = false;
         ObjTouchBack.SetActive(false);
+        RaceMgr.Instance.SetMyFishDir(Vector3.zero);
     }
 }
