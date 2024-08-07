@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 public class FishData
 {
     public string Fid = "1001";
@@ -21,7 +19,9 @@ public class FishData
         Fid = fid;
 
         Size = 0f;
+        SizeMultiValue = TableMgr.GetTableFloat("fish", Fid, "size");
         Speed = 0f;
+        SpeedMultiValue = TableMgr.GetTableFloat("fish", Fid, "speed");
         TotalValue = 0f;
 
         BaseGrowValue = TableMgr.GetTableFloat("fish", Fid, "base_value");

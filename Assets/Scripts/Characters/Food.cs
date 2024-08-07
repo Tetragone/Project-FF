@@ -29,7 +29,7 @@ public class Food : MonoBehaviour
     {
         Fid = id;
         BaseValue = 2f;//TableMgr.GetTableFloat("food", id, "base_value");
-        RandomValue = GameStaticValue.BaseFoodRandomValue;
+        RandomValue = UnityEngine.Random.Range(GameStaticValue.BaseFoodRandomValue * -1, GameStaticValue.BaseFoodRandomValue);
         IsEating = false;
         IsStart = true;
         IsArriveBottom = false;

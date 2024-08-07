@@ -147,6 +147,25 @@ public class AquaMgr : Singleton<AquaMgr>
     {
         // 물고기가 각 종류 별로 합쳐지면서 어떤 녀석을 고를건지 선택지가 나오도록 하자
         UI_Lobby.Instance.SetActiveMenu(UI_Lobby.MenuType.game_race_menu);
+        Dictionary<string, InAquaFish> bestFishes = new Dictionary<string, InAquaFish>();
+        List<InAquaFish> fishes = PoolFish.GetNowList();
+
+        for (int i = 0; i < fishes.Count; i++)
+        {
+            string key = fishes[i].GetNowData().Fid;
+
+            if (bestFishes.ContainsKey(key))
+            {
+                if (bestFishes[key].GetNowData().TotalValue < fishes[i].GetNowData().TotalValue)
+                {
+                    bestFishes[key] = fishes[i];
+                }
+            }
+            else
+            {
+                bestFishes.Add(key, fishes[i]);
+            } 
+        }
         RaceMgr.Instance.InitRace(PoolFish.GetNowList()[0].GetNowData());
         EndGame();
     }
