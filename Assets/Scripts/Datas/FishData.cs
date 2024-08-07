@@ -2,13 +2,34 @@ using System.Collections.Generic;
 
 public class FishData
 {
+    public string Fid = "1001";
+    
     public float Size = 0f;
+    private float SizeMultiValue = 0f;
+    
     public float Speed = 0f;
+    private float SpeedMultiValue = 0f;
+
     public float TotalValue = 0f;
     // 이 값을 넘어가면 조금씩 오르도록 하자
+    private float BaseGrowValue = 0f;
     public float MaxGrowValue = 100f;
     public float DiscountValue = 0.01f;
 
+    public void SetDataInit(string fid)
+    {
+        Fid = fid;
+
+        Size = 0f;
+        Speed = 0f;
+        TotalValue = 0f;
+
+        BaseGrowValue = TableMgr.GetTableFloat("fish", Fid, "base_value");
+        float random = TableMgr.GetTableFloat("fish", Fid, "random_value");
+        MaxGrowValue = BaseGrowValue + UnityEngine.Random.Range(random * -1, random);
+        DiscountValue = TableMgr.GetTableFloat("fish", Fid, "discount_value");
+    }
+    
     public void EatFood(Food food) 
     {
         AddValue(food.GetValue(), false);
@@ -39,6 +60,9 @@ public class FishData
 
             TotalValue = sum - discount + discount * DiscountValue;
         }
+
+        Size = TotalValue / BaseGrowValue * SizeMultiValue;
+        Speed = TotalValue / BaseGrowValue * SpeedMultiValue;
     }
 
     public bool IsMaxGrow()

@@ -58,7 +58,7 @@ public class AquaMgr : Singleton<AquaMgr>
     public void CreateFish()
     {
         InAquaFish newFish = PoolFish.GetNew();
-        newFish.Init("");
+        newFish.Init("1001");
         newFish.transform.position = SetFishPosition();
         PoolFish.Add(newFish);
     }

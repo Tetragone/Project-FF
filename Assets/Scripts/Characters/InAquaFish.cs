@@ -23,6 +23,7 @@ public class InAquaFish : MonoBehaviour
         {
             Data = new FishData();
         }
+        Data.SetDataInit(fid);
     }
 
     public FishData GetNowData()
