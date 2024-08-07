@@ -21,6 +21,7 @@ public class DataLoadMgr : MonoBehaviour
         else
         {
             UserDataMgr.Instance.SaveData();
+            UpgrdeMgr.Instance.SaveData();
         }
     }
 
@@ -33,6 +34,7 @@ public class DataLoadMgr : MonoBehaviour
         else
         {
             UserDataMgr.Instance.LoadData();
+            UpgrdeMgr.Instance.LoadData();
         }
     }
 }
