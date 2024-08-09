@@ -28,7 +28,7 @@ public static class GameStaticValue
 
     public static readonly float FoodDisableTime = 3f;
 
-    public static readonly float AquaTime = 100f;
+    public static readonly float AquaTime = 10f;
     #endregion
 
     #region Race Fish
@@ -36,6 +36,7 @@ public static class GameStaticValue
 
     public static readonly float RaceFishMaxSpeed = 30f;
     public static readonly float RaceFishMinSpeed = 5f;
+    public static readonly float RaceFishSizeAdder = 0.5f;
     public static readonly int RaceInitFishCount = 5;
     public static readonly float RaceFishCreateTime = 1.5f;
 
@@ -43,5 +44,6 @@ public static class GameStaticValue
     public static readonly int EnemyFishLayer = 9;
 
     public static readonly float FishRaceYPercent = 3f;
+    public static readonly float BaseFishSize = 5f;
     #endregion
 }

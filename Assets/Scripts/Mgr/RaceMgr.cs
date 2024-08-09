@@ -18,6 +18,7 @@ public class RaceMgr : Singleton<RaceMgr>
     {
         MyFish = PoolFish.GetNew();
         MyFish.InitData(fish, true);
+        MyFish.SetLocalScale(1f);
         MyData = fish;
         IsStart = true;
         Timer = 0f;
@@ -31,8 +32,27 @@ public class RaceMgr : Singleton<RaceMgr>
     private void CreateEmenyFish()
     {
         InRaceFish fish = PoolFish.GetNew();
-        float speed = Random.Range(GameStaticValue.RaceFishMinSpeed, GameStaticValue.RaceFishMaxSpeed);
-        float size = 0f;
+        // Speed 랜덤부터
+        float middleSpeed = MyData.Speed;
+        
+        if (middleSpeed < GameStaticValue.RaceFishMinSpeed)
+        {
+            middleSpeed = GameStaticValue.RaceFishMinSpeed;
+        }
+
+        if (middleSpeed > GameStaticValue.RaceFishMaxSpeed)
+        {
+            middleSpeed = GameStaticValue.RaceFishMaxSpeed;
+        }
+
+        float speed = NRandom.Range(GameStaticValue.RaceFishMinSpeed, GameStaticValue.RaceFishMaxSpeed, MyData.Speed);
+
+        // Speed가 결정되면 그 값에 따라서 난이도 조정을 위한 Size값 변경.
+        // 시간에 따라서 난이도가 바뀔수 있게 공식을 추가하는 것도 필요,
+        // 속도 차이에 따라서 뭔가 더 차이가 나도록 수정하는 것도 필요
+        float sizeAdder = speed > MyData.Speed ? GameStaticValue.RaceFishSizeAdder : GameStaticValue.RaceFishSizeAdder * -1;
+        float size = NRandom.NormalRandom(MyData.Size + sizeAdder);
+
         float range = CameraMgr.CameraSize * GameStaticValue.NonWhiteSpaceOnX;
         float randomX = Random.Range(range * -1, range);
 
@@ -52,8 +72,9 @@ public class RaceMgr : Singleton<RaceMgr>
             data = new FishData();
         }
 
-        data.SetDataValueForEnemy(speed, size);
+        data.SetDataValueForEnemy(speed - MyData.Speed, size);
         fish.InitData(data, false);
+        fish.SetLocalScale(size / MyData.Size);
     }
 
     public float GameBaseSpeed()

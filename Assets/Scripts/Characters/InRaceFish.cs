@@ -76,6 +76,11 @@ public class InRaceFish : MonoBehaviour
         RaceMgr.Instance.DisableFish(this);
     }
 
+    public void SetLocalScale(float percent)
+    {
+        transform.localScale = Vector3.one * percent * GameStaticValue.BaseFishSize;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         InRaceFish raceFish = collision.GetComponent<InRaceFish>();
@@ -101,6 +106,8 @@ public class InRaceFish : MonoBehaviour
         {
             SetDirForMy(NowDir);
         }
+
+        IsDisablePosition();
     }
 
     private bool IsChangeMove()
@@ -112,5 +119,18 @@ public class InRaceFish : MonoBehaviour
         result = (transform.position.y < CameraMgr.CameraSize * GameStaticValue.FishMinYPercent && NowDir.y < 0) || result;
 
         return result;
+    }
+
+    private void IsDisablePosition()
+    {
+        if (transform.position.y > CameraMgr.CameraSize * GameStaticValue.FishRaceYPercent + 1f)
+        {
+            this.Die();
+        }
+
+        if (transform.position.y < CameraMgr.CameraSize * GameStaticValue.FishRaceYPercent * -1f - 1f)
+        {
+            this.Die();
+        }
     }
 }
