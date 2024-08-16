@@ -90,7 +90,7 @@ public class InRaceFish : MonoBehaviour
             // 걍 같으면 이기는걸로
             if (raceFish.GetData().Size > Data.Size)
             {
-                RaceMgr.Instance.EndGame();
+                RaceMgr.Instance.MakeEndPopup();
             } 
             else
             {

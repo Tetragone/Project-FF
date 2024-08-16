@@ -10,6 +10,7 @@ public class RaceMgr : Singleton<RaceMgr>
     
     private float Meter;
     private bool IsStart = false;
+    private bool IsEnd = false;
     private FishData MyData;
     private List<FishData> FishesData;
     private float Timer = 0f;
@@ -21,6 +22,7 @@ public class RaceMgr : Singleton<RaceMgr>
         MyFish.SetLocalScale(1f);
         MyData = fish;
         IsStart = true;
+        IsEnd = false;
         Timer = 0f;
 
         for (int i = 0; i < GameStaticValue.RaceInitFishCount; i++)
@@ -45,7 +47,7 @@ public class RaceMgr : Singleton<RaceMgr>
             middleSpeed = GameStaticValue.RaceFishMaxSpeed;
         }
 
-        float speed = NRandom.Range(GameStaticValue.RaceFishMinSpeed, GameStaticValue.RaceFishMaxSpeed, MyData.Speed);
+        float speed = NRandom.Range(GameStaticValue.RaceFishMinSpeed, GameStaticValue.RaceFishMaxSpeed, middleSpeed);
 
         // Speed가 결정되면 그 값에 따라서 난이도 조정을 위한 Size값 변경.
         // 시간에 따라서 난이도가 바뀔수 있게 공식을 추가하는 것도 필요,
@@ -92,9 +94,16 @@ public class RaceMgr : Singleton<RaceMgr>
         PoolFish.Remove(fish);
     }
 
+    public void MakeEndPopup()
+    {
+        IsEnd = true;
+        PopupMgr.MakePopupEndGame(100);
+    }
+
     public void EndGame()
     {
         IsStart = false;
+        UI_Lobby.Instance.SetActiveMenu(UI_Lobby.MenuType.game_menu);
     }
 
     public string GetMeterToString()
@@ -106,7 +115,7 @@ public class RaceMgr : Singleton<RaceMgr>
     {
         if (IsStart)
         {
-            Meter += MyData.Speed * Time.deltaTime;
+            if (!IsEnd) Meter += MyData.Speed * Time.deltaTime;
 
             if (Timer > GameStaticValue.RaceFishCreateTime)
             {
