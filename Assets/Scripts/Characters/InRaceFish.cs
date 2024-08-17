@@ -85,12 +85,13 @@ public class InRaceFish : MonoBehaviour
     {
         InRaceFish raceFish = collision.GetComponent<InRaceFish>();
 
-        if (raceFish != null)
+        if (raceFish != null && IsMy)
         {
             // 걍 같으면 이기는걸로
             if (raceFish.GetData().Size > Data.Size)
             {
                 RaceMgr.Instance.MakeEndPopup();
+                Die();
             } 
             else
             {

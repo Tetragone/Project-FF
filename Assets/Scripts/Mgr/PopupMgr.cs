@@ -8,7 +8,7 @@ public static class PopupMgr
     public static void MakePopupEndGame(int gold)
     {
         PopupCommon res = Resources.Load<PopupCommon>("Prefabs/UI/popup_common");
-        PopupCommon popup = Object.Instantiate<PopupCommon>(res);
+        PopupCommon popup = Object.Instantiate<PopupCommon>(res, UI_Lobby.Root.transform);
 
         popup.SetText("", gold.ToString());
         popup.AddYesListener(() =>

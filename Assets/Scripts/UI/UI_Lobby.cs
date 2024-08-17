@@ -24,6 +24,9 @@ public class UI_Lobby : Singleton<UI_Lobby>
     public GameObject ObjGamePlayMenu;
     public GameObject ObjGameRaceMenu;
 
+    [Header("Fade Obj")]
+    public Image ImageFade;
+
     protected override void Awake()
     {
         base.Awake();
@@ -39,6 +42,7 @@ public class UI_Lobby : Singleton<UI_Lobby>
         ToggleUpgradeMenu.isOn = false;
         InitButtonCallback();
         SetActiveMenu(MenuType.game_menu);
+        StartFadeOut(0.5f);
     }
 
     private void InitButtonCallback()
@@ -119,6 +123,48 @@ public class UI_Lobby : Singleton<UI_Lobby>
                 ObjGameRaceMenu.SetActive(true);
                 break;
         }
+    }
+
+    public void StartFadeIn(float time)
+    {
+        StartCoroutine(FadeIn(time));
+    }
+
+    private IEnumerator FadeIn(float time)
+    {
+        float timer = 0f;
+
+        while (timer < time)
+        {
+            float alpha = timer / time;
+            timer += Time.deltaTime;
+            ImageFade.color = new Color(0, 0, 0, alpha);
+            yield return null;
+        }
+
+        ImageFade.color = new Color(0, 0, 0, 1);
+        yield return null;
+    }
+
+    public void StartFadeOut(float time)
+    {
+        StartCoroutine(FadeOut(time));
+    }
+
+    private IEnumerator FadeOut(float time)
+    {
+        float timer = 0f;
+
+        while (timer < time)
+        {
+            float alpha = (time - timer) / time;
+            timer += Time.deltaTime;
+            ImageFade.color = new Color(0, 0, 0, alpha);
+            yield return null;
+        }
+
+        ImageFade.color = new Color(0, 0, 0, 0);
+        yield return null;
     }
 
     public enum MenuType

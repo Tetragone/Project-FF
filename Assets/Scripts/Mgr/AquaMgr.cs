@@ -14,6 +14,7 @@ public class AquaMgr : Singleton<AquaMgr>
     
     public void InitStart()
     {
+        Debug.Log("Init Aqua!");
         Money = 0f;
         EanMoney = 2f;
         GameTimer = 0f;

@@ -17,6 +17,7 @@ public class RaceMgr : Singleton<RaceMgr>
 
     public void InitRace(FishData fish)
     {
+        Debug.Log("Init Race!");
         MyFish = PoolFish.GetNew();
         MyFish.InitData(fish, true);
         MyFish.SetLocalScale(1f);
@@ -103,7 +104,16 @@ public class RaceMgr : Singleton<RaceMgr>
     public void EndGame()
     {
         IsStart = false;
+        StartCoroutine(StartEnd());
+    }
+
+    private IEnumerator StartEnd()
+    {
+        UI_Lobby.Instance.StartFadeIn(0.5f);
+        yield return new WaitForSeconds(0.5f);
+        PoolFish.RemoveAll();
         UI_Lobby.Instance.SetActiveMenu(UI_Lobby.MenuType.game_menu);
+        UI_Lobby.Instance.StartFadeOut(0.5f);
     }
 
     public string GetMeterToString()
