@@ -17,10 +17,10 @@ public class RaceMgr : Singleton<RaceMgr>
 
     public void InitRace(FishData fish)
     {
-        Debug.Log("Init Race!");
         MyFish = PoolFish.GetNew();
         MyFish.InitData(fish, true);
         MyFish.SetLocalScale(1f);
+        MyFish.transform.position = Vector3.zero;
         MyData = fish;
         IsStart = true;
         IsEnd = false;
@@ -98,7 +98,7 @@ public class RaceMgr : Singleton<RaceMgr>
     public void MakeEndPopup()
     {
         IsEnd = true;
-        PopupMgr.MakePopupEndGame(100);
+        PopupMgr.MakePopupEndGame(Mathf.RoundToInt(Meter));
     }
 
     public void EndGame()

@@ -22,6 +22,8 @@ public class UserDataMgr : SingletonAllTime<UserDataMgr>
             case "gacha_point": GachaPoint += value; break;
             case "relic_point": RelicPoint += value; break;
         }
+
+        this.SaveData();
     }
 
     public void UseGoods(int value, string type)

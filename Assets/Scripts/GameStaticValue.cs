@@ -11,6 +11,12 @@ public static class GameStaticValue
     public static readonly float FishRandomMoveMaxSpeed = 3f;
     public static readonly float FishRandomMoveMinSpeed = 1f;
 
+    public static readonly float ChildStarveTime = 2f;
+    public static readonly float AdultStarveTime = 10f;
+
+    public static readonly float FishMaxGrowSize = 3f;
+    public static readonly float FishChildSize = 1f;
+
     public static readonly float FoodEatRange = 0.5f;
 
     public static readonly string FishPath = "Prefabs/aqua_fish";
@@ -44,6 +50,6 @@ public static class GameStaticValue
     public static readonly int EnemyFishLayer = 9;
 
     public static readonly float FishRaceYPercent = 3f;
-    public static readonly float BaseFishSize = 5f;
+    public static readonly float BaseFishSize = 3f;
     #endregion
 }

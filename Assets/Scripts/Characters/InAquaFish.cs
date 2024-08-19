@@ -13,6 +13,8 @@ public class InAquaFish : MonoBehaviour
     private float RandomMoveSpeed;
     private Vector3 NowDir;
 
+    private float StarveTime;
+
     public void Init(string fid)
     {
         Body.velocity = new Vector2(0, 0);
@@ -42,7 +44,9 @@ public class InAquaFish : MonoBehaviour
         {
             Food food = AquaMgr.Instance.GetClosestFood(transform.position);
 
-            if (food == null)
+            StarveTime -= Time.deltaTime;
+
+            if (food == null || StarveTime > 0f)
             {
                 RandomMoveTime -= Time.deltaTime;
 
@@ -72,6 +76,17 @@ public class InAquaFish : MonoBehaviour
                 if (dir.magnitude < GameStaticValue.FoodEatRange)
                 {
                     Data.EatFood(food);
+
+                    if (Data.IsMaxGrow())
+                    {
+                        StarveTime = GameStaticValue.ChildStarveTime;
+                        transform.localScale = new Vector3(GameStaticValue.FishMaxGrowSize, GameStaticValue.FishMaxGrowSize);
+                    } 
+                    else
+                    {
+                        StarveTime = GameStaticValue.AdultStarveTime;
+                        transform.localScale = new Vector3(GameStaticValue.FishChildSize, GameStaticValue.FishChildSize);
+                    }
                 }
                 else
                 {
