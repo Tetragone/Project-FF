@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TableMgr : SingletonAllTime<TableMgr>
+public class TableMgr : SingletonAllSecen<TableMgr>
 {
     public static bool IsReaded = false;
 
@@ -11,6 +11,7 @@ public class TableMgr : SingletonAllTime<TableMgr>
     private Dictionary<string, string> TableName = new Dictionary<string, string>() 
     {
         { "fish", "Tables/ff_fish" },
+        { "relic", "Tables/ff_relic" },
     };
 
     private int CorutineCount = 10;

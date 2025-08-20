@@ -22,21 +22,13 @@ public class SceneTitle : MonoBehaviour
                 break;
 
             case LoadingState.loading_data:
-
-                if (_frame == 0)
+                if (DataLoadMgr.IsLoaded)
                 {
                     _state = LoadingState.done;
                     _frame = -1;
-                    //UserDataMgr.Instance.LoadData();
                 }
 
-                //if (UserDataMgr.Instance.IsLoadingAll)
-                //{
-                //    _state = LoadingState.done;
-                //    _frame = 0;
-                //}
                 break;
-
             case LoadingState.done:
                 SceneManager.LoadScene("Game");
                 break;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SingletonAllTime<T> : MonoBehaviour
+public class SingletonAllSecen<T> : MonoBehaviour
 {
     public static T Instance;
 

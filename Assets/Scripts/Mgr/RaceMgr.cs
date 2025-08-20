@@ -21,6 +21,7 @@ public class RaceMgr : Singleton<RaceMgr>
         MyFish.InitData(fish, true);
         MyFish.SetLocalScale(1f);
         MyFish.transform.position = Vector3.zero;
+        PoolFish.Add(MyFish);
         MyData = fish;
         IsStart = true;
         IsEnd = false;
@@ -78,6 +79,7 @@ public class RaceMgr : Singleton<RaceMgr>
         data.SetDataValueForEnemy(speed - MyData.Speed, size);
         fish.InitData(data, false);
         fish.SetLocalScale(size / MyData.Size);
+        PoolFish.Add(fish);
     }
 
     public float GameBaseSpeed()

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UserDataMgr : SingletonAllTime<UserDataMgr>
+public class UserDataMgr : SingletonAllSecen<UserDataMgr>
 {
     public SecureInt Gold = 0;
     public SecureInt GachaPoint = 0;

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UpgrdeMgr : Singleton<UpgrdeMgr>
+public class UpgrdeMgr : SingletonAllSecen<UpgrdeMgr>
 {
     private Dictionary<string, SecureInt> FishesCount = new Dictionary<string, SecureInt>();
     private Dictionary<string, SecureInt> FishesLv = new Dictionary<string, SecureInt>();

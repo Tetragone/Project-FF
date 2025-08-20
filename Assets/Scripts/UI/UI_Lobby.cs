@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,6 +27,9 @@ public class UI_Lobby : Singleton<UI_Lobby>
 
     [Header("Fade Obj")]
     public Image ImageFade;
+
+    [Header("Texts")]
+    public TextMeshProUGUI TextGold;
 
     protected override void Awake()
     {
@@ -101,7 +105,7 @@ public class UI_Lobby : Singleton<UI_Lobby>
                 ObjGameMenu.SetActive(false);
                 ObjShopMenu.SetActive(false);
                 ObjUpgradeMenu.SetActive(true);
-                ObjGamePlayMenu.SetActive(true);
+                ObjGamePlayMenu.SetActive(false);
                 ObjMenu.SetActive(true);
                 ObjGameRaceMenu.SetActive(false);
                 break;
@@ -123,6 +127,8 @@ public class UI_Lobby : Singleton<UI_Lobby>
                 ObjGameRaceMenu.SetActive(true);
                 break;
         }
+
+        this.RefreshTexts();
     }
 
     public void StartFadeIn(float time)
@@ -165,6 +171,11 @@ public class UI_Lobby : Singleton<UI_Lobby>
 
         ImageFade.color = new Color(0, 0, 0, 0);
         yield return null;
+    }
+
+    public void RefreshTexts()
+    {
+        this.TextGold.text = UserDataMgr.Instance.Gold.ToString();
     }
 
     public enum MenuType

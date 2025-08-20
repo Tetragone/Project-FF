@@ -4,15 +4,34 @@ using UnityEngine;
 
 public class DataLoadMgr : MonoBehaviour
 {
-    private bool IsLoadFromServer = false;
+    public static bool IsLoaded = false;
+    private static bool IsLoadFromServer = false;
 
-    private void Awake()
+    protected void Awake()
     {
         DataLoad data = DataLoad.LoadLocal();
         IsLoadFromServer = data.IsSaveServer;
+        IsLoaded = false;
+        StartCoroutine(StartLoad());
     }
 
-    public void SaveLocalData()
+    private IEnumerator StartLoad()
+    {
+        while (!IsVaildLoadStart())
+        {
+            yield return null;
+        }
+
+        LoadLocalData();
+        IsLoaded = true;
+    }
+
+    private bool IsVaildLoadStart()
+    {
+        return UserDataMgr.Instance != null && UpgrdeMgr.Instance != null;
+    }
+
+    public static void SaveLocalData()
     {
         if (IsLoadFromServer)
         {
