@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UpgrdeMgr : SingletonAllSecen<UpgrdeMgr>
+public class UpgradeMgr : SingletonAllSecen<UpgradeMgr>
 {
+    private Dictionary<GoldUpgrade, SecureInt> GoldUpgradeLv = new Dictionary<GoldUpgrade, SecureInt>();
     private Dictionary<string, SecureInt> FishesCount = new Dictionary<string, SecureInt>();
     private Dictionary<string, SecureInt> FishesLv = new Dictionary<string, SecureInt>();
     private Dictionary<string, SecureInt> RelicCount = new Dictionary<string, SecureInt>();
@@ -14,6 +16,12 @@ public class UpgrdeMgr : SingletonAllSecen<UpgrdeMgr>
     public UpgradeLocalData SaveData()
     {
         UpgradeLocalData data = new UpgradeLocalData();
+
+        foreach (var key in GoldUpgradeLv.Keys)
+        {
+            string lvBase = GoldUpgradeLv[key].GetBase();
+            data.GoldUpgrade.Add(((int)key).ToString(), lvBase);
+        }
 
         var fishTable = TableMgr.GetTable("fish");
 
@@ -43,6 +51,12 @@ public class UpgrdeMgr : SingletonAllSecen<UpgrdeMgr>
     public void LoadData()
     {
         UpgradeLocalData data = UpgradeLocalData.LoadData();
+        GoldUpgradeLv.Clear();
+
+        foreach (string key in data.GoldUpgrade.Keys)
+        {
+            GoldUpgradeLv.Add((GoldUpgrade)int.Parse(key), new SecureInt(data.GoldUpgrade[key]));
+        }
 
         FishesCount.Clear();
         FishesLv.Clear();
@@ -65,6 +79,18 @@ public class UpgrdeMgr : SingletonAllSecen<UpgrdeMgr>
     #endregion
 
     #region Get Dataes
+    public int GetGoldUpgrade(GoldUpgrade type)
+    {
+        if (GoldUpgradeLv.ContainsKey(type))
+        {
+            return GoldUpgradeLv[type];
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
     public int GetFishesCount(string id)
     {
         if (FishesCount.ContainsKey(id))
@@ -115,6 +141,20 @@ public class UpgrdeMgr : SingletonAllSecen<UpgrdeMgr>
     #endregion
 
     #region Set Dataes
+    public bool AddGoldUpgrade(GoldUpgrade type, int addedLv = 1)
+    {
+        int beforeLv = 0;
+
+        if (GoldUpgradeLv.ContainsKey(type))
+        {
+            beforeLv = GoldUpgradeLv[type];
+            GoldUpgradeLv.Remove(type);
+        }
+
+        GoldUpgradeLv.Add(type, beforeLv + addedLv);
+        return true;
+    }
+
     public bool AddFishesCount(string id, int addedLv = 1)
     {
         if (!TableMgr.IsValidKey("fish", id))
@@ -193,8 +233,15 @@ public class UpgrdeMgr : SingletonAllSecen<UpgrdeMgr>
     #endregion
 }
 
+public enum GoldUpgrade
+{
+    food_grow, grow_time, fish_move_multi,
+}
+
 public class UpgradeLocalData
 {
+    public Dictionary<string, string> GoldUpgrade = new Dictionary<string, string>();
+    private static string GoldUpgradeKey = "guk_{0}";
     public Dictionary<string, string> FishCount = new Dictionary<string, string>();
     private static string FishCountKey = "fck_{0}";
     public Dictionary<string, string> FishLv = new Dictionary<string, string>();
@@ -206,6 +253,11 @@ public class UpgradeLocalData
 
     public static void SaveData(UpgradeLocalData data)
     {
+        foreach (string key in data.GoldUpgrade.Keys)
+        {
+            PlayerPrefs.SetString(string.Format(GoldUpgradeKey, key), data.GoldUpgrade[key]);
+        }
+
         foreach (string key in data.FishCount.Keys)
         {
             PlayerPrefs.SetString(string.Format(FishCountKey, key), data.FishCount[key]);
@@ -224,7 +276,14 @@ public class UpgradeLocalData
     public static UpgradeLocalData LoadData()
     {
         UpgradeLocalData data = new UpgradeLocalData();
-        
+
+        Dictionary<string, string> goldUp = new Dictionary<string, string>();
+
+        foreach (GoodsType type in Enum.GetValues(typeof(GoodsType)))
+        {
+            goldUp.Add(((int)type).ToString(), PlayerPrefs.GetString(string.Format(GoldUpgradeKey, (int)type), ""));
+        }
+
         var fishTable = TableMgr.GetTable("fish");
 
         Dictionary<string, string> fishCount = new Dictionary<string, string>();

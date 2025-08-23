@@ -28,7 +28,7 @@ public class DataLoadMgr : MonoBehaviour
 
     private bool IsVaildLoadStart()
     {
-        return UserDataMgr.Instance != null && UpgrdeMgr.Instance != null;
+        return UserDataMgr.Instance != null && UpgradeMgr.Instance != null;
     }
 
     public static void SaveLocalData()
@@ -40,7 +40,7 @@ public class DataLoadMgr : MonoBehaviour
         else
         {
             UserDataMgr.Instance.SaveData();
-            UpgrdeMgr.Instance.SaveData();
+            UpgradeMgr.Instance.SaveData();
         }
     }
 
@@ -53,7 +53,7 @@ public class DataLoadMgr : MonoBehaviour
         else
         {
             UserDataMgr.Instance.LoadData();
-            UpgrdeMgr.Instance.LoadData();
+            UpgradeMgr.Instance.LoadData();
         }
     }
 }

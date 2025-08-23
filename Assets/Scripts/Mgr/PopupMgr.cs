@@ -13,7 +13,7 @@ public static class PopupMgr
         popup.SetText("", gold.ToString());
         popup.AddYesListener(() =>
         {
-            UserDataMgr.Instance.AddGoods(gold, "gold");
+            UserDataMgr.Instance.AddGoods(gold, GoodsType.gold);
             RaceMgr.Instance.EndGame();
         });
         popup.InitAfterSetting(false, false);

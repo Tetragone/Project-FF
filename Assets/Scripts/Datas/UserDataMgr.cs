@@ -9,7 +9,7 @@ public class UserDataMgr : SingletonAllSecen<UserDataMgr>
     public SecureInt RelicPoint = 0;
 
     // 늘어날때만 사용
-    public void AddGoods(int value, string type)
+    public void AddGoods(int value, GoodsType type)
     {
         if (value < 0)
         {
@@ -18,15 +18,21 @@ public class UserDataMgr : SingletonAllSecen<UserDataMgr>
 
         switch (type)
         {
-            case "gold": Gold += value; break;
-            case "gacha_point": GachaPoint += value; break;
-            case "relic_point": RelicPoint += value; break;
+            case GoodsType.gold:
+                Gold += value;
+                break;
+            case GoodsType.gacha_point:
+                GachaPoint += value;
+                break;
+            case GoodsType.relic_point:
+                RelicPoint += value;
+                break;
         }
 
         this.SaveData();
     }
 
-    public void UseGoods(int value, string type)
+    public void UseGoods(int value, GoodsType type)
     {
         if (value < 0)
         {
@@ -40,21 +46,33 @@ public class UserDataMgr : SingletonAllSecen<UserDataMgr>
 
         switch (type)
         {
-            case "gold": Gold -= value; break;
-            case "gacha_point": GachaPoint -= value; break;
-            case "relic_point": RelicPoint -= value; break;
+            case GoodsType.gold:
+                Gold -= value;
+                break;
+            case GoodsType.gacha_point:
+                GachaPoint -= value;
+                break;
+            case GoodsType.relic_point:
+                RelicPoint -= value;
+                break;
         }
     }
 
-    public bool IsEnoughGoods(int value, string type)
+    public bool IsEnoughGoods(int value, GoodsType type)
     {
         int nowValue = 0;
 
         switch (type)
         {
-            case "gold": nowValue = Gold; break;
-            case "gacha_point": nowValue = GachaPoint; break;
-            case "relic_point": nowValue = RelicPoint; break;
+            case GoodsType.gold:
+                nowValue = Gold;
+                break;
+            case GoodsType.gacha_point:
+                nowValue = GachaPoint;
+                break;
+            case GoodsType.relic_point:
+                nowValue = RelicPoint;
+                break;
         }
 
         return nowValue >= value;
@@ -79,6 +97,11 @@ public class UserDataMgr : SingletonAllSecen<UserDataMgr>
         RelicPoint = new SecureInt(data.RelicPoint);
     }
     #endregion
+}
+
+public enum GoodsType
+{
+    gold, gacha_point, relic_point
 }
 
 public class UserLocalData
