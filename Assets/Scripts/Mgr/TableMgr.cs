@@ -53,6 +53,11 @@ public class TableMgr : SingletonAllSecen<TableMgr>
         }
     }
 
+    public static bool IsValidKey(string name, string id)
+    {
+        return Instance.Tables[name].ContainsKey(id);
+    }
+    
     public static string GetTableString(string name, string id, string colume)
     {
         return Instance.Tables[name][id][colume];

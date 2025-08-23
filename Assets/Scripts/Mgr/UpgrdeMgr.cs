@@ -16,7 +16,7 @@ public class UpgrdeMgr : SingletonAllSecen<UpgrdeMgr>
         UpgradeLocalData data = new UpgradeLocalData();
 
         var fishTable = TableMgr.GetTable("fish");
-        
+
         foreach (string key in fishTable.Keys)
         {
             string countBase = FishesCount.ContainsKey(key) ? FishesCount[key].GetBase() : "";
@@ -61,6 +61,134 @@ public class UpgrdeMgr : SingletonAllSecen<UpgrdeMgr>
             RelicCount.Add(key, new SecureInt(data.RelicCount[key]));
             RelicLv.Add(key, new SecureInt(data.RelicLv[key]));
         }
+    }
+    #endregion
+
+    #region Get Dataes
+    public int GetFishesCount(string id)
+    {
+        if (FishesCount.ContainsKey(id))
+        {
+            return FishesCount[id];
+        }
+        else
+        {
+            return -1;
+        }
+    }
+
+    public int GetFishesLv(string id)
+    {
+        if (FishesLv.ContainsKey(id))
+        {
+            return FishesLv[id];
+        }
+        else
+        {
+            return -1;
+        }
+    }
+
+    public int GetRelicCount(string id)
+    {
+        if (RelicCount.ContainsKey(id))
+        {
+            return RelicCount[id];
+        }
+        else
+        {
+            return -1;
+        }
+    }
+
+    public int GetRelicLv(string id)
+    {
+        if (RelicLv.ContainsKey(id))
+        {
+            return RelicLv[id];
+        }
+        else
+        {
+            return -1;
+        }
+    }
+    #endregion
+
+    #region Set Dataes
+    public bool AddFishesCount(string id, int addedLv = 1)
+    {
+        if (!TableMgr.IsValidKey("fish", id))
+        {
+            return false;
+        }
+
+        int beforeLv = 0;
+
+        if (FishesCount.ContainsKey(id))
+        {
+            beforeLv = FishesCount[id];
+            FishesCount.Remove(id);
+        }
+
+        FishesCount.Add(id, beforeLv + addedLv);
+        return true;
+    }
+
+    public bool AddFishesLv(string id, int addedLv = 1)
+    {
+        if (!TableMgr.IsValidKey("fish", id))
+        {
+            return false;
+        }
+
+        int beforeLv = 0;
+
+        if (FishesLv.ContainsKey(id))
+        {
+            beforeLv = FishesLv[id];
+            FishesLv.Remove(id);
+        }
+
+        FishesLv.Add(id, beforeLv + addedLv);
+        return true;
+    }
+
+    public bool AddRelicCount(string id, int addedLv = 1)
+    {
+        if (!TableMgr.IsValidKey("relic", id))
+        {
+            return false;
+        }
+
+        int beforeLv = 0;
+
+        if (RelicCount.ContainsKey(id))
+        {
+            beforeLv = RelicCount[id];
+            RelicCount.Remove(id);
+        }
+
+        RelicCount.Add(id, beforeLv + addedLv);
+        return true;
+    }
+
+    public bool AddRelicLv(string id, int addedLv = 1)
+    {
+        if (!TableMgr.IsValidKey("relic", id))
+        {
+            return false;
+        }
+
+        int beforeLv = 0;
+
+        if (RelicLv.ContainsKey(id))
+        {
+            beforeLv = RelicLv[id];
+            RelicLv.Remove(id);
+        }
+
+        RelicLv.Add(id, beforeLv + addedLv);
+        return true;
     }
     #endregion
 }
