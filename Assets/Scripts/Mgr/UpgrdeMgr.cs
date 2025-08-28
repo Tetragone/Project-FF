@@ -284,6 +284,8 @@ public class UpgradeLocalData
             goldUp.Add(((int)type).ToString(), PlayerPrefs.GetString(string.Format(GoldUpgradeKey, (int)type), ""));
         }
 
+        data.GoldUpgrade = goldUp;
+
         var fishTable = TableMgr.GetTable("fish");
 
         Dictionary<string, string> fishCount = new Dictionary<string, string>();
@@ -295,6 +297,9 @@ public class UpgradeLocalData
             fishLv.Add(key, PlayerPrefs.GetString(string.Format(FishLvKey, key), ""));
         }
 
+        data.FishCount = fishCount;
+        data.FishLv = fishLv;
+
         var relicTable = TableMgr.GetTable("relic");
 
         Dictionary<string, string> relicCount = new Dictionary<string, string>();
@@ -305,6 +310,9 @@ public class UpgradeLocalData
             relicCount.Add(key, PlayerPrefs.GetString(string.Format(RelicCountKey, key), ""));
             relicLv.Add(key, PlayerPrefs.GetString(string.Format(RelicLvKey, key), ""));
         }
+
+        data.RelicCount = relicCount;
+        data.RelicLv = relicLv;
 
         return data;
     }

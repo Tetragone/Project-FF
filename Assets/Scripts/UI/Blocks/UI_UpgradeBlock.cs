@@ -42,6 +42,8 @@ public class UI_UpgradeBlock : MonoBehaviour
             {
                 UpgradeMgr.Instance.AddGoldUpgrade(Type);
                 UserDataMgr.Instance.UseGoods(needGold, GoodsType.gold);
+                UI_Lobby.Instance.RefreshTexts();
+                DataLoadMgr.SaveLocalData();
                 Refresh();
             }
         });
