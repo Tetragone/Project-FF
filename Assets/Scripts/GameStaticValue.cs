@@ -52,4 +52,20 @@ public static class GameStaticValue
     public static readonly float FishRaceYPercent = 3f;
     public static readonly float BaseFishSize = 3f;
     #endregion
+
+    #region UI Constant
+    public static string GetGradePath(int grade)
+    {
+        switch (grade)
+        {
+            case 1: 
+                return "";
+            case 2:
+                return "";
+            default:
+                return "";
+
+        }
+    }
+    #endregion
 }

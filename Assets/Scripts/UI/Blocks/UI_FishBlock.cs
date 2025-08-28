@@ -30,8 +30,8 @@ public class UI_FishBlock : MonoBehaviour
         TextLv.text = string.Format("Lv.{0}", lv);
 
         TextName.text = TableMgr.GetTableString("fish", fId, "name");
-        //ImageBg.sprite = TableMgr.GetTableInt("fish", fId, "grade");
-        //ImageFish.sprite = TableMgr.GetTableString("fish", fId, "res");
+        ImageBg.sprite = AtlasMgr.Instance.GetCommonSprite(GameStaticValue.GetGradePath(TableMgr.GetTableInt("fish", fId, "grade")));
+        ImageFish.sprite = AtlasMgr.Instance.GetFishesSprite(TableMgr.GetTableString("fish", fId, "res"));
 
         ObjBlock.SetActive(lv <= 0);
     }
