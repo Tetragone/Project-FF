@@ -321,6 +321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e711b57149a303c4d802fd040b38b34f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Common: {fileID: 100100200, guid: 922ff9b929e7e4ce5891f5b285fd50fa, type: 3}
   Fishes: {fileID: 100100200, guid: c632156704739e24ebce861d22ba74d3, type: 3}
   Relics: {fileID: 100100200, guid: 46583fc3b6c3b2a43ab295395648c36a, type: 3}
 --- !u!1 &1473161533

@@ -11,6 +11,8 @@ public class UI_FishBlock : MonoBehaviour
     public TextMeshProUGUI TextLv;
     public TextMeshProUGUI TextCount;
     public TextMeshProUGUI TextName;
+    public Button ButtonFishDesc;
+    public Button ButtonFishUpgrade;
     public GameObject ObjBlock;
 
     private string fId;
@@ -19,15 +21,30 @@ public class UI_FishBlock : MonoBehaviour
     {
         fId = fid;
         Refresh();
+
+        ButtonFishDesc.onClick.AddListener(() =>
+        {
+            PopupMgr.MakeFishDescPopup(fid);
+        });
+
+        ButtonFishUpgrade.onClick.AddListener(() =>
+        {
+            UpgradeMgr.Instance.AddFishesLv(fid);
+        });
     }
 
     public void Refresh()
     {
         int count = UpgradeMgr.Instance.GetFishesCount(fId);
         int lv = UpgradeMgr.Instance.GetFishesLv(fId);
+        int usedCount = 0;
 
-        TextCount.text = count.ToString();
-        TextLv.text = string.Format("Lv.{0}", lv);
+        for (int i = 1; i <= lv; i++)
+        {
+            usedCount += GameStaticValue.GetNeedFishLvUpCount(i);
+        }
+        TextCount.text = string.Format("{0}/{1}", (count - usedCount).ToString(), GameStaticValue.GetNeedFishLvUpCount(lv + 1));
+        TextLv.text = lv == GameStaticValue.MaxFishLv ? "MAX" : string.Format("Lv.{0}", lv);
 
         TextName.text = TableMgr.GetTableString("fish", fId, "name");
         ImageBg.sprite = AtlasMgr.Instance.GetCommonSprite(GameStaticValue.GetGradePath(TableMgr.GetTableInt("fish", fId, "grade")));

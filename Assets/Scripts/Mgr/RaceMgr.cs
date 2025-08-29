@@ -100,7 +100,12 @@ public class RaceMgr : Singleton<RaceMgr>
     public void MakeEndPopup()
     {
         IsEnd = true;
-        PopupMgr.MakePopupEndGame(Mathf.RoundToInt(Meter));
+        int gold = Mathf.RoundToInt(Meter);
+        PopupMgr.MakeCommonPopup("", Meter.ToString(), false, false, () =>
+        {
+            UserDataMgr.Instance.AddGoods(gold, GoodsType.gold);
+            RaceMgr.Instance.EndGame();
+        });
     }
 
     public void EndGame()

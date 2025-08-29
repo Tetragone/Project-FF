@@ -58,7 +58,7 @@ public static class GameStaticValue
     {
         switch (grade)
         {
-            case 1: 
+            case 1:
                 return "";
             case 2:
                 return "";
@@ -66,6 +66,14 @@ public static class GameStaticValue
                 return "";
 
         }
+    }
+    #endregion
+
+    #region Upgrade Constant
+    public static int MaxFishLv = 15;
+    public static int GetNeedFishLvUpCount(int nowLv)
+    {
+        return (int)(Mathf.Pow(nowLv, 2) + 10);
     }
     #endregion
 }

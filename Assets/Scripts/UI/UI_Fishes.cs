@@ -19,4 +19,12 @@ public class UI_Fishes : MonoBehaviour
             FishBlocks.Add(block);
         }
     }
+
+    private void OEnable()
+    {
+        foreach (var block in FishBlocks)
+        {
+            block.Refresh();
+        }
+    }
 }
