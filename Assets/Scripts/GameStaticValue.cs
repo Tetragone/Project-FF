@@ -75,5 +75,11 @@ public static class GameStaticValue
     {
         return (int)(Mathf.Pow(nowLv, 2) + 10);
     }
+
+    public static int NeedGold(int lv)
+    {
+        // 버림으로 하자.
+        return Mathf.RoundToInt(Mathf.Pow(1.2f, lv)) * 20;
+    }
     #endregion
 }

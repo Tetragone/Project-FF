@@ -36,7 +36,7 @@ public class UI_UpgradeBlock : MonoBehaviour
         UpgradeButton.onClick.AddListener(() =>
         {
             int nowLv = UpgradeMgr.Instance.GetGoldUpgrade(Type);
-            int needGold = ConstantData.NeedGold(nowLv);
+            int needGold = GameStaticValue.NeedGold(nowLv);
 
             if (UserDataMgr.Instance.IsEnoughGoods(needGold, GoodsType.gold))
             {
@@ -52,7 +52,7 @@ public class UI_UpgradeBlock : MonoBehaviour
     public void Refresh()
     {
         int nowLv = UpgradeMgr.Instance.GetGoldUpgrade(Type);
-        int needGold = ConstantData.NeedGold(nowLv);
+        int needGold = GameStaticValue.NeedGold(nowLv);
 
         TextLv.text = nowLv.ToString();
         TextNeedGold.text = needGold.ToString();
