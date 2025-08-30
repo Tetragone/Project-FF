@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: af0973b2a1db79448acdd024c7ccd45c
+  m_SerializeEntries:
+  - m_GUID: 56a7c43498ced4e40b26c40d86eac9b9
+    m_Address: Assets/Prefabs/Addressable
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f52755fdb599fe84e8b8e60c8a14b330
+    m_Address: Assets/Prefabs/Addressable/Prefabs
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7dc600af30cf11b45be63fc5d348b54e
+    m_Address: Assets/Prefabs/Addressable/Prefabs/race_fish.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 79f988d39c317a142a31fea078a060f0
+    m_Address: Assets/Prefabs/Addressable/Prefabs/food.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a3ea702e694b87b4aaa4d8baf44ddfb6
+    m_Address: Assets/Prefabs/Addressable/Prefabs/aqua_fish.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 826ff1cd6ae0a334d8ff4727ae990fc2
+    m_Address: Assets/Prefabs/Addressable/Prefabs/UI/popup_common.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 0b68410727a74c54cb0cf1a8677a42dc, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: fa035ddf7f7e8b9499814bbbef462685, type: 2}
+    - {fileID: 11400000, guid: c83af3e449466cd49aabbcadccfb7960, type: 2}
