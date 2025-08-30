@@ -51,9 +51,15 @@ public static class GameStaticValue
 
     public static readonly float FishRaceYPercent = 3f;
     public static readonly float BaseFishSize = 3f;
+
+    public static readonly float WinMulti = 1.5f;
+    public static readonly int StageClearGachaPoint = 150;
     #endregion
 
     #region UI Constant
+    public static readonly int FishPrice = 300;
+    public static readonly int RelicPrice = 300;
+
     public static string GetGradePath(int grade)
     {
         switch (grade)

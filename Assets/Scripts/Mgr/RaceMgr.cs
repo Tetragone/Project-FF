@@ -7,7 +7,9 @@ public class RaceMgr : Singleton<RaceMgr>
 {
     private PoolData<InRaceFish> PoolFish = new PoolData<InRaceFish>(GameStaticValue.RaceFishPath);
     [HideInInspector] public InRaceFish MyFish;
-    
+
+    public int Stage = 1;
+    private float EndingMeter = 100f;
     private float Meter;
     private bool IsStart = false;
     private bool IsEnd = false;
@@ -31,6 +33,8 @@ public class RaceMgr : Singleton<RaceMgr>
         {
             CreateEmenyFish();
         }
+
+        CalEndingMeter();
     }
 
     private void CreateEmenyFish()
@@ -80,6 +84,11 @@ public class RaceMgr : Singleton<RaceMgr>
         fish.InitData(data, false);
         fish.SetLocalScale(size / MyData.Size);
         PoolFish.Add(fish);
+    }
+
+    private void CalEndingMeter()
+    {
+        EndingMeter = 100;
     }
 
     public float GameBaseSpeed()
@@ -141,6 +150,24 @@ public class RaceMgr : Singleton<RaceMgr>
             }
 
             Timer += Time.deltaTime;
+
+            if (Meter > EndingMeter)
+            {
+                MakeWinPopup();
+            }
         }
+    }
+
+    private void MakeWinPopup()
+    {
+        IsEnd = true;
+        int gold = Mathf.RoundToInt(EndingMeter * GameStaticValue.WinMulti);
+        string title = string.Format("stage {0} clear", Stage);
+        PopupMgr.MakeCommonPopup(title, Meter.ToString(), false, false, () =>
+        {
+            UserDataMgr.Instance.AddGoods(gold, GoodsType.gold);
+            UserDataMgr.Instance.AddGoods(GameStaticValue.StageClearGachaPoint, GoodsType.gacha_point);
+            RaceMgr.Instance.EndGame();
+        });
     }
 }

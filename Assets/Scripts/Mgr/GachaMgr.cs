@@ -58,4 +58,34 @@ public static class GachaMgr
 
         return result;
     }
+
+    public static List<string> GachaRelic(int count)
+    {
+        List<string> result = new List<string>();
+
+        var table = TableMgr.GetTable("relic");
+        Dictionary<int, List<string>> relicBaseGrade = new Dictionary<int, List<string>>();
+
+        foreach (string key in table.Keys)
+        {
+            int grade = int.Parse(table[key]["grade"]);
+
+            if (!relicBaseGrade.ContainsKey(grade))
+            {
+                List<string> temp = new List<string>();
+                relicBaseGrade.Add(grade, temp);
+            }
+
+            relicBaseGrade[grade].Add(key);
+        }
+
+        for (int i = 0; i < count; i++)
+        {
+            int grade = GetRandomIdxFromRate(RateGrade);
+            int idx = UnityEngine.Random.Range(0, relicBaseGrade[grade].Count);
+            result.Add(relicBaseGrade[grade][idx]);
+        }
+
+        return result;
+    }
 }
