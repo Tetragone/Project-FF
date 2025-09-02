@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -17,9 +18,9 @@ public class RaceMgr : Singleton<RaceMgr>
     private List<FishData> FishesData;
     private float Timer = 0f;
 
-    public void InitRace(FishData fish)
+    public async Task InitRace(FishData fish)
     {
-        MyFish = PoolFish.GetNew();
+        MyFish = await PoolFish.GetNew();
         MyFish.InitData(fish, true);
         MyFish.SetLocalScale(1f);
         MyFish.transform.position = Vector3.zero;
@@ -31,15 +32,15 @@ public class RaceMgr : Singleton<RaceMgr>
 
         for (int i = 0; i < GameStaticValue.RaceInitFishCount; i++)
         {
-            CreateEmenyFish();
+            await CreateEmenyFish();
         }
 
         CalEndingMeter();
     }
 
-    private void CreateEmenyFish()
+    private async Task CreateEmenyFish()
     {
-        InRaceFish fish = PoolFish.GetNew();
+        InRaceFish fish = await PoolFish.GetNew();
         // Speed 랜덤부터
         float middleSpeed = MyData.Speed;
         

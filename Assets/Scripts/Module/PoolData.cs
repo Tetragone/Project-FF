@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 public class PoolData<T> where T : MonoBehaviour
 {
@@ -8,11 +10,23 @@ public class PoolData<T> where T : MonoBehaviour
     private List<T> NowObjects = new List<T>();
     private Queue<T> QueueValues = new Queue<T>();
     private T Res;
-    private string ResPath;
+    private string ResKey;
+    private bool IsLoading = false;
 
-    public PoolData(string path)
+    public PoolData(string key)
     {
-        ResPath = path;
+        ResKey = key;
+        LoadRes();
+    }
+
+    private void LoadRes()
+    {
+        IsLoading = true;
+        Addressables.LoadAssetAsync<T>(ResKey).Completed += (handele) =>
+        {
+            Res = handele.Result;
+            IsLoading = false;
+        };
     }
 
     public List<T> GetNowList()
@@ -20,7 +34,7 @@ public class PoolData<T> where T : MonoBehaviour
         return NowObjects;
     }
 
-    public T GetNew()
+    public async Task<T> GetNew()
     {
         if (QueueValues.Count > 0)
         {
@@ -33,7 +47,15 @@ public class PoolData<T> where T : MonoBehaviour
         {
             if (Res == null)
             {
-                Res = Resources.Load<T>(ResPath);
+                if (!IsLoading)
+                {
+                    LoadRes();
+                }
+
+                while (IsLoading)
+                {
+                    await Task.Delay(100);
+                }
             }
 
             if (Pool == null)

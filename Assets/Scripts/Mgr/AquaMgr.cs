@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class AquaMgr : Singleton<AquaMgr>
@@ -35,9 +36,9 @@ public class AquaMgr : Singleton<AquaMgr>
         GameTimer = 0f;
     }
 
-    public void CreateFood()
+    public async Task CreateFood()
     {
-        Food newFood = PoolFood.GetNew();
+        Food newFood = await PoolFood.GetNew();
         newFood.InitValue("");
         newFood.transform.position = SetFoodPosition();
         PoolFood.Add(newFood);
@@ -55,9 +56,9 @@ public class AquaMgr : Singleton<AquaMgr>
         return new Vector3(x, CameraMgr.CameraSize * GameStaticValue.FoodCreateYPercent, 0);
     }
 
-    public void CreateFish()
+    public async Task CreateFish()
     {
-        InAquaFish newFish = PoolFish.GetNew();
+        InAquaFish newFish = await PoolFish.GetNew();
         newFish.Init("1001");
         newFish.transform.position = SetFishPosition();
         PoolFish.Add(newFish);
