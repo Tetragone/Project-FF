@@ -32,13 +32,13 @@ public class RaceMgr : Singleton<RaceMgr>
 
         for (int i = 0; i < GameStaticValue.RaceInitFishCount; i++)
         {
-            await CreateEmenyFish();
+            CreateEmenyFish();
         }
 
         CalEndingMeter();
     }
 
-    private async Task CreateEmenyFish()
+    private async void CreateEmenyFish()
     {
         InRaceFish fish = await PoolFish.GetNew();
         // Speed 랜덤부터

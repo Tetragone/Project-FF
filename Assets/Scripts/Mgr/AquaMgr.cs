@@ -36,7 +36,7 @@ public class AquaMgr : Singleton<AquaMgr>
         GameTimer = 0f;
     }
 
-    public async Task CreateFood()
+    public async void CreateFood()
     {
         Food newFood = await PoolFood.GetNew();
         newFood.InitValue("");
@@ -56,7 +56,7 @@ public class AquaMgr : Singleton<AquaMgr>
         return new Vector3(x, CameraMgr.CameraSize * GameStaticValue.FoodCreateYPercent, 0);
     }
 
-    public async Task CreateFish()
+    public async void CreateFish()
     {
         InAquaFish newFish = await PoolFish.GetNew();
         newFish.Init("1001");
@@ -144,7 +144,7 @@ public class AquaMgr : Singleton<AquaMgr>
         }
     }
 
-    private void GameEndEffect()
+    private async Task GameEndEffect()
     {
         // 물고기가 각 종류 별로 합쳐지면서 어떤 녀석을 고를건지 선택지가 나오도록 하자
         UI_Lobby.Instance.SetActiveMenu(UI_Lobby.MenuType.game_race_menu);
@@ -167,7 +167,8 @@ public class AquaMgr : Singleton<AquaMgr>
                 bestFishes.Add(key, fishes[i]);
             } 
         }
-        RaceMgr.Instance.InitRace(PoolFish.GetNowList()[0].GetNowData());
+        // TODO : 레이스가 시작되기전에 기다리는 동안 어떻게 해야할지 변경이 필요함.
+        await RaceMgr.Instance.InitRace(PoolFish.GetNowList()[0].GetNowData());
         EndGame();
     }
 }
