@@ -19,8 +19,8 @@ public static class GameStaticValue
 
     public static readonly float FoodEatRange = 0.5f;
 
-    public static readonly string FishPath = "Prefabs/aqua_fish";
-    public static readonly string FoodPath = "Prefabs/food";
+    public static readonly string FishPath = "aqua_fish";
+    public static readonly string FoodPath = "food";
 
     public static readonly int AquaInitFishCount = 2;
     public static readonly int CostFood = 1;
@@ -38,7 +38,7 @@ public static class GameStaticValue
     #endregion
 
     #region Race Fish
-    public static readonly string RaceFishPath = "Prefabs/race_fish";
+    public static readonly string RaceFishPath = "race_fish";
 
     public static readonly float RaceFishMaxSpeed = 30f;
     public static readonly float RaceFishMinSpeed = 5f;

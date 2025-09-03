@@ -12,13 +12,15 @@ public class AquaMgr : Singleton<AquaMgr>
     private float EanMoney = 2f;
     private bool IsStart = false;
     private float GameTimer = 0f;
-    
+    private float EndTimeMulti = 1f;
+
     public void InitStart()
     {
         Money = 0f;
         EanMoney = 2f;
         GameTimer = 0f;
         IsStart = true;
+        EndTimeMulti = 1f;
 
         for (int i = 0; i < GameStaticValue.AquaInitFishCount; i++)
         {
@@ -125,7 +127,7 @@ public class AquaMgr : Singleton<AquaMgr>
 
     public string GetLeftGameTime()
     {
-        int leftTime = Mathf.CeilToInt(GameStaticValue.AquaTime - GameTimer);
+        int leftTime = Mathf.CeilToInt(GameStaticValue.AquaTime * EndTimeMulti - GameTimer);
 
         return string.Format("{0}:{1}", (leftTime / 60).ToString("D2"), (leftTime % 60).ToString("D2"));
     }
@@ -137,7 +139,7 @@ public class AquaMgr : Singleton<AquaMgr>
             GameTimer += Time.deltaTime;
             Money += EanMoney * Time.deltaTime;
 
-            if (GameTimer > GameStaticValue.AquaTime)
+            if (GameTimer > GameStaticValue.AquaTime * EndTimeMulti)
             {
                 GameEndEffect();
             }
