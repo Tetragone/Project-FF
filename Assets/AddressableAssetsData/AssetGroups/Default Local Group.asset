@@ -17,33 +17,23 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: af0973b2a1db79448acdd024c7ccd45c
   m_SerializeEntries:
-  - m_GUID: 56a7c43498ced4e40b26c40d86eac9b9
-    m_Address: Assets/Prefabs/Addressable
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f52755fdb599fe84e8b8e60c8a14b330
-    m_Address: Assets/Prefabs/Addressable/Prefabs
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7dc600af30cf11b45be63fc5d348b54e
-    m_Address: Assets/Prefabs/Addressable/Prefabs/race_fish.prefab
+    m_Address: race_fish
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 79f988d39c317a142a31fea078a060f0
-    m_Address: Assets/Prefabs/Addressable/Prefabs/food.prefab
+    m_Address: food
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a3ea702e694b87b4aaa4d8baf44ddfb6
-    m_Address: Assets/Prefabs/Addressable/Prefabs/aqua_fish.prefab
+    m_Address: aqua_fish
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 826ff1cd6ae0a334d8ff4727ae990fc2
-    m_Address: Assets/Prefabs/Addressable/Prefabs/UI/popup_common.prefab
+    m_Address: popup_common
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
