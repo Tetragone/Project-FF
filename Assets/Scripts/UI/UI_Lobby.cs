@@ -28,8 +28,10 @@ public class UI_Lobby : Singleton<UI_Lobby>
     [Header("Fade Obj")]
     public Image ImageFade;
 
-    [Header("Texts")]
-    public TextMeshProUGUI TextGold;
+    [Space(7)]
+    public UI_Top Top;
+
+    private List<GameObject> OnOffUIs = new List<GameObject>();
 
     protected override void Awake()
     {
@@ -47,6 +49,12 @@ public class UI_Lobby : Singleton<UI_Lobby>
         InitButtonCallback();
         SetActiveMenu(MenuType.game_menu);
         StartFadeOut(0.5f);
+
+        OnOffUIs.Add(ObjUpgradeMenu);
+        OnOffUIs.Add(ObjGameMenu);
+        OnOffUIs.Add(ObjShopMenu);
+        OnOffUIs.Add(ObjGamePlayMenu);
+        OnOffUIs.Add(ObjGameRaceMenu);
     }
 
     private void InitButtonCallback()
@@ -83,46 +91,31 @@ public class UI_Lobby : Singleton<UI_Lobby>
 
     public void SetActiveMenu(MenuType menu)
     {
+        foreach (var ui in OnOffUIs)
+        {
+            ui.SetActive(false);
+        }
+
         switch (menu)
         {
             case MenuType.game_menu:
                 ObjGameMenu.SetActive(true);
-                ObjShopMenu.SetActive(false);
-                ObjUpgradeMenu.SetActive(false);
-                ObjGamePlayMenu.SetActive(false);
                 ObjMenu.SetActive(true);
-                ObjGameRaceMenu.SetActive(false);
                 break;
             case MenuType.shop_menu:
-                ObjGameMenu.SetActive(false);
                 ObjShopMenu.SetActive(true);
-                ObjUpgradeMenu.SetActive(false);
-                ObjGamePlayMenu.SetActive(false);
                 ObjMenu.SetActive(true);
-                ObjGameRaceMenu.SetActive(false);
                 break;
             case MenuType.upgrade_menu:
-                ObjGameMenu.SetActive(false);
-                ObjShopMenu.SetActive(false);
                 ObjUpgradeMenu.SetActive(true);
-                ObjGamePlayMenu.SetActive(false);
                 ObjMenu.SetActive(true);
-                ObjGameRaceMenu.SetActive(false);
                 break;
             case MenuType.game_play_menu:
-                ObjGameMenu.SetActive(false);
-                ObjShopMenu.SetActive(false);
-                ObjUpgradeMenu.SetActive(false);
                 ObjGamePlayMenu.SetActive(true);
                 ObjMenu.SetActive(false);
-                ObjGameRaceMenu.SetActive(false);
                 AquaMgr.Instance.InitStart();
                 break;
             case MenuType.game_race_menu:
-                ObjGameMenu.SetActive(false);
-                ObjShopMenu.SetActive(false);
-                ObjUpgradeMenu.SetActive(false);
-                ObjGamePlayMenu.SetActive(false);
                 ObjMenu.SetActive(false);
                 ObjGameRaceMenu.SetActive(true);
                 break;
@@ -175,7 +168,7 @@ public class UI_Lobby : Singleton<UI_Lobby>
 
     public void RefreshTexts()
     {
-        this.TextGold.text = UserDataMgr.Instance.Gold.ToString();
+        Top.RefreshText();
     }
 
     public enum MenuType

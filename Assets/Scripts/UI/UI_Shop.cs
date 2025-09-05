@@ -87,8 +87,8 @@ public class UI_Shop : MonoBehaviour
     {
         ButtonGachaFish1.interactable = UserDataMgr.Instance.IsEnoughGoods(GameStaticValue.FishPrice, GoodsType.gacha_point);
         ButtonGachaFish10.interactable = UserDataMgr.Instance.IsEnoughGoods(GameStaticValue.FishPrice * 10, GoodsType.gacha_point);
-        ButtonGachaFish1.interactable = UserDataMgr.Instance.IsEnoughGoods(GameStaticValue.RelicPrice, GoodsType.relic_point);
-        ButtonGachaFish10.interactable = UserDataMgr.Instance.IsEnoughGoods(GameStaticValue.RelicPrice * 10, GoodsType.relic_point);
+        ButtonGachaRelic1.interactable = UserDataMgr.Instance.IsEnoughGoods(GameStaticValue.RelicPrice, GoodsType.relic_point);
+        ButtonGachaRelic10.interactable = UserDataMgr.Instance.IsEnoughGoods(GameStaticValue.RelicPrice * 10, GoodsType.relic_point);
     }
 
     private void OnEnable()
