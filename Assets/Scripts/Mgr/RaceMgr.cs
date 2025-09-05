@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 public class RaceMgr : Singleton<RaceMgr>
 {
-    private PoolData<InRaceFish> PoolFish = new PoolData<InRaceFish>(GameStaticValue.RaceFishPath);
+    private PoolData<InRaceFish> PoolFish;
     [HideInInspector] public InRaceFish MyFish;
 
     public int Stage = 1;
@@ -17,6 +17,11 @@ public class RaceMgr : Singleton<RaceMgr>
     private FishData MyData;
     private List<FishData> FishesData;
     private float Timer = 0f;
+
+    protected override void SetDataInAwake()
+    {
+        PoolFish = new PoolData<InRaceFish>(GameStaticValue.RaceFishPath);
+    }
 
     public async Task InitRace(FishData fish)
     {

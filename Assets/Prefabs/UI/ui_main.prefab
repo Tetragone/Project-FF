@@ -2568,6 +2568,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: fishes
       objectReference: {fileID: 0}
+    - target: {fileID: 4805501721636087272, guid: 9760f61576bad1f4ba66068cb8e8321b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

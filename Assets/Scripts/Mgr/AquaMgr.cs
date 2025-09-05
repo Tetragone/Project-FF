@@ -5,14 +5,22 @@ using UnityEngine;
 
 public class AquaMgr : Singleton<AquaMgr>
 {
-    public PoolData<InAquaFish> PoolFish = new PoolData<InAquaFish>(GameStaticValue.FishPath);
-    public PoolData<Food> PoolFood = new PoolData<Food>(GameStaticValue.FoodPath);
+    // addressable를 이용해 풀을 생성
+    // 선언과 동시에 풀 생성 불가능.
+    private PoolData<InAquaFish> PoolFish;
+    private PoolData<Food> PoolFood;
     
     private float Money = 0f;
     private float EanMoney = 2f;
     private bool IsStart = false;
     private float GameTimer = 0f;
     private float EndTimeMulti = 1f;
+
+    protected override void SetDataInAwake()
+    {
+        PoolFish = new PoolData<InAquaFish>(GameStaticValue.FishPath);
+        PoolFood = new PoolData<Food>(GameStaticValue.FoodPath);
+    }
 
     public void InitStart()
     {
@@ -146,7 +154,7 @@ public class AquaMgr : Singleton<AquaMgr>
         }
     }
 
-    private async Task GameEndEffect()
+    private async void GameEndEffect()
     {
         // 물고기가 각 종류 별로 합쳐지면서 어떤 녀석을 고를건지 선택지가 나오도록 하자
         UI_Lobby.Instance.SetActiveMenu(UI_Lobby.MenuType.game_race_menu);

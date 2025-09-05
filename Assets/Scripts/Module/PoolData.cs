@@ -22,9 +22,9 @@ public class PoolData<T> where T : MonoBehaviour
     private void LoadRes()
     {
         IsLoading = true;
-        Addressables.LoadAssetAsync<T>(ResKey).Completed += (handele) =>
+        Addressables.LoadAssetAsync<GameObject>(ResKey).Completed += (handele) =>
         {
-            Res = handele.Result;
+            Res = handele.Result.GetComponent<T>();
             IsLoading = false;
         };
     }
