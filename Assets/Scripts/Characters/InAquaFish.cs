@@ -6,6 +6,9 @@ public class InAquaFish : MonoBehaviour
 {
     public Transform Position;
     public Rigidbody2D Body;
+    public SpriteRenderer FishStop;
+    public SpriteRenderer FishMiddle;
+    public SpriteRenderer FishMoved;
 
     private FishData Data;
     private bool IsInit = false;
@@ -19,6 +22,9 @@ public class InAquaFish : MonoBehaviour
     {
         Body.velocity = new Vector2(0, 0);
         Position.rotation = Quaternion.Euler(0, 0, 0);
+        FishStop.sprite = AtlasMgr.Instance.GetFishesSprite(string.Format("{0}_adult", TableMgr.GetTableString("fish", fid, "res")));
+        FishMiddle.sprite = AtlasMgr.Instance.GetFishesSprite(string.Format("{0}_adult_middle", TableMgr.GetTableString("fish", fid, "res")));
+        FishMoved.sprite = AtlasMgr.Instance.GetFishesSprite(string.Format("{0}_adult_moved", TableMgr.GetTableString("fish", fid, "res")));
         RandomMoveTime = 0f;
         IsInit = true;
         if (Data == null)
@@ -91,7 +97,7 @@ public class InAquaFish : MonoBehaviour
                 else
                 {
                     Move(dir, 10f);
-                    FilpObejct(dir.x > 0);
+                    FilpObejct(NowDir.x < 0);
                 }
             } 
         }
@@ -99,7 +105,9 @@ public class InAquaFish : MonoBehaviour
 
     private void FilpObejct(bool isFilp)
     {
-
+        FishStop.flipX = !isFilp;
+        FishMiddle.flipX = !isFilp;
+        FishMoved.flipX = !isFilp;
     }
 
     // 움직임을 자연스럽게 하기 위한 방법이 필요함. normalized된 값으로 바꾼다.
