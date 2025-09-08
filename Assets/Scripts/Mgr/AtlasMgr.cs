@@ -5,9 +5,10 @@ using UnityEngine.U2D;
 
 public class AtlasMgr : SingletonAllSecen<AtlasMgr>
 {
-    [SerializeField] private SpriteAtlas Common;
+
     [SerializeField] private SpriteAtlas Fishes;
     [SerializeField] private SpriteAtlas Relics;
+    [SerializeField] private Sprite[] Common;
 
     private Dictionary<string, Sprite> DicCommon = new Dictionary<string, Sprite>();
     private Dictionary<string, Sprite> DicFish = new Dictionary<string, Sprite>();
@@ -17,7 +18,16 @@ public class AtlasMgr : SingletonAllSecen<AtlasMgr>
     {
         if (!DicCommon.ContainsKey(path))
         {
-            Sprite sprite = Common.GetSprite(path);
+            Sprite sprite = null;
+
+            foreach (Sprite item in Common)
+            {
+                if (item.name == path)
+                {
+                    sprite = item;
+                    break;
+                }
+            }
 
             if (sprite == null)
             {
