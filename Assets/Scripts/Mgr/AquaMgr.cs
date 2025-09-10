@@ -28,7 +28,7 @@ public class AquaMgr : Singleton<AquaMgr>
         EanMoney = 2f;
         GameTimer = 0f;
         IsStart = true;
-        EndTimeMulti = 1f;
+        EndTimeMulti = GameStaticValue.EndingTimeMulti(UpgradeMgr.Instance.GetGoldUpgrade(GoldUpgrade.grow_time));
 
         for (int i = 0; i < GameStaticValue.AquaInitFishCount; i++)
         {

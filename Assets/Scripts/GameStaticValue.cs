@@ -37,6 +37,23 @@ public static class GameStaticValue
     public static readonly float AquaTime = 10f;
     #endregion
 
+    #region Gold Upgrade Forumla
+    public static float EndingTimeMulti(int lv)
+    {
+        return Mathf.Pow(1.2f, lv);
+    }
+
+    public static float FishGrowMulti(int lv)
+    {
+        return Mathf.Pow(1.02f, lv);
+    }
+
+    public static float FishMoveMulti(int lv)
+    {
+        return Mathf.Pow(1.02f, lv);
+    }
+    #endregion
+
     #region Race Fish
     public static readonly string RaceFishPath = "race_fish";
 
@@ -80,6 +97,12 @@ public static class GameStaticValue
     public static int GetNeedFishLvUpCount(int nowLv)
     {
         return (int)(Mathf.Pow(nowLv, 2) + 10);
+    }
+
+    public static int MaxRelicLv = 5;
+    public static int RelicLvUpCount(int nowLv)
+    {
+        return nowLv * 2 + 1;
     }
 
     public static int NeedGold(int lv)

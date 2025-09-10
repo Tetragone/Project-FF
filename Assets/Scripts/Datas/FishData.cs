@@ -21,7 +21,8 @@ public class FishData
         Size = 0f;
         SizeMultiValue = TableMgr.GetTableFloat("fish", Fid, "size");
         Speed = 0f;
-        SpeedMultiValue = TableMgr.GetTableFloat("fish", Fid, "speed");
+        SpeedMultiValue = TableMgr.GetTableFloat("fish", Fid, "speed")
+            * GameStaticValue.FishMoveMulti(UpgradeMgr.Instance.GetGoldUpgrade(GoldUpgrade.fish_move_multi));
         TotalValue = 0f;
 
         BaseGrowValue = TableMgr.GetTableFloat("fish", Fid, "base_value");

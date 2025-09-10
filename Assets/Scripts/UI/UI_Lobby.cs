@@ -12,7 +12,9 @@ public class UI_Lobby : Singleton<UI_Lobby>
 
     [Header("토글")]
     public Toggle ToggleUpgradeMenu;
+    public Toggle ToggleFishes;
     public Toggle ToggleGameMenu;
+    public Toggle ToggleRelic;
     public Toggle ToggleShopMenu;
 
     public Button ButtonPlay;
@@ -20,7 +22,9 @@ public class UI_Lobby : Singleton<UI_Lobby>
     [Header("활성화 메뉴들")]
     public GameObject ObjMenu;
     public GameObject ObjUpgradeMenu;
+    public GameObject ObjFishes;
     public GameObject ObjGameMenu;
+    public GameObject ObjRelices;
     public GameObject ObjShopMenu;
     public GameObject ObjGamePlayMenu;
     public GameObject ObjGameRaceMenu;
@@ -31,7 +35,7 @@ public class UI_Lobby : Singleton<UI_Lobby>
     [Space(7)]
     public UI_Top Top;
 
-    private List<GameObject> OnOffUIs = new List<GameObject>();
+    private Dictionary<MenuType, GameObject> OnOffUIs = new Dictionary<MenuType, GameObject>();
 
     protected override void Awake()
     {
@@ -44,17 +48,21 @@ public class UI_Lobby : Singleton<UI_Lobby>
 
         // 콜백 설정하기 전에 해주는편이 좋다.
         ToggleGameMenu.isOn = true;
-        ToggleShopMenu.isOn = false;
         ToggleUpgradeMenu.isOn = false;
+        ToggleFishes.isOn = false;
+        ToggleRelic.isOn = false;
+        ToggleShopMenu.isOn = false;
         InitButtonCallback();
         SetActiveMenu(MenuType.game_menu);
         StartFadeOut(0.5f);
 
-        OnOffUIs.Add(ObjUpgradeMenu);
-        OnOffUIs.Add(ObjGameMenu);
-        OnOffUIs.Add(ObjShopMenu);
-        OnOffUIs.Add(ObjGamePlayMenu);
-        OnOffUIs.Add(ObjGameRaceMenu);
+        OnOffUIs.Add(MenuType.upgrade_menu, ObjUpgradeMenu);
+        OnOffUIs.Add(MenuType.fish_menu, ObjFishes);
+        OnOffUIs.Add(MenuType.game_menu, ObjGameMenu);
+        OnOffUIs.Add(MenuType.relic_menu, ObjRelices);
+        OnOffUIs.Add(MenuType.shop_menu, ObjShopMenu);
+        OnOffUIs.Add(MenuType.game_play_menu, ObjGamePlayMenu);
+        OnOffUIs.Add(MenuType.game_race_menu, ObjGameRaceMenu);
     }
 
     private void InitButtonCallback()
@@ -67,11 +75,27 @@ public class UI_Lobby : Singleton<UI_Lobby>
             }
         });
 
+        ToggleFishes.onValueChanged.AddListener((isOn) =>
+        {
+            if (isOn)
+            {
+                SetActiveMenu(MenuType.fish_menu);
+            }
+        });
+
         ToggleShopMenu.onValueChanged.AddListener((isOn) =>
         {
             if (isOn)
             {
                 SetActiveMenu(MenuType.shop_menu);
+            }
+        });
+
+        ToggleRelic.onValueChanged.AddListener((isOn) =>
+        {
+            if (isOn)
+            {
+                SetActiveMenu(MenuType.relic_menu);
             }
         });
 
@@ -91,7 +115,7 @@ public class UI_Lobby : Singleton<UI_Lobby>
 
     public void SetActiveMenu(MenuType menu)
     {
-        foreach (var ui in OnOffUIs)
+        foreach (var ui in OnOffUIs.Values)
         {
             ui.SetActive(false);
         }
@@ -99,28 +123,21 @@ public class UI_Lobby : Singleton<UI_Lobby>
         switch (menu)
         {
             case MenuType.game_menu:
-                ObjGameMenu.SetActive(true);
-                ObjMenu.SetActive(true);
-                break;
             case MenuType.shop_menu:
-                ObjShopMenu.SetActive(true);
-                ObjMenu.SetActive(true);
-                break;
             case MenuType.upgrade_menu:
-                ObjUpgradeMenu.SetActive(true);
+            case MenuType.fish_menu:
                 ObjMenu.SetActive(true);
                 break;
             case MenuType.game_play_menu:
-                ObjGamePlayMenu.SetActive(true);
                 ObjMenu.SetActive(false);
                 AquaMgr.Instance.InitStart();
                 break;
             case MenuType.game_race_menu:
                 ObjMenu.SetActive(false);
-                ObjGameRaceMenu.SetActive(true);
                 break;
         }
 
+        OnOffUIs[menu].SetActive(true);
         this.RefreshTexts();
     }
 
@@ -173,6 +190,6 @@ public class UI_Lobby : Singleton<UI_Lobby>
 
     public enum MenuType
     {
-        game_menu, shop_menu, upgrade_menu, game_play_menu, game_race_menu,
+        game_menu, shop_menu, upgrade_menu, game_play_menu, game_race_menu, fish_menu, relic_menu,
     }
 }
