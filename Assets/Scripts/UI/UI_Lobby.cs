@@ -53,9 +53,13 @@ public class UI_Lobby : Singleton<UI_Lobby>
         ToggleRelic.isOn = false;
         ToggleShopMenu.isOn = false;
         InitButtonCallback();
+        SetOnOffUIs();
         SetActiveMenu(MenuType.game_menu);
         StartFadeOut(0.5f);
+    }
 
+    private void SetOnOffUIs()
+    {
         OnOffUIs.Add(MenuType.upgrade_menu, ObjUpgradeMenu);
         OnOffUIs.Add(MenuType.fish_menu, ObjFishes);
         OnOffUIs.Add(MenuType.game_menu, ObjGameMenu);

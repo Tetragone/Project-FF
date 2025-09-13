@@ -10,12 +10,31 @@ public class UI_GameRace : MonoBehaviour
     public GameObject ObjTouchBack;
     public GameObject ObjTouchFront;
 
+    public Animator CountAnimator;
+
     private Vector2 StartPosition;
     private bool IsDragging = false;
     private static float Range = 100f;
 
+    private void OnEnable()
+    {
+        CountAnimator.Rebind();
+    }
+
     private void Update()
     {
+        TextMeter.text = RaceMgr.Instance.GetMeterToString();
+
+        if (!RaceMgr.Instance.IsStart && !RaceMgr.Instance.IsEnd)
+        {
+            if (CountAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+            {
+                RaceMgr.Instance.StartGame();
+            }
+
+            return;
+        }
+
         // 다중 터치시에는 첫번째 터치에만 작동하도록 
         if (Input.touchCount > 0)
         {
@@ -51,8 +70,6 @@ public class UI_GameRace : MonoBehaviour
         {
             TouchEnd();
         }
-
-        TextMeter.text = RaceMgr.Instance.GetMeterToString();
     }
 
     private void TouchStart(Vector2 position)

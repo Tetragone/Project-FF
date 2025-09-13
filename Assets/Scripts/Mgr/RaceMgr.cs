@@ -10,10 +10,11 @@ public class RaceMgr : Singleton<RaceMgr>
     [HideInInspector] public InRaceFish MyFish;
 
     public int Stage = 1;
+    public bool IsStart { get; private set; } = false;
+    public bool IsEnd { get; private set; } = false;
+
     private float EndingMeter = 100f;
     private float Meter;
-    private bool IsStart = false;
-    private bool IsEnd = false;
     private FishData MyData;
     private List<FishData> FishesData;
     private float Timer = 0f;
@@ -31,16 +32,9 @@ public class RaceMgr : Singleton<RaceMgr>
         MyFish.transform.position = Vector3.zero;
         PoolFish.Add(MyFish);
         MyData = fish;
-        IsStart = true;
-        IsEnd = false;
-        Timer = 0f;
-
-        for (int i = 0; i < GameStaticValue.RaceInitFishCount; i++)
-        {
-            CreateEmenyFish();
-        }
-
         CalEndingMeter();
+        IsStart = false;
+        IsEnd = false;
     }
 
     private async void CreateEmenyFish()
@@ -95,6 +89,18 @@ public class RaceMgr : Singleton<RaceMgr>
     private void CalEndingMeter()
     {
         EndingMeter = 100;
+    }
+
+    public void StartGame()
+    {
+        IsStart = true;
+        IsEnd = false;
+        Timer = 0f;
+
+        for (int i = 0; i < GameStaticValue.RaceInitFishCount; i++)
+        {
+            CreateEmenyFish();
+        }
     }
 
     public float GameBaseSpeed()

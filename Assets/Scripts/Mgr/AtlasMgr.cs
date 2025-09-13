@@ -8,7 +8,8 @@ public class AtlasMgr : SingletonAllSecen<AtlasMgr>
 
     [SerializeField] private SpriteAtlas Fishes;
     [SerializeField] private SpriteAtlas Relics;
-    [SerializeField] private Sprite[] Common;
+    [SerializeField] private SpriteAtlas Common;
+    [SerializeField] private Sprite[] UI;
 
     private Dictionary<string, Sprite> DicCommon = new Dictionary<string, Sprite>();
     private Dictionary<string, Sprite> DicFish = new Dictionary<string, Sprite>();
@@ -18,16 +19,7 @@ public class AtlasMgr : SingletonAllSecen<AtlasMgr>
     {
         if (!DicCommon.ContainsKey(path))
         {
-            Sprite sprite = null;
-
-            foreach (Sprite item in Common)
-            {
-                if (item.name == path)
-                {
-                    sprite = item;
-                    break;
-                }
-            }
+            Sprite sprite = Common.GetSprite(path);
 
             if (sprite == null)
             {

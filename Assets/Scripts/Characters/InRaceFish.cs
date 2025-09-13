@@ -6,6 +6,10 @@ using UnityEngine;
 [RequireComponent(typeof(CircleCollider2D))]
 public class InRaceFish : MonoBehaviour
 {
+    public SpriteRenderer FishStop;
+    public SpriteRenderer FishMiddle;
+    public SpriteRenderer FishMoved;
+
     private Rigidbody2D Rigid;
     private CircleCollider2D Collider;
     private FishData Data;
@@ -27,6 +31,11 @@ public class InRaceFish : MonoBehaviour
         Data = data;
         gameObject.layer = isMy ? GameStaticValue.MyFishLayer : GameStaticValue.EnemyFishLayer;
         IsMy = isMy;
+
+        FishStop.sprite = AtlasMgr.Instance.GetFishesSprite(string.Format("{0}_adult", TableMgr.GetTableString("fish", data.Fid, "res")));
+        FishMiddle.sprite = AtlasMgr.Instance.GetFishesSprite(string.Format("{0}_adult_middle", TableMgr.GetTableString("fish", data.Fid, "res")));
+        FishMoved.sprite = AtlasMgr.Instance.GetFishesSprite(string.Format("{0}_adult_moved", TableMgr.GetTableString("fish", data.Fid, "res")));
+
         if (!IsMy)
         {
             SetMove(new Vector3(0, data.Speed - RaceMgr.Instance.GameBaseSpeed(), 0));
