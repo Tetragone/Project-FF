@@ -59,7 +59,8 @@ public static class GameStaticValue
 
     public static readonly float RaceFishMaxSpeed = 15f;
     public static readonly float RaceFishMinSpeed = 5f;
-    public static readonly float RaceFishSizeAdder = 0.2f;
+    public static readonly float RaceFishSizeAdder = 0.5f;
+    public static readonly float RaceFishSizeNormal = 0.3f;
     public static readonly int RaceInitFishCount = 5;
     public static readonly float RaceFishCreateTime = 1.5f;
 

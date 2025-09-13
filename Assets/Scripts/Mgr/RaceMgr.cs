@@ -59,7 +59,7 @@ public class RaceMgr : Singleton<RaceMgr>
         // 시간에 따라서 난이도가 바뀔수 있게 공식을 추가하는 것도 필요,
         // 속도 차이에 따라서 뭔가 더 차이가 나도록 수정하는 것도 필요
         float sizeAdder = speed > MyData.Speed ? GameStaticValue.RaceFishSizeAdder : GameStaticValue.RaceFishSizeAdder * -1;
-        float size = NRandom.NormalRandom(MyData.Size + sizeAdder);
+        float size = NRandom.NormalRandom(MyData.Size + sizeAdder, GameStaticValue.RaceFishSizeNormal);
 
         if (size < 0f)
         {
