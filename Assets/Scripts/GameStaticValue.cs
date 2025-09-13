@@ -57,9 +57,9 @@ public static class GameStaticValue
     #region Race Fish
     public static readonly string RaceFishPath = "race_fish";
 
-    public static readonly float RaceFishMaxSpeed = 30f;
+    public static readonly float RaceFishMaxSpeed = 15f;
     public static readonly float RaceFishMinSpeed = 5f;
-    public static readonly float RaceFishSizeAdder = 0.5f;
+    public static readonly float RaceFishSizeAdder = 0.2f;
     public static readonly int RaceInitFishCount = 5;
     public static readonly float RaceFishCreateTime = 1.5f;
 

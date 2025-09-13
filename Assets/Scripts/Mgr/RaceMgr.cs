@@ -61,6 +61,11 @@ public class RaceMgr : Singleton<RaceMgr>
         float sizeAdder = speed > MyData.Speed ? GameStaticValue.RaceFishSizeAdder : GameStaticValue.RaceFishSizeAdder * -1;
         float size = NRandom.NormalRandom(MyData.Size + sizeAdder);
 
+        if (size < 0f)
+        {
+            size = 0.05f;
+        }
+
         float range = CameraMgr.CameraSize * GameStaticValue.NonWhiteSpaceOnX;
         float randomX = Random.Range(range * -1, range);
 
@@ -122,7 +127,7 @@ public class RaceMgr : Singleton<RaceMgr>
     {
         IsEnd = true;
         int gold = Mathf.RoundToInt(Meter);
-        PopupMgr.MakeCommonPopup("", Meter.ToString(), false, false, () =>
+        PopupMgr.MakeCommonPopup("", gold.ToString(), false, false, () =>
         {
             UserDataMgr.Instance.AddGoods(gold, GoodsType.gold);
             RaceMgr.Instance.EndGame();
@@ -175,7 +180,7 @@ public class RaceMgr : Singleton<RaceMgr>
         IsEnd = true;
         int gold = Mathf.RoundToInt(EndingMeter * GameStaticValue.WinMulti);
         string title = string.Format("stage {0} clear", Stage);
-        PopupMgr.MakeCommonPopup(title, Meter.ToString(), false, false, () =>
+        PopupMgr.MakeCommonPopup(title, gold.ToString(), false, false, () =>
         {
             UserDataMgr.Instance.AddGoods(gold, GoodsType.gold);
             UserDataMgr.Instance.AddGoods(GameStaticValue.StageClearGachaPoint, GoodsType.gacha_point);
