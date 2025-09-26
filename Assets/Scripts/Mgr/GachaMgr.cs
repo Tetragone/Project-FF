@@ -51,7 +51,7 @@ public static class GachaMgr
 
         for (int i = 0; i < count; i++)
         {
-            int grade = GetRandomIdxFromRate(RateGrade);
+            int grade = GetRandomIdxFromRate(RateGrade) + 1;
             int idx = UnityEngine.Random.Range(0, fishBaseGrade[grade].Count);
             result.Add(fishBaseGrade[grade][idx]);
         }
@@ -81,7 +81,7 @@ public static class GachaMgr
 
         for (int i = 0; i < count; i++)
         {
-            int grade = GetRandomIdxFromRate(RateGrade);
+            int grade = GetRandomIdxFromRate(RateGrade) + 1;
             int idx = UnityEngine.Random.Range(0, relicBaseGrade[grade].Count);
             result.Add(relicBaseGrade[grade][idx]);
         }
