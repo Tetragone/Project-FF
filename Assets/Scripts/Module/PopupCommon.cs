@@ -14,6 +14,7 @@ public class PopupCommon : MonoBehaviour
     public Button ButtonYes;
     public Button ButtonNo;
 
+    public List<GameObject> CustomObj;
     private string Title = "";
     private string Content = "";
     // 자기자신을 가능성이 높지만 확인용으로 사용.
