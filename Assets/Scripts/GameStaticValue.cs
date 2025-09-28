@@ -4,6 +4,10 @@ using UnityEngine;
 
 public static class GameStaticValue
 {
+    #region System Value
+    public static readonly string TransTable = "Trans Tables";
+    #endregion
+
     #region InAquaFish
     public static readonly float BaseFoodRandomValue = 0.5f;
     public static readonly float FishRandomMoveMaxTime = 5f;
