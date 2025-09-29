@@ -25,8 +25,8 @@ public static class PopupMgr
         PopupCommon popup = res.GetComponent<PopupCommon>();
 
         popup.SetReleaseObj(res);
-        string title = TableMgr.GetTableString("fish", fid, "name");
-        string content = TableMgr.GetTableString("fish", fid, "desc");
+        string title = TransMgr.GetText(TableMgr.GetTableString("fish", fid, "name"));
+        string content = TransMgr.GetText(TableMgr.GetTableString("fish", fid, "desc"));
         popup.SetText(title, content);
         popup.InitAfterSetting(false, true);
         popup.CustomObj[0].GetComponent<Image>().sprite = AtlasMgr.Instance.GetFishesSprite(TableMgr.GetTableString("fish", fid, "res"));
