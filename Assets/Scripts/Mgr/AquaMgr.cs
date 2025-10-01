@@ -177,6 +177,8 @@ public class AquaMgr : Singleton<AquaMgr>
                 bestFishes.Add(key, fishes[i]);
             } 
         }
+
+
         // TODO : 레이스가 시작되기전에 기다리는 동안 어떻게 해야할지 변경이 필요함.
         await RaceMgr.Instance.InitRace(PoolFish.GetNowList()[0].GetNowData());
         EndGame();
