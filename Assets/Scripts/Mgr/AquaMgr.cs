@@ -154,6 +154,36 @@ public class AquaMgr : Singleton<AquaMgr>
         }
     }
 
+    // raceMgr에서 사전 셋팅이 필요한 녀석은 UI 나오는 순간 준비를 하고, 
+    // 여기서는 UI를 띄우기 전에 계산이 필요하다. 
+    // 계산이 필요한 함수 하나
+    // UI 띄우는 함수 하나 필요하다. 
+
+    private void OpenFishSelectPopup()
+    {
+        // 필요한 데이터는 물고기 id와 최고 점수, 다른 물고기들로 인한 추가된 값.
+        Dictionary<string, FishData> bestFishes = new Dictionary<string, FishData>();
+        List<InAquaFish> fishes = PoolFish.GetNowList();
+
+        for (int i = 0; i < fishes.Count; i++)
+        {
+            string key = fishes[i].GetNowData().Fid;
+
+            if (bestFishes.ContainsKey(key))
+            {
+                if (bestFishes[key].TotalValue < fishes[i].GetNowData().TotalValue)
+                {
+                    bestFishes[key] = fishes[i].GetNowData();
+                }
+            }
+            else
+            {
+                bestFishes.Add(key, fishes[i].GetNowData());
+            }
+        }
+
+    }
+
     private async void GameEndEffect()
     {
         // 물고기가 각 종류 별로 합쳐지면서 어떤 녀석을 고를건지 선택지가 나오도록 하자
@@ -175,7 +205,7 @@ public class AquaMgr : Singleton<AquaMgr>
             else
             {
                 bestFishes.Add(key, fishes[i]);
-            } 
+            }
         }
 
 

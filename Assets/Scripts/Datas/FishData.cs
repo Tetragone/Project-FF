@@ -14,6 +14,8 @@ public class FishData
     public float MaxGrowValue = 100f;
     public float DiscountValue = 0.01f;
 
+    public float AddedValue = 0f;
+
     public void SetDataInit(string fid)
     {
         Fid = fid;
