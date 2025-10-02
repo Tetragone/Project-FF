@@ -149,68 +149,62 @@ public class AquaMgr : Singleton<AquaMgr>
 
             if (GameTimer > GameStaticValue.AquaTime * EndTimeMulti)
             {
-                GameEndEffect();
+                OpenFishSelectPopup();
             }
         }
     }
-
-    // raceMgr에서 사전 셋팅이 필요한 녀석은 UI 나오는 순간 준비를 하고, 
-    // 여기서는 UI를 띄우기 전에 계산이 필요하다. 
-    // 계산이 필요한 함수 하나
-    // UI 띄우는 함수 하나 필요하다. 
 
     private void OpenFishSelectPopup()
     {
-        // 필요한 데이터는 물고기 id와 최고 점수, 다른 물고기들로 인한 추가된 값.
-        Dictionary<string, FishData> bestFishes = new Dictionary<string, FishData>();
-        List<InAquaFish> fishes = PoolFish.GetNowList();
-
-        for (int i = 0; i < fishes.Count; i++)
-        {
-            string key = fishes[i].GetNowData().Fid;
-
-            if (bestFishes.ContainsKey(key))
-            {
-                if (bestFishes[key].TotalValue < fishes[i].GetNowData().TotalValue)
-                {
-                    bestFishes[key] = fishes[i].GetNowData();
-                }
-            }
-            else
-            {
-                bestFishes.Add(key, fishes[i].GetNowData());
-            }
-        }
-
+        RaceMgr.Instance.SettingBeforePlay();
+        var data = CalFishValue();
+        PopupMgr.MakeFishSelectPopup(data);
     }
 
-    private async void GameEndEffect()
+    private Dictionary<string, FishData> CalFishValue()
     {
-        // 물고기가 각 종류 별로 합쳐지면서 어떤 녀석을 고를건지 선택지가 나오도록 하자
-        UI_Lobby.Instance.SetActiveMenu(UI_Lobby.MenuType.game_race_menu);
-        Dictionary<string, InAquaFish> bestFishes = new Dictionary<string, InAquaFish>();
+        Dictionary<string, FishData> result = new Dictionary<string, FishData>();
         List<InAquaFish> fishes = PoolFish.GetNowList();
 
         for (int i = 0; i < fishes.Count; i++)
         {
             string key = fishes[i].GetNowData().Fid;
 
-            if (bestFishes.ContainsKey(key))
+            if (result.ContainsKey(key))
             {
-                if (bestFishes[key].GetNowData().TotalValue < fishes[i].GetNowData().TotalValue)
+                if (result[key].TotalValue < fishes[i].GetNowData().TotalValue)
                 {
-                    bestFishes[key] = fishes[i];
+                    result[key] = fishes[i].GetNowData();
                 }
             }
             else
             {
-                bestFishes.Add(key, fishes[i]);
+                result.Add(key, fishes[i].GetNowData());
             }
         }
 
+        for (int i = 0; i < fishes.Count; i++)
+        {
+            string key = fishes[i].GetNowData().Fid;
 
-        // TODO : 레이스가 시작되기전에 기다리는 동안 어떻게 해야할지 변경이 필요함.
-        await RaceMgr.Instance.InitRace(PoolFish.GetNowList()[0].GetNowData());
+            // 말은 안되지만 확인차
+            if (!result.ContainsKey(key)) 
+            { 
+                continue;
+            }
+
+            if (result[key].TotalValue != fishes[i].GetNowData().TotalValue)
+            {
+                result[key].AddAdditionalValue(fishes[i].GetNowData().TotalValue);
+            }
+        }
+
+        return result;
+    }
+
+    public void SelectFish(FishData data)
+    {
+        RaceMgr.Instance.InitRace(data);
         EndGame();
     }
 }

@@ -14,13 +14,16 @@ public class PopupCommon : MonoBehaviour
     public Button ButtonYes;
     public Button ButtonNo;
 
+    public GameObject ObjButtons;
+
+    [Space(7)]
     public List<GameObject> CustomObj;
     private string Title = "";
     private string Content = "";
     // 자기자신을 가능성이 높지만 확인용으로 사용.
     private GameObject ReleaseObj = null;
 
-    public void InitAfterSetting(bool IsUseNo, bool IsUseClose)
+    public void InitAfterSetting(bool IsUseButtons, bool IsUseNo, bool IsUseClose)
     {
         TextTitle.gameObject.SetActive(Title != "");
         TextTitle.text = Title;
@@ -43,6 +46,7 @@ public class PopupCommon : MonoBehaviour
             DestroyThis();
         });
 
+        ObjButtons.SetActive(IsUseButtons);
         ButtonNo.gameObject.SetActive(IsUseNo);
         ButtonClose.gameObject.SetActive(IsUseClose);
     }

@@ -24,9 +24,18 @@ public class RaceMgr : Singleton<RaceMgr>
         PoolFish = new PoolData<InRaceFish>(GameStaticValue.RaceFishPath);
     }
 
-    public async Task InitRace(FishData fish)
+    public async void SettingBeforePlay()
     {
+        if (PoolFish == null)
+        {
+            SetDataInAwake();
+        }
+
         MyFish = await PoolFish.GetNew();
+    }
+
+    public void InitRace(FishData fish)
+    {
         MyFish.InitData(fish, true);
         MyFish.SetLocalScale(1f);
         MyFish.transform.position = Vector3.zero;

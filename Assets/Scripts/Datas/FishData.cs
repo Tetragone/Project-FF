@@ -14,7 +14,7 @@ public class FishData
     public float MaxGrowValue = 100f;
     public float DiscountValue = 0.01f;
 
-    public float AddedValue = 0f;
+    public float AdditionalValue = 0f;
 
     public void SetDataInit(string fid)
     {
@@ -31,6 +31,7 @@ public class FishData
         float random = TableMgr.GetTableFloat("fish", Fid, "random_value");
         MaxGrowValue = BaseGrowValue + UnityEngine.Random.Range(random * -1, random);
         DiscountValue = TableMgr.GetTableFloat("fish", Fid, "discount_value");
+        AdditionalValue = 0f;
     }
     
     public void EatFood(Food food) 
@@ -64,8 +65,8 @@ public class FishData
             TotalValue = sum - discount + discount * DiscountValue;
         }
 
-        Size = TotalValue / BaseGrowValue * SizeMultiValue;
-        Speed = TotalValue / BaseGrowValue * SpeedMultiValue;
+        Size = GetSizeFromValue(TotalValue);
+        Speed = GetSpeedFromValue(TotalValue);
     }
 
     public bool IsMaxGrow()
@@ -79,5 +80,20 @@ public class FishData
         Size = size;
         // value 계산법을 만든다면 역산을 해서 넣어두자.
         TotalValue = 0f;
+    }
+
+    public void AddAdditionalValue(float value)
+    {
+        AdditionalValue += value * DiscountValue;
+    }
+
+    public float GetSpeedFromValue(float value)
+    {
+        return value / BaseGrowValue * SpeedMultiValue;
+    }
+
+    public float GetSizeFromValue(float value)
+    {
+        return value / BaseGrowValue * SizeMultiValue;
     }
 }
