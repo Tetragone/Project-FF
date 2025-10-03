@@ -39,6 +39,9 @@ public static class GameStaticValue
     public static readonly float FoodDisableTime = 3f;
 
     public static readonly float AquaTime = 10f;
+
+    public static readonly float MoveCooldown = 1f;
+    public static readonly float MoveSpeedUp = 1.25f;
     #endregion
 
     #region Gold Upgrade Forumla

@@ -6,26 +6,35 @@ public class InAquaFish : MonoBehaviour
 {
     public Transform Position;
     public Rigidbody2D Body;
-    public SpriteRenderer FishStop;
-    public SpriteRenderer FishMiddle;
-    public SpriteRenderer FishMoved;
+    public SpriteRenderer SpriteFish;
+    public Animator MoveController;
 
     private FishData Data;
+    
+    private Sprite AdultSpirte = null;
+    private Sprite ChildSpirte = null;
+
     private bool IsInit = false;
     private float RandomMoveTime;
     private float RandomMoveSpeed;
     private Vector3 NowDir;
 
     private float StarveTime;
+    private float MoveTimer = 0f;
+    private bool IsMoving = false;
+
 
     public void Init(string fid)
     {
         Body.velocity = new Vector2(0, 0);
         Position.rotation = Quaternion.Euler(0, 0, 0);
-        FishStop.sprite = AtlasMgr.Instance.GetFishesSprite(string.Format("{0}_adult", TableMgr.GetTableString("fish", fid, "res")));
-        FishMiddle.sprite = AtlasMgr.Instance.GetFishesSprite(string.Format("{0}_adult_middle", TableMgr.GetTableString("fish", fid, "res")));
-        FishMoved.sprite = AtlasMgr.Instance.GetFishesSprite(string.Format("{0}_adult_moved", TableMgr.GetTableString("fish", fid, "res")));
+        AdultSpirte = AtlasMgr.Instance.GetFishesSprite(string.Format("{0}_adult", TableMgr.GetTableString("fish", fid, "res")));
+        ChildSpirte = AtlasMgr.Instance.GetFishesSprite(string.Format("{0}_child", TableMgr.GetTableString("fish", fid, "res")));
+        SpriteFish.sprite = ChildSpirte;
+
         RandomMoveTime = 0f;
+        MoveTimer = 0f;
+        IsMoving = true;
         IsInit = true;
         if (Data == null)
         {
@@ -85,12 +94,13 @@ public class InAquaFish : MonoBehaviour
 
                     if (Data.IsMaxGrow())
                     {
-                        StarveTime = GameStaticValue.ChildStarveTime;
+                        StarveTime = GameStaticValue.AdultStarveTime;
+                        SpriteFish.sprite = AdultSpirte;
                         transform.localScale = new Vector3(GameStaticValue.FishMaxGrowSize, GameStaticValue.FishMaxGrowSize);
                     } 
                     else
                     {
-                        StarveTime = GameStaticValue.AdultStarveTime;
+                        StarveTime = GameStaticValue.ChildStarveTime;
                         transform.localScale = new Vector3(GameStaticValue.FishChildSize, GameStaticValue.FishChildSize);
                     }
                 }
@@ -100,14 +110,28 @@ public class InAquaFish : MonoBehaviour
                     FilpObejct(NowDir.x < 0);
                 }
             } 
+
+            if (MoveController.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
+            {
+                IsMoving = false;
+                MoveTimer = 0f;
+            }
+            else
+            {
+                MoveTimer += Time.deltaTime;
+
+                if (MoveTimer > GameStaticValue.MoveCooldown)
+                {
+                    IsMoving = true;
+                    MoveController.Rebind();
+                }
+            }
         }
     }
 
     private void FilpObejct(bool isFilp)
     {
-        FishStop.flipX = !isFilp;
-        FishMiddle.flipX = !isFilp;
-        FishMoved.flipX = !isFilp;
+        SpriteFish.flipX = !isFilp;
     }
 
     // 움직임을 자연스럽게 하기 위한 방법이 필요함. normalized된 값으로 바꾼다.
@@ -128,7 +152,7 @@ public class InAquaFish : MonoBehaviour
             dir = new Vector3(dir.x, 0);
         }
         NowDir = dir;
-        Body.velocity = dir.normalized * speed;
+        Body.velocity = IsMoving ? dir.normalized * speed * GameStaticValue.MoveSpeedUp : dir.normalized * speed;
     }
 
     private void OnDisable()
