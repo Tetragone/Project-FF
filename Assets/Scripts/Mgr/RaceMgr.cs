@@ -193,6 +193,7 @@ public class RaceMgr : Singleton<RaceMgr>
         {
             UserDataMgr.Instance.AddGoods(gold, GoodsType.gold);
             UserDataMgr.Instance.AddGoods(GameStaticValue.StageClearGachaPoint, GoodsType.gacha_point);
+            UserDataMgr.Instance.StageClear();
             RaceMgr.Instance.EndGame();
         });
     }

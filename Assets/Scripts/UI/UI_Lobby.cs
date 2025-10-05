@@ -10,6 +10,8 @@ public class UI_Lobby : Singleton<UI_Lobby>
 
     [SerializeField] private GameObject _root;
 
+    public TextMeshProUGUI TextTitle;
+
     [Header("토글")]
     public Toggle ToggleUpgradeMenu;
     public TextMeshProUGUI TextUpgrade;
@@ -22,8 +24,10 @@ public class UI_Lobby : Singleton<UI_Lobby>
     public Toggle ToggleShopMenu;
     public TextMeshProUGUI TextShopMenu;
 
+    [Header("버튼")]
     public Button ButtonPlay;
     public TextMeshProUGUI TextPlay;
+    public Button ButtonSetting;
 
     [Header("활성화 메뉴들")]
     public GameObject ObjMenu;
@@ -40,6 +44,9 @@ public class UI_Lobby : Singleton<UI_Lobby>
 
     [Space(7)]
     public UI_Top Top;
+
+    [Space(7)]
+    public GameObject Loading;
 
     private Dictionary<MenuType, GameObject> OnOffUIs = new Dictionary<MenuType, GameObject>();
 
@@ -111,11 +118,16 @@ public class UI_Lobby : Singleton<UI_Lobby>
         {
             SetActiveMenu(MenuType.game_play_menu);
         });
-    }
 
+        ButtonSetting.onClick.AddListener(() =>
+        {
+            PopupMgr.MakeOptionPopup();
+        });
+    }
 
     private void InitTextTrans()
     {
+        TextTitle.text = string.Format("{0} : {1}", TransMgr.GetText("스테이지"), UserDataMgr.Instance.Stage);
         TextUpgrade.text = TransMgr.GetText("강화");
         TextFishes.text = TransMgr.GetText("물고기");
         TextGameMenu.text = TransMgr.GetText("게임");

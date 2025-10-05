@@ -43,7 +43,8 @@ public static class TransMgr
         }
         else
         {
-            return LocalizationSettings.StringDatabase.GetLocalizedString(GameStaticValue.TransTable, text);
+            return LocalizationSettings.StringDatabase.GetLocalizedString(GameStaticValue.TransTable, text
+                , LocalizationSettings.SelectedLocale);
         }
     }
 }

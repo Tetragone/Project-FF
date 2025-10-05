@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class UserDataMgr : SingletonAllSecen<UserDataMgr>
 {
-    public SecureInt Gold = 0;
-    public SecureInt GachaPoint = 0;
-    public SecureInt RelicPoint = 0;
+    public SecureInt Gold { get; private set; } = 0;
+    public SecureInt GachaPoint { get; private set; } = 0;
+    public SecureInt RelicPoint { get; private set; } = 0;
+
+    public SecureInt Stage { get; private set; } = 0;
 
     // 늘어날때만 사용
     public void AddGoods(int value, GoodsType type)
@@ -78,6 +80,11 @@ public class UserDataMgr : SingletonAllSecen<UserDataMgr>
         return nowValue >= value;
     }
 
+    public void StageClear()
+    {
+        Stage++;
+    }
+
     #region Local Data Save
     public UserLocalData SaveData()
     {
@@ -85,6 +92,7 @@ public class UserDataMgr : SingletonAllSecen<UserDataMgr>
         data.Gold = Gold.GetBase();
         data.GachaPoint = GachaPoint.GetBase();
         data.RelicPoint = RelicPoint.GetBase();
+        data.Stage = Stage.GetBase();
         UserLocalData.SaveData(data);
         return data;
     }
@@ -95,6 +103,7 @@ public class UserDataMgr : SingletonAllSecen<UserDataMgr>
         Gold = new SecureInt(data.Gold);
         GachaPoint = new SecureInt(data.GachaPoint);
         RelicPoint = new SecureInt(data.RelicPoint);
+        Stage = new SecureInt(data.Stage);
     }
     #endregion
 }
@@ -112,12 +121,15 @@ public class UserLocalData
     private static string GachaKey = "gak";
     public string RelicPoint;
     private static string RelicKey = "rk";
+    public string Stage;
+    private static string StageKey = "st";
 
     public static void SaveData(UserLocalData data)
     {
         PlayerPrefs.SetString(GoldKey, data.Gold);
         PlayerPrefs.SetString(GachaKey, data.GachaPoint);
         PlayerPrefs.SetString(RelicKey, data.RelicPoint);
+        PlayerPrefs.SetString(StageKey, data.Stage);
         PlayerPrefs.Save();
     }
 
@@ -127,6 +139,7 @@ public class UserLocalData
         data.Gold = PlayerPrefs.GetString(GoldKey, "");
         data.GachaPoint = PlayerPrefs.GetString(GachaKey, "");
         data.RelicPoint = PlayerPrefs.GetString(RelicKey, "");
+        data.Stage = PlayerPrefs.GetString(StageKey, "");
         return data;
     }
 }

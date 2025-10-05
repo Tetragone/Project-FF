@@ -6,10 +6,16 @@ using UnityEngine.UI;
 
 public static class PopupMgr
 {
-    // TODO : make wait popup
+    public static void ActiveLoadingPopup(bool isActive)
+    {
+        UI_Lobby.Instance.Loading.SetActive(isActive);
+    }
+
     public static async void MakeCommonPopup(string title, string content, bool isUseNo, bool IsUseClose, UnityAction action)
     {
+        ActiveLoadingPopup(true);
         GameObject res = await AddressableMgr.LoadAndInstantiate("popup_common", UI_Lobby.Root.transform, false);
+        ActiveLoadingPopup(false);
         PopupCommon popup = res.GetComponent<PopupCommon>();
 
         popup.SetReleaseObj(res);
@@ -20,7 +26,9 @@ public static class PopupMgr
 
     public static async void MakeFishDescPopup(string fid)
     {
+        ActiveLoadingPopup(true);
         GameObject res = await AddressableMgr.LoadAndInstantiate("fish_help", UI_Lobby.Root.transform, false);
+        ActiveLoadingPopup(false);
         PopupCommon popup = res.GetComponent<PopupCommon>();
 
         popup.SetReleaseObj(res);
@@ -33,7 +41,9 @@ public static class PopupMgr
 
     public static async void MakeFishSelectPopup(Dictionary<string, FishData> data)
     {
+        ActiveLoadingPopup(true);
         GameObject res = await AddressableMgr.LoadAndInstantiate("fish_select", UI_Lobby.Root.transform, false);
+        ActiveLoadingPopup(false);
         PopupCommon popup = res.GetComponent<PopupCommon>();
         popup.SetReleaseObj(res);
 
@@ -52,5 +62,18 @@ public static class PopupMgr
             });
             block.SetActive(true);
         }
+    }
+
+    public static async void MakeOptionPopup()
+    {
+        ActiveLoadingPopup(true);
+        GameObject res = await AddressableMgr.LoadAndInstantiate("popup_setting", UI_Lobby.Root.transform, false);
+        ActiveLoadingPopup(false);
+        PopupCommon popup = res.GetComponent<PopupCommon>();
+        popup.SetReleaseObj(res);
+
+        string title = TransMgr.GetText("옵션");
+        popup.SetText(title, "");
+        popup.InitAfterSetting(false, false, true);
     }
 }

@@ -25,30 +25,48 @@ public class PopupCommon : MonoBehaviour
 
     public void InitAfterSetting(bool IsUseButtons, bool IsUseNo, bool IsUseClose)
     {
-        TextTitle.gameObject.SetActive(Title != "");
-        TextTitle.text = Title;
-
-        TextContent.gameObject.SetActive(Content != "");
-        TextContent.text = Content;
-
-        ButtonClose.onClick.AddListener(() =>
+        if (TextTitle != null)
         {
-            DestroyThis();
-        });
+            TextTitle.gameObject.SetActive(Title != "");
+            TextTitle.text = Title;
+        }
 
-        ButtonYes.onClick.AddListener(() =>
+        if (TextContent != null)
         {
-            DestroyThis();
-        });
+            TextContent.gameObject.SetActive(Content != "");
+            TextContent.text = Content;
+        }
 
-        ButtonNo.onClick.AddListener(() =>
+        if (ButtonClose != null)
         {
-            DestroyThis();
-        });
+            ButtonClose.onClick.AddListener(() =>
+            {
+                DestroyThis();
+            });
+            ButtonClose.gameObject.SetActive(IsUseClose);
+        } 
 
-        ObjButtons.SetActive(IsUseButtons);
-        ButtonNo.gameObject.SetActive(IsUseNo);
-        ButtonClose.gameObject.SetActive(IsUseClose);
+        if (ButtonYes != null)
+        {
+            ButtonYes.onClick.AddListener(() =>
+            {
+                DestroyThis();
+            });
+        }
+
+        if (ButtonNo != null)
+        {
+            ButtonNo.onClick.AddListener(() =>
+            {
+                DestroyThis();
+            });
+            ButtonNo.gameObject.SetActive(IsUseNo);
+        }
+
+        if (ObjButtons != null)
+        {
+            ObjButtons.SetActive(IsUseButtons);
+        }
     }
 
     private void DestroyThis()

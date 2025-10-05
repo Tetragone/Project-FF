@@ -66,10 +66,6 @@ MonoBehaviour:
     m_Localized: Slow growth, highest peaks
     m_Metadata:
       m_Items: []
-  - m_Id: 619503645814793
-    m_Localized: 1st fish
-    m_Metadata:
-      m_Items: []
   - m_Id: 619503645814794
     m_Localized: 2nd fish
     m_Metadata:
@@ -104,6 +100,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 619503645814802
     m_Localized: best 2nd fish
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2847257007157248
+    m_Localized: guppy
     m_Metadata:
       m_Items: []
   references:

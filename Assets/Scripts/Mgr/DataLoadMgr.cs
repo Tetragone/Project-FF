@@ -23,6 +23,7 @@ public class DataLoadMgr : MonoBehaviour
         }
 
         LoadLocalData();
+        yield return GameOptionData.Instance.LoadData();
         IsLoaded = true;
     }
 
