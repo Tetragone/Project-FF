@@ -106,6 +106,38 @@ MonoBehaviour:
     m_Localized: guppy
     m_Metadata:
       m_Items: []
+  - m_Id: 3151319451758592
+    m_Localized: "\uD55C\uAD6D\uC5B4"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3151319476924416
+    m_Localized: enforce
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3151319481118720
+    m_Localized: fishes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3151319481118721
+    m_Localized: game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3151319481118722
+    m_Localized: relic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3151319481118723
+    m_Localized: shop
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3151319481118724
+    m_Localized: start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3152630213701632
+    m_Localized: stage
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

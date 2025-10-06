@@ -29,7 +29,7 @@ public class DataLoadMgr : MonoBehaviour
 
     private bool IsVaildLoadStart()
     {
-        return UserDataMgr.Instance != null && UpgradeMgr.Instance != null;
+        return UserDataMgr.Instance != null && UpgradeMgr.Instance != null && GameOptionData.Instance != null;
     }
 
     public static void SaveLocalData()

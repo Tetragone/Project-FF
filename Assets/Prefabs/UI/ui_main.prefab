@@ -154,7 +154,7 @@ MonoBehaviour:
   ObjUpgradeMenu: {fileID: 8202145030667344628}
   ObjFishes: {fileID: 4328195451806474819}
   ObjGameMenu: {fileID: 2511508071210087524}
-  ObjRelices: {fileID: 7452738485481488839, guid: 8cc313b956b1c413380e6b16792b0579, type: 3}
+  ObjRelices: {fileID: 4100063132826917413}
   ObjShopMenu: {fileID: 3485077982263548687}
   ObjGamePlayMenu: {fileID: 8006523033173305979}
   ObjGameRaceMenu: {fileID: 6277374694620239718}
@@ -4172,6 +4172,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8cc313b956b1c413380e6b16792b0579, type: 3}
+--- !u!1 &4100063132826917413 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7452738485481488839, guid: 8cc313b956b1c413380e6b16792b0579, type: 3}
+  m_PrefabInstance: {fileID: 6884644390217915362}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &6514463367894703075 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 424233864353513473, guid: 8cc313b956b1c413380e6b16792b0579, type: 3}

@@ -1,0 +1,9 @@
+sid,type,desc,base,multi
+10001,gold_up,골드 획득량 증가,1.5,0.5
+10002,start_fish_up,시작 물고기 증가,2,0.5
+10003,hungry_fast,밥 먹는 간격 감소,1.2,0.2
+10004,tiem_exp,시간당 물고기 경험치 추가,0.01,0.5
+10005,fish_speed_up,레이스에서 물고기 속도 증가,1.1,0.5
+10006,double_fish_rate,물고기 2배 소환 확률 증가,10,0.2
+10007,double_food_rate,먹이 효과 2배 확률 증가,10,0.2
+10008,eat_big_fish,레이스에서 더 큰 물고기를 먹을 확률 증가,1,0.1

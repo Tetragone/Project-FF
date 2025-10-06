@@ -11,6 +11,21 @@ public class UpgradeMgr : SingletonAllSecen<UpgradeMgr>
     private Dictionary<string, SecureInt> RelicCount = new Dictionary<string, SecureInt>();
     private Dictionary<string, SecureInt> RelicLv = new Dictionary<string, SecureInt>();
 
+    public void RefreshRelicStat()
+    {
+        foreach (string key in RelicLv.Keys)
+        {
+            if (RelicLv[key] <= 0)
+            {
+                continue;
+            }
+
+            string sid = TableMgr.GetTableString("relic", key, "sid");
+            string stype = TableMgr.GetTableString("stat", sid, "type");
+            StatType type = (StatType)Enum.Parse(typeof(StatType), stype);
+            StatMgr.SetStat(type, string.Format("relic_{0}", sid), RelicLv[key]);
+        }
+    }
 
     #region Local Data Save
     public UpgradeLocalData SaveData()
@@ -75,6 +90,8 @@ public class UpgradeMgr : SingletonAllSecen<UpgradeMgr>
             RelicCount.Add(key, new SecureInt(data.RelicCount[key]));
             RelicLv.Add(key, new SecureInt(data.RelicLv[key]));
         }
+
+        RefreshRelicStat();
     }
     #endregion
 
@@ -228,6 +245,7 @@ public class UpgradeMgr : SingletonAllSecen<UpgradeMgr>
         }
 
         RelicLv.Add(id, beforeLv + addedLv);
+        RefreshRelicStat();
         return true;
     }
     #endregion
