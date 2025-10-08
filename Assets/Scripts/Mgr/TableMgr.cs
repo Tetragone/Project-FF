@@ -13,6 +13,8 @@ public class TableMgr : SingletonAllSecen<TableMgr>
         { "fish", "Tables/ff_fish" },
         { "relic", "Tables/ff_relic" },
         { "stat", "Tables/ff_stat" },
+        { "shop", "Tables/ff_shop" },
+        { "item", "Tables/ff_item" },
     };
 
     private int CorutineCount = 10;

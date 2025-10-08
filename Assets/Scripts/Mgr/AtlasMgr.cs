@@ -65,4 +65,17 @@ public class AtlasMgr : SingletonAllSecen<AtlasMgr>
 
         return DicRelics[path];
     }
+
+    public Sprite GetUISprite(string path)
+    {
+        foreach (Sprite sprite in UI)
+        {
+            if (sprite.name == path)
+            {
+                return sprite;
+            }
+        }
+
+        return null;
+    }
 }

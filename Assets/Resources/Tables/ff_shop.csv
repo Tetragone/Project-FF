@@ -1,0 +1,5 @@
+sid,name,add,pid,price_type,price,get_type_1,get_value_1
+1001,물고기 {0}회 뽑기,1,x,gacha_point,300,fish_gacha,1
+1002,물고기 {0}회 뽑기,10,x,gacha_point,3000,fish_gacha,11
+1003,유물 {0}회 뽑기,1,x,relic_point,300,relic_gacha,1
+1004,유물 {0}회 뽑기,10,x,relic_point,3000,relic_gacha,11

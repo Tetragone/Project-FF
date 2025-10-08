@@ -1,0 +1,6 @@
+iid,name,res,desc
+gold,골드,gold,강화할 때 사용한다
+gacha_point,다이아,dia,물고기를 뽑을때 사용한다
+relic_point,번개,energy,유물을 뽑을때 사용한다
+fish_gacha,물고기 뽑기,random_fish,물고기 뽑기
+relic_gacha,유물 뽑기,random_fish,유물 뽑기

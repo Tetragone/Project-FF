@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class UI_Top : MonoBehaviour
 {
+    public RectTransform TargetLayout;
+
+    [Space(7)]
     public GameObject ObjGold;
     public Image ImageGold;
     public TextMeshProUGUI TextGold;
@@ -20,10 +23,17 @@ public class UI_Top : MonoBehaviour
     public Image ImageRelicGacha;
     public TextMeshProUGUI TextRelicGachaP;
 
+
+    private void Start()
+    {
+        RefreshText();
+    }
+
     public void RefreshText()
     {
         TextGold.text = UserDataMgr.Instance.Gold.ToString();
         TextFishGachaP.text = UserDataMgr.Instance.GachaPoint.ToString();
         TextRelicGachaP.text = UserDataMgr.Instance.RelicPoint.ToString();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(TargetLayout);
     }
 }

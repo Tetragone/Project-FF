@@ -6,11 +6,23 @@ using UnityEngine.UI;
 
 public class UI_Shop : MonoBehaviour
 {
+    [Header("gacha fishes")]
+    public TextMeshProUGUI TextGachaFishTitle;
     public Button ButtonGachaFish1;
+    public TextMeshProUGUI TextGachaFish1Title;
+    public TextMeshProUGUI TextGachaFish1Price;
     public Button ButtonGachaFish10;
+    public TextMeshProUGUI TextGachaFish10Title;
+    public TextMeshProUGUI TextGachaFish10Price;
 
+    [Header("gacha relic")]
+    public TextMeshProUGUI TextGachaRelicTitle;
     public Button ButtonGachaRelic1;
+    public TextMeshProUGUI TextGachaRelic1Title;
+    public TextMeshProUGUI TextGachaRelic1Price;
     public Button ButtonGachaRelic10;
+    public TextMeshProUGUI TextGachaRelic10Title;
+    public TextMeshProUGUI TextGachaRelic10Price;
 
     private void Awake()
     {
