@@ -54,7 +54,7 @@ public class UI_UpgradeBlock : MonoBehaviour
         int nowLv = UpgradeMgr.Instance.GetGoldUpgrade(Type);
         int needGold = GameStaticValue.NeedGold(nowLv);
 
-        TextLv.text = nowLv.ToString();
+        TextLv.text = string.Format("Lv.{0}", nowLv.ToString());
         TextNeedGold.text = needGold.ToString();
     }
 }
