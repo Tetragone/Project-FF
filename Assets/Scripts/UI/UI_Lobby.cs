@@ -160,6 +160,7 @@ public class UI_Lobby : Singleton<UI_Lobby>
             case MenuType.shop_menu:
             case MenuType.upgrade_menu:
             case MenuType.fish_menu:
+            case MenuType.relic_menu:
                 ObjMenu.SetActive(true);
                 break;
             case MenuType.game_play_menu:
@@ -172,7 +173,32 @@ public class UI_Lobby : Singleton<UI_Lobby>
         }
 
         OnOffUIs[menu].SetActive(true);
-        this.RefreshTexts();
+        RefreshTexts();
+        RefreshTitleText(menu);
+    }
+
+    private void RefreshTitleText(MenuType menu)
+    {
+        switch (menu)
+        {
+            case MenuType.game_menu:
+            case MenuType.game_play_menu:
+            case MenuType.game_race_menu:
+                TextTitle.text = string.Format("{0} : {1}", TransMgr.GetText("스테이지"), UserDataMgr.Instance.Stage);
+                break;
+            case MenuType.shop_menu:
+                TextTitle.text = TransMgr.GetText("상점");
+                break;
+            case MenuType.upgrade_menu:
+                TextTitle.text = TransMgr.GetText("강화");
+                break;
+            case MenuType.fish_menu:
+                TextTitle.text = TransMgr.GetText("물고기");
+                break;
+            case MenuType.relic_menu:
+                TextTitle.text = TransMgr.GetText("유물");
+                break;
+        }
     }
 
     public void StartFadeIn(float time)

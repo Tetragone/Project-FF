@@ -6,105 +6,48 @@ using UnityEngine.UI;
 
 public class UI_Shop : MonoBehaviour
 {
-    [Header("gacha fishes")]
-    public TextMeshProUGUI TextGachaFishTitle;
-    public Button ButtonGachaFish1;
-    public TextMeshProUGUI TextGachaFish1Title;
-    public TextMeshProUGUI TextGachaFish1Price;
-    public Button ButtonGachaFish10;
-    public TextMeshProUGUI TextGachaFish10Title;
-    public TextMeshProUGUI TextGachaFish10Price;
+    public UI_ShopCategoy CategoyRes;
+    public UI_ShopBlock BlockRes;
 
-    [Header("gacha relic")]
-    public TextMeshProUGUI TextGachaRelicTitle;
-    public Button ButtonGachaRelic1;
-    public TextMeshProUGUI TextGachaRelic1Title;
-    public TextMeshProUGUI TextGachaRelic1Price;
-    public Button ButtonGachaRelic10;
-    public TextMeshProUGUI TextGachaRelic10Title;
-    public TextMeshProUGUI TextGachaRelic10Price;
+    public Transform Content;
+
+    private Dictionary<string, UI_ShopCategoy> Categories = new Dictionary<string, UI_ShopCategoy>();
 
     private void Awake()
     {
-        InitButtonCallbacks();
-        Refresh();
+        var table = TableMgr.GetTable("shop");
+
+        foreach (string key in table.Keys)
+        {
+            string category = table[key]["category"];
+
+            if (!Categories.ContainsKey(category))
+            {
+                UI_ShopCategoy newCate = Instantiate(CategoyRes, Content);
+                newCate.TextTitle.text = TransMgr.GetText(table[key]["category_name"]);
+                Categories.Add(category, newCate);
+            }
+
+            UI_ShopBlock newBlock = Instantiate(BlockRes, Categories[category].Content);
+            Categories[category].ListBlocks.Add(newBlock);
+            newBlock.Parent = this;
+            newBlock.SetIcon(key);
+        }
     }
 
-    private void InitButtonCallbacks()
+    public void RefreshAllIcon()
     {
-        ButtonGachaFish1.onClick.AddListener(() =>
+        foreach (UI_ShopCategoy value in Categories.Values)
         {
-            GachaFishes(1);
-        });
-
-        ButtonGachaFish10.onClick.AddListener(() =>
-        {
-            GachaFishes(10);
-        });
-
-        ButtonGachaRelic1.onClick.AddListener(() =>
-        {
-            GachaRelic(1);
-        });
-
-        ButtonGachaRelic10.onClick.AddListener(() =>
-        {
-            GachaRelic(10);
-        });
-    }
-
-    private void GachaFishes(int count)
-    {
-        int need = count * GameStaticValue.FishPrice;
-        if (!UserDataMgr.Instance.IsEnoughGoods(need, GoodsType.gacha_point))
-        {
-            return;
+            foreach (UI_ShopBlock block in value.ListBlocks)
+            {
+                block.RefreshInteract();
+            }
         }
-
-        count = count + count / 10 + (count / 100) * 10;
-        List<string> selectedFishes = GachaMgr.GachaFish(count);
-        UserDataMgr.Instance.UseGoods(need, GoodsType.gacha_point);
-
-        foreach (string fid in selectedFishes)
-        {
-            UpgradeMgr.Instance.AddFishesCount(fid);
-        }
-
-        UpgradeMgr.Instance.SaveData();
-        Refresh();
-    }
-
-    private void GachaRelic(int count)
-    {
-        int need = count * GameStaticValue.RelicPrice;
-        if (!UserDataMgr.Instance.IsEnoughGoods(need, GoodsType.relic_point))
-        {
-            return;
-        }
-
-        count = count + count / 10;
-        List<string> selectedRelics = GachaMgr.GachaRelic(count);
-        UserDataMgr.Instance.UseGoods(need, GoodsType.gacha_point);
-
-        foreach(string rid in selectedRelics)
-        {
-            UpgradeMgr.Instance.AddRelicCount(rid);
-        }
-
-        UpgradeMgr.Instance.SaveData();
-        Refresh();
-    }
-
-    private void Refresh()
-    {
-        ButtonGachaFish1.interactable = UserDataMgr.Instance.IsEnoughGoods(GameStaticValue.FishPrice, GoodsType.gacha_point);
-        ButtonGachaFish10.interactable = UserDataMgr.Instance.IsEnoughGoods(GameStaticValue.FishPrice * 10, GoodsType.gacha_point);
-        ButtonGachaRelic1.interactable = UserDataMgr.Instance.IsEnoughGoods(GameStaticValue.RelicPrice, GoodsType.relic_point);
-        ButtonGachaRelic10.interactable = UserDataMgr.Instance.IsEnoughGoods(GameStaticValue.RelicPrice * 10, GoodsType.relic_point);
     }
 
     private void OnEnable()
     {
-        Refresh();
+        RefreshAllIcon();
     }
 }
