@@ -1,4 +1,4 @@
-iid,name,res,desc
+iid,t_name,res,t_desc
 gold,골드,gold,강화할 때 사용한다
 gacha_point,다이아,dia,물고기를 뽑을때 사용한다
 relic_point,번개,energy,유물을 뽑을때 사용한다

@@ -46,7 +46,7 @@ public class UI_FishBlock : MonoBehaviour
         TextCount.text = string.Format("{0}/{1}", (count - usedCount).ToString(), GameStaticValue.GetNeedFishLvUpCount(lv + 1));
         TextLv.text = lv == GameStaticValue.MaxFishLv ? "MAX" : string.Format("Lv.{0}", lv);
 
-        TextName.text = TransMgr.GetText(TableMgr.GetTableString("fish", fId, "name"));
+        TextName.text = TransMgr.GetText(TableMgr.GetTableString("fish", fId, "t_name"));
         ImageBg.sprite = AtlasMgr.Instance.GetCommonSprite(GameStaticValue.GetGradePath(TableMgr.GetTableInt("fish", fId, "grade")));
         ImageFish.sprite = AtlasMgr.Instance.GetFishesSprite(TableMgr.GetTableString("fish", fId, "res"));
 

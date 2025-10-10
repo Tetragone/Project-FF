@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -46,5 +46,40 @@ public class CSVReader
         }
 
         return dic;
+    }
+
+    public static List<string> ReadForTrans(string file, string pre_fix)
+    {
+        var result = new List<string>();
+        TextAsset data = Resources.Load(file) as TextAsset;
+        var lines = Regex.Split(data.text, LINE_SPLIT_RE);
+
+        if (lines.Length <= 1) return result;
+
+        var header = Regex.Split(lines[0], SPLIT_RE);
+        List<int> hasValueLine = new List<int>();
+
+        for (int i = 0; i < header.Length; i++)
+        {
+            if (header[i].StartsWith(pre_fix))
+            {
+                hasValueLine.Add(i);
+            }
+        }
+
+        for (var i = 1; i < lines.Length; i++)
+        {
+            var values = Regex.Split(lines[i], SPLIT_RE);
+            if (values.Length == 0 || values[0] == "") continue;
+
+            foreach (int j in hasValueLine)
+            {
+                string value = values[j];
+                value = value.TrimStart(TRIM_CHARS).TrimEnd(TRIM_CHARS).Replace("\\", "");
+                result.Add(value);
+            }
+        }
+
+        return result;
     }
 }

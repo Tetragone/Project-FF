@@ -1,4 +1,4 @@
-sid,type,desc,base,multi
+sid,type,t_desc,base,multi
 10001,gold_up,골드 획득량 증가,1.5,0.5
 10002,start_fish_up,시작 물고기 증가,2,0.5
 10003,hungry_fast,밥 먹는 간격 감소,1.2,0.2

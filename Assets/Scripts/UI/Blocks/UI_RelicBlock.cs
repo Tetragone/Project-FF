@@ -46,7 +46,7 @@ public class UI_RelicBlock : MonoBehaviour
         TextCount.text = string.Format("{0}/{1}", (count - usedCount).ToString(), GameStaticValue.RelicLvUpCount(lv + 1));
         TextLv.text = lv == GameStaticValue.MaxRelicLv ? "MAX" : string.Format("Lv.{0}", lv);
 
-        TextName.text = TransMgr.GetText(TableMgr.GetTableString("relic", rId, "name"));
+        TextName.text = TransMgr.GetText(TableMgr.GetTableString("relic", rId, "t_name"));
         ImageBg.sprite = AtlasMgr.Instance.GetCommonSprite(GameStaticValue.GetGradePath(TableMgr.GetTableInt("relic", rId, "grade")));
         ImageRelic.sprite = AtlasMgr.Instance.GetFishesSprite(TableMgr.GetTableString("relic", rId, "res"));
 

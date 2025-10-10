@@ -30,7 +30,7 @@ public class UI_ShopBlock : MonoBehaviour
         string sadded = TableMgr.GetTableString("shop", Sid, "add");
         int added = sadded != "x" ? int.Parse(sadded) : 0;
 
-        TextTitle.text = string.Format(TransMgr.GetText(TableMgr.GetTableString("shop", Sid, "name")), added);
+        TextTitle.text = string.Format(TransMgr.GetText(TableMgr.GetTableString("shop", Sid, "t_name")), added);
         TextCount.gameObject.SetActive(added > 1);
         TextCount.text = string.Format("x{0}", added);
         PriceType = TableMgr.GetTableString("shop", Sid, "price_type");

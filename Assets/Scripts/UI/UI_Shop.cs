@@ -24,7 +24,7 @@ public class UI_Shop : MonoBehaviour
             if (!Categories.ContainsKey(category))
             {
                 UI_ShopCategoy newCate = Instantiate(CategoyRes, Content);
-                newCate.TextTitle.text = TransMgr.GetText(table[key]["category_name"]);
+                newCate.TextTitle.text = TransMgr.GetText(table[key]["t_category_name"]);
                 Categories.Add(category, newCate);
             }
 
