@@ -29,3 +29,46 @@ Key,Id,English(en),Korean(ko)
 상점,,shop,상점
 게임 시작,,start,게임 시작
 스테이지,,stage,스테이지
+안내창,,Information window,안내창
+언어 변경으로 인해 게임을 종료합니다.,,The game will close due to language change.,언어 변경으로 인해 게임을 종료합니다.
+레이스에 나갈 물고기를 선택해주세요.,,Please select the fish you wish to race.,레이스에 나갈 물고기를 선택해주세요.
+옵션,,Options,옵션
+크기,,Size,크기
+속도,,Speed,속도
+언어 설정,,Language,언어 설정
+하트물고기,,heart fish,하트물고기
+엔젤피쉬,,angel fish,엔젤피쉬
+갈치,,Cutlassfish,갈치
+가오리,,ray,가오리
+개복치,,Sunfish,개복치
+조개,,Clams,조개
+실러캔스,,coelacanth,실러캔스
+황새치,,swordfish,황새치
+상어,,shark,상어
+"느린 성장, 최고의 고점",,"Slow growth, high point","느린 성장, 최고의 고점"
+골드,,Gold,골드
+강화할 때 사용한다,,Used to strengthen,강화할 때 사용한다
+다이아,,Dia,다이아
+물고기를 뽑을때 사용한다,,Used when gacha fish,물고기를 뽑을때 사용한다
+번개,,energy,번개
+유물을 뽑을때 사용한다,,Used when gacha relics,유물을 뽑을때 사용한다
+황금 주머니,,golden bag,황금 주머니
+2번,,two,2번
+굶주림 유물,,Hunger Relics,굶주림 유물
+4번,,four,4번
+5번,,five,5번
+6번,,six,6번
+7번,,seven,7번
+8번,,eight,8번
+물고기 {0}회 뽑기,,Gacha fish {0} time,물고기 {0}회 뽑기
+물고기 뽑기,,Gacha fish,물고기 뽑기
+유물 {0}회 뽑기,,Gacha relic {0} time,유물 {0}회 뽑기
+유물 뽑기,,Gacha relic,유물 뽑기
+골드 획득량 증가,,Increased gold acquisition amount,골드 획득량 증가
+시작 물고기 증가,,Increased starting fish,시작 물고기 증가
+밥 먹는 간격 감소,,Decrease the interval between meals,밥 먹는 간격 감소
+시간당 물고기 경험치 추가,,Add fish experience per hour,시간당 물고기 경험치 추가
+레이스에서 물고기 속도 증가,,Increased fish speed in races,레이스에서 물고기 속도 증가
+물고기 2배 소환 확률 증가,,Double the chance of summoning fish,물고기 2배 소환 확률 증가
+먹이 효과 2배 확률 증가,,Feeding effect probability doubled,먹이 효과 2배 확률 증가
+레이스에서 더 큰 물고기를 먹을 확률 증가,,Increased chance of catching bigger fish in races,레이스에서 더 큰 물고기를 먹을 확률 증가

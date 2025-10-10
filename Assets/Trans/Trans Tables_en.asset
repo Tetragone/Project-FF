@@ -138,6 +138,178 @@ MonoBehaviour:
     m_Localized: stage
     m_Metadata:
       m_Items: []
+  - m_Id: 4778257073238016
+    m_Localized: Information window
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257094209536
+    m_Localized: The game will close due to language change.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257094209537
+    m_Localized: Please select the fish you wish to race.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257094209538
+    m_Localized: Options
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257094209539
+    m_Localized: Size
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257094209540
+    m_Localized: Speed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257094209541
+    m_Localized: Language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257094209542
+    m_Localized: heart fish
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257094209543
+    m_Localized: angel fish
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257094209544
+    m_Localized: Cutlassfish
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257094209545
+    m_Localized: ray
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257094209546
+    m_Localized: Sunfish
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257094209547
+    m_Localized: Clams
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257094209548
+    m_Localized: coelacanth
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257094209549
+    m_Localized: swordfish
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257094209550
+    m_Localized: shark
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257094209551
+    m_Localized: Slow growth, high point
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257094209552
+    m_Localized: Gold
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257094209553
+    m_Localized: Used to strengthen
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257094209554
+    m_Localized: Dia
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257102598144
+    m_Localized: Used when gacha fish
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257102598145
+    m_Localized: energy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257102598146
+    m_Localized: Used when gacha relics
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257102598147
+    m_Localized: golden bag
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257102598148
+    m_Localized: two
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257102598149
+    m_Localized: Hunger Relics
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257102598150
+    m_Localized: four
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257102598151
+    m_Localized: five
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257102598152
+    m_Localized: six
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257102598153
+    m_Localized: seven
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257102598154
+    m_Localized: eight
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257102598155
+    m_Localized: Gacha fish {0} time
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257102598156
+    m_Localized: Gacha fish
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257102598157
+    m_Localized: Gacha relic {0} time
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257102598158
+    m_Localized: Gacha relic
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257102598159
+    m_Localized: Increased gold acquisition amount
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257102598160
+    m_Localized: Increased starting fish
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257102598161
+    m_Localized: Decrease the interval between meals
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257102598162
+    m_Localized: Add fish experience per hour
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257102598163
+    m_Localized: Increased fish speed in races
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257102598164
+    m_Localized: Double the chance of summoning fish
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257102598165
+    m_Localized: Feeding effect probability doubled
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4778257102598166
+    m_Localized: Increased chance of catching bigger fish in races
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
