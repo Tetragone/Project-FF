@@ -113,17 +113,20 @@ public class InAquaFish : MonoBehaviour
 
             if (MoveController.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
             {
-                IsMoving = false;
-                MoveTimer = 0f;
-            }
-            else
-            {
-                MoveTimer += Time.deltaTime;
-
-                if (MoveTimer > GameStaticValue.MoveCooldown)
+                if (IsMoving)
                 {
-                    IsMoving = true;
-                    MoveController.Rebind();
+                    IsMoving = false;
+                    MoveTimer = 0f;
+                }
+                else
+                {
+                    MoveTimer += Time.deltaTime;
+
+                    if (MoveTimer > GameStaticValue.MoveCooldown)
+                    {
+                        IsMoving = true;
+                        MoveController.Rebind();
+                    }
                 }
             }
         }

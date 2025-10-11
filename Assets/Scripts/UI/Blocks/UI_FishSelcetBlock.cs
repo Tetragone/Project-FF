@@ -14,11 +14,11 @@ public class UI_FishSelcetBlock : MonoBehaviour
 
     public void SetData(FishData data)
     {
-        FishImage.sprite = AtlasMgr.Instance.GetFishesSprite(TableMgr.GetTableString("fish", data.Fid, "res"));
+        FishImage.sprite = AtlasMgr.Instance.GetFishesSprite(string.Format("{0}_adult", TableMgr.GetTableString("fish", data.Fid, "res")));
         TextSize.text = string.Format("{0} : {1} <color=#fa0000>+ {2}</color>"
-            , TransMgr.GetText("크기"), data.Size, data.GetSizeFromValue(data.AdditionalValue));
+            , TransMgr.GetText("크기"), data.Size.ToString("F2"), data.GetSizeFromValue(data.AdditionalValue).ToString("F2"));
         TextSpeed.text = string.Format("{0} : {1} <color=#fa0000>+ {2}</color>"
-            , TransMgr.GetText("속도"), data.Speed, data.GetSpeedFromValue(data.AdditionalValue));
+            , TransMgr.GetText("속도"), data.Speed.ToString("F2"), data.GetSpeedFromValue(data.AdditionalValue).ToString("F2"));
     }
 
     public void SetCallback(UnityAction action)

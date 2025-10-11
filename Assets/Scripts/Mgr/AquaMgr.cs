@@ -42,7 +42,6 @@ public class AquaMgr : Singleton<AquaMgr>
         PoolFood.RemoveAll();
         Money = 0f;
         EanMoney = 2f;
-        IsStart = false;
         GameTimer = 0f;
     }
 
@@ -156,6 +155,7 @@ public class AquaMgr : Singleton<AquaMgr>
 
     private void OpenFishSelectPopup()
     {
+        IsStart = false;
         RaceMgr.Instance.SettingBeforePlay();
         var data = CalFishValue();
         PopupMgr.MakeFishSelectPopup(data);

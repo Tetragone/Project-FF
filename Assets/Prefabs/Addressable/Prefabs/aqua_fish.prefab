@@ -166,6 +166,7 @@ MonoBehaviour:
   Position: {fileID: 4198526728256655314}
   Body: {fileID: 7958358716220729037}
   SpriteFish: {fileID: 6413786862464972456}
+  MoveController: {fileID: 975982025033417379}
 --- !u!50 &7958358716220729037
 Rigidbody2D:
   serializedVersion: 4
