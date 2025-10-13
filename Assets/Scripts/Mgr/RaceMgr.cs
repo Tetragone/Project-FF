@@ -89,11 +89,11 @@ public class RaceMgr : Singleton<RaceMgr>
         }
 
         FishData data = fish.GetData();
-
         if (data == null)
         {
             data = new FishData();
         }
+        data.Fid = GachaMgr.GachaFish(1)[0];
 
         data.SetDataValueForEnemy(speed - MyData.Speed, size);
         fish.InitData(data, false);
@@ -147,10 +147,10 @@ public class RaceMgr : Singleton<RaceMgr>
     public void EndGame()
     {
         IsStart = false;
-        StartCoroutine(StartEnd());
+        StartCoroutine(OpenLobyyUI());
     }
 
-    private IEnumerator StartEnd()
+    private IEnumerator OpenLobyyUI()
     {
         UI_Lobby.Instance.StartFadeIn(0.5f);
         yield return new WaitForSeconds(0.5f);
@@ -168,7 +168,11 @@ public class RaceMgr : Singleton<RaceMgr>
     {
         if (IsStart)
         {
-            if (!IsEnd) Meter += MyData.Speed * Time.deltaTime;
+            if (!IsEnd)
+            {
+                Meter += MyData.Speed * Time.deltaTime;
+                SceneGame.Instance.MoveBg(MyData.Speed * Time.deltaTime);
+            }
 
             if (Timer > GameStaticValue.RaceFishCreateTime)
             {

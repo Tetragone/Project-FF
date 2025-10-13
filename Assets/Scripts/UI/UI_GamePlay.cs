@@ -8,7 +8,9 @@ public class UI_GamePlay : MonoBehaviour
 {
     #region inspector
     public Button ButtonCreateFood;
+    public TextMeshProUGUI TextCreateFood;
     public Button ButtonCreateRandomFish;
+    public TextMeshProUGUI TextCreateRandomFish;
     public Button ButtonPause;
 
     public TextMeshProUGUI TextMoney;
@@ -19,6 +21,8 @@ public class UI_GamePlay : MonoBehaviour
     private void Awake()
     {
         InitButtonCallback();
+        TextCreateFood.text = GameStaticValue.CostFood.ToString();
+        TextCreateRandomFish.text = GameStaticValue.CostFish.ToString();
     }
 
     private void InitButtonCallback()

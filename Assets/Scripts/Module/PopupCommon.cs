@@ -12,7 +12,9 @@ public class PopupCommon : MonoBehaviour
     public TextMeshProUGUI TextContent;
     public Button ButtonClose;
     public Button ButtonYes;
+    public TextMeshProUGUI TextYes;
     public Button ButtonNo;
+    public TextMeshProUGUI TextNo;
 
     public GameObject ObjButtons;
 
@@ -52,6 +54,11 @@ public class PopupCommon : MonoBehaviour
             {
                 DestroyThis();
             });
+
+            if (TextYes != null)
+            {
+                TextYes.text = TransMgr.GetText("확인");
+            }
         }
 
         if (ButtonNo != null)
@@ -61,6 +68,12 @@ public class PopupCommon : MonoBehaviour
                 DestroyThis();
             });
             ButtonNo.gameObject.SetActive(IsUseNo);
+
+
+            if (TextNo != null)
+            {
+                TextNo.text = TransMgr.GetText("취소");
+            }
         }
 
         if (ObjButtons != null)
@@ -105,5 +118,18 @@ public class PopupCommon : MonoBehaviour
     {
         Title = title;
         Content = content;
+    }
+
+    public void SetButtonText(string textYes, string textNo = "")
+    {
+        if (textYes != "" && TextYes != null)
+        {
+            TextYes.text = textYes;
+        }
+
+        if (textNo != "" && TextNo != null)
+        {
+            TextNo.text = textNo;
+        }
     }
 }

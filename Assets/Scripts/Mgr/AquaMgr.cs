@@ -16,6 +16,8 @@ public class AquaMgr : Singleton<AquaMgr>
     private float GameTimer = 0f;
     private float EndTimeMulti = 1f;
 
+    private FishData Selected;
+
     protected override void SetDataInAwake()
     {
         PoolFish = new PoolData<InAquaFish>(GameStaticValue.FishPath);
@@ -38,12 +40,23 @@ public class AquaMgr : Singleton<AquaMgr>
 
     public void EndGame()
     {
+        RaceMgr.Instance.InitRace(Selected);
         PoolFish.RemoveAll();
         PoolFood.RemoveAll();
         Money = 0f;
         EanMoney = 2f;
         GameTimer = 0f;
+        UI_Lobby.Instance.StartFadeIn(0.5f);
+        StartCoroutine(OpenRaceUI());
     }
+
+    private IEnumerator OpenRaceUI()
+    {
+        yield return new WaitForSeconds(0.5f);
+        UI_Lobby.Instance.SetActiveMenu(UI_Lobby.MenuType.game_race_menu);
+        UI_Lobby.Instance.StartFadeOut(0.5f);
+    }
+
 
     public async void CreateFood()
     {
@@ -158,7 +171,11 @@ public class AquaMgr : Singleton<AquaMgr>
         IsStart = false;
         RaceMgr.Instance.SettingBeforePlay();
         var data = CalFishValue();
-        PopupMgr.MakeFishSelectPopup(data);
+
+        PopupMgr.MakeFishSelectPopup(data, () =>
+        {
+            EndGame();
+        });
     }
 
     private Dictionary<string, FishData> CalFishValue()
@@ -204,7 +221,6 @@ public class AquaMgr : Singleton<AquaMgr>
 
     public void SelectFish(FishData data)
     {
-        RaceMgr.Instance.InitRace(data);
-        EndGame();
+        Selected = data;
     }
 }

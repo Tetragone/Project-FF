@@ -63,7 +63,9 @@ MonoBehaviour:
   TextContent: {fileID: 694957169296686725}
   ButtonClose: {fileID: 6413196598925935636}
   ButtonYes: {fileID: 6780849997958043237}
+  TextYes: {fileID: 8074396365124214861}
   ButtonNo: {fileID: 8052151239619585711}
+  TextNo: {fileID: 3757675015890861339}
   ObjButtons: {fileID: 5531302743516661798}
   CustomObj: []
 --- !u!1 &3265886218872729876

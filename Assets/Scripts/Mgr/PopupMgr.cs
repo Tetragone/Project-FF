@@ -39,7 +39,7 @@ public static class PopupMgr
         popup.CustomObj[0].GetComponent<Image>().sprite = AtlasMgr.Instance.GetFishesSprite(TableMgr.GetTableString("fish", fid, "res"));
     }
 
-    public static async void MakeFishSelectPopup(Dictionary<string, FishData> data)
+    public static async void MakeFishSelectPopup(Dictionary<string, FishData> data, UnityAction action)
     {
         ActiveLoadingPopup(true);
         GameObject res = await AddressableMgr.LoadAndInstantiate("fish_select", UI_Lobby.Root.transform, false);
@@ -49,8 +49,11 @@ public static class PopupMgr
 
         string content = TransMgr.GetText("레이스에 나갈 물고기를 선택해주세요.");
         popup.SetText("", content);
-        popup.InitAfterSetting(false, false, true);
+        popup.AddYesListener(action);
+        popup.InitAfterSetting(true, false, true);
 
+        popup.SetButtonText(TransMgr.GetText("선택"));
+        popup.ButtonYes.interactable = false;
         GameObject resIcon = popup.CustomObj[0];
         foreach (string key in data.Keys)
         {
@@ -59,6 +62,7 @@ public static class PopupMgr
             block.GetComponent<UI_FishSelcetBlock>().SetCallback(() =>
             {
                 AquaMgr.Instance.SelectFish(data[key]);
+                popup.ButtonYes.interactable = true;
             });
             block.SetActive(true);
         }

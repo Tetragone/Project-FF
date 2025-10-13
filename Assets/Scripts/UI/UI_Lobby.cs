@@ -50,10 +50,8 @@ public class UI_Lobby : Singleton<UI_Lobby>
 
     private Dictionary<MenuType, GameObject> OnOffUIs = new Dictionary<MenuType, GameObject>();
 
-    protected override void Awake()
+    protected override void SetDataInAwake()
     {
-        base.Awake();
-
         if (Root == null)
         {
             Root = _root;
@@ -161,13 +159,19 @@ public class UI_Lobby : Singleton<UI_Lobby>
             case MenuType.upgrade_menu:
             case MenuType.fish_menu:
             case MenuType.relic_menu:
+                if (SceneGame.Instance != null)
+                {
+                    SceneGame.Instance.SetBg(SceneGame.Instance.AquaBg);
+                }
                 ObjMenu.SetActive(true);
                 break;
             case MenuType.game_play_menu:
                 ObjMenu.SetActive(false);
+                SceneGame.Instance.SetBg(SceneGame.Instance.AquaBg);
                 AquaMgr.Instance.InitStart();
                 break;
             case MenuType.game_race_menu:
+                SceneGame.Instance.SetBg(SceneGame.Instance.RaceRepeatBg);
                 ObjMenu.SetActive(false);
                 break;
         }
