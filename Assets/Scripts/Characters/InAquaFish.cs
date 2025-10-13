@@ -106,7 +106,7 @@ public class InAquaFish : MonoBehaviour
                 }
                 else
                 {
-                    Move(dir, 10f);
+                    Move(dir, RandomMoveSpeed * GameStaticValue.StarveSpeedUp);
                     FilpObejct(NowDir.x < 0);
                 }
             } 

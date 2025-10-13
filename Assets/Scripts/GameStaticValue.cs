@@ -17,6 +17,7 @@ public static class GameStaticValue
 
     public static readonly float ChildStarveTime = 2f;
     public static readonly float AdultStarveTime = 10f;
+    public static readonly float StarveSpeedUp = 3f;
 
     public static readonly float FishMaxGrowSize = 3f;
     public static readonly float FishChildSize = 1f;
@@ -41,7 +42,7 @@ public static class GameStaticValue
     public static readonly float AquaTime = 10f;
 
     public static readonly float MoveCooldown = 1f;
-    public static readonly float MoveSpeedUp = 1.25f;
+    public static readonly float MoveSpeedUp = 2f;
     #endregion
 
     #region Gold Upgrade Forumla
