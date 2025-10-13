@@ -16,7 +16,6 @@ public class RaceMgr : Singleton<RaceMgr>
     private float EndingMeter = 100f;
     private float Meter;
     private FishData MyData;
-    private List<FishData> FishesData;
     private float Timer = 0f;
 
     protected override void SetDataInAwake()
@@ -39,6 +38,7 @@ public class RaceMgr : Singleton<RaceMgr>
         MyFish.InitData(fish, true);
         MyFish.SetLocalScale(1f);
         MyFish.transform.position = Vector3.zero;
+        MyFish.gameObject.SetActive(false);
         PoolFish.Add(MyFish);
         MyData = fish;
         CalEndingMeter();
@@ -109,6 +109,7 @@ public class RaceMgr : Singleton<RaceMgr>
     public void StartGame()
     {
         IsStart = true;
+        MyFish.gameObject.SetActive(true);
         IsEnd = false;
         Timer = 0f;
 
