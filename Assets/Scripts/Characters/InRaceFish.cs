@@ -7,6 +7,7 @@ using UnityEngine;
 public class InRaceFish : MonoBehaviour
 {
     public SpriteRenderer SpriteFish;
+    public Animator FishAniController;
 
     private Rigidbody2D Rigid;
     private CircleCollider2D Collider;
@@ -31,7 +32,8 @@ public class InRaceFish : MonoBehaviour
         IsMy = isMy;
 
         SpriteFish.sprite = AtlasMgr.Instance.GetFishesSprite(string.Format("{0}_adult", TableMgr.GetTableString("fish", data.Fid, "res")));
-        
+        SpriteFish.transform.rotation = TableMgr.GetTableInt("fish", data.Fid, "is_rotated") == 1 ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 0, -90);
+
         if (!IsMy)
         {
             SetMove(new Vector3(0, data.Speed - RaceMgr.Instance.GameBaseSpeed(), 0));
@@ -114,6 +116,11 @@ public class InRaceFish : MonoBehaviour
         }
 
         IsDisablePosition();
+
+        if (FishAniController.GetCurrentAnimatorStateInfo(0).normalizedTime > 1f && RaceMgr.Instance.IsStart)
+        {
+            FishAniController.Rebind();
+        }
     }
 
     private bool IsChangeMove()
