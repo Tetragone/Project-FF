@@ -20,13 +20,13 @@ public class UI_UpgradeBlock : MonoBehaviour
         switch (Type)
         {
             case GoldUpgrade.food_grow:
-                name = "food effective";
+                name = TransMgr.GetText("음식 효율 증가");
                 break;
             case GoldUpgrade.grow_time:
-                name = "grow time up";
+                name = TransMgr.GetText("성장 시간 증가");
                 break;
-            case GoldUpgrade.fish_move_multi:
-                name = "fish move speed up";
+            case GoldUpgrade.engery_effect:
+                name = TransMgr.GetText("에너지 효율 증가");
                 break;
 
         }
@@ -55,6 +55,7 @@ public class UI_UpgradeBlock : MonoBehaviour
         int needGold = GameStaticValue.NeedGold(nowLv);
 
         TextLv.text = string.Format("Lv.{0}", nowLv.ToString());
-        TextNeedGold.text = needGold.ToString();
+        string color = UserDataMgr.Instance.IsEnoughGoods(needGold, GoodsType.gold) ? "000000" : "FF0000";
+        TextNeedGold.text = string.Format("<color=#{1}>{0}</color>", needGold.ToString(), color);
     }
 }

@@ -253,7 +253,7 @@ public class UpgradeMgr : SingletonAllSecen<UpgradeMgr>
 
 public enum GoldUpgrade
 {
-    food_grow, grow_time, fish_move_multi,
+    food_grow, grow_time, engery_effect,
 }
 
 public class UpgradeLocalData
