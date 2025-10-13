@@ -51,8 +51,7 @@ public class SceneGame : Singleton<SceneGame>
 
                 Height = spriteHeight * scaleX;
                 LeftLength = (worldScreenHeight - Height) / 2;
-                r.transform.position = new Vector3(0, Height * idx - LeftLength + 0.01f * idx);
-                idx++;
+                r.transform.position = new Vector3(0, (Height - 0.01f) * idx++ - LeftLength);
             }
         }
     }
