@@ -22,15 +22,24 @@ public class InAquaFish : MonoBehaviour
     private float StarveTime;
     private float MoveTimer = 0f;
     private bool IsMoving = false;
+    private Vector2 NowSpeed = Vector2.zero;
 
-
-    public void Init(string fid)
+    public void Init(string fid, bool isChild)
     {
         Body.velocity = new Vector2(0, 0);
         Position.rotation = Quaternion.Euler(0, 0, 0);
         AdultSpirte = AtlasMgr.Instance.GetFishesSprite(string.Format("{0}_adult", TableMgr.GetTableString("fish", fid, "res")));
         ChildSpirte = AtlasMgr.Instance.GetFishesSprite(string.Format("{0}_child", TableMgr.GetTableString("fish", fid, "res")));
-        SpriteFish.sprite = ChildSpirte;
+        if (isChild)
+        {
+            SpriteFish.sprite = ChildSpirte;
+            transform.localScale = new Vector3(GameStaticValue.FishChildSize, GameStaticValue.FishChildSize);
+        }
+        else
+        {
+            SpriteFish.sprite = AdultSpirte;
+            transform.localScale = new Vector3(GameStaticValue.FishMaxGrowSize, GameStaticValue.FishMaxGrowSize);
+        }
 
         RandomMoveTime = 0f;
         MoveTimer = 0f;
@@ -130,6 +139,8 @@ public class InAquaFish : MonoBehaviour
                 }
             }
         }
+
+        UpdateMoveSpeed();
     }
 
     private void FilpObejct(bool isFilp)
@@ -155,7 +166,13 @@ public class InAquaFish : MonoBehaviour
             dir = new Vector3(dir.x, 0);
         }
         NowDir = dir;
-        Body.velocity = IsMoving ? dir.normalized * speed * GameStaticValue.MoveSpeedUp : dir.normalized * speed;
+        NowSpeed = dir.normalized * speed;
+        Body.velocity = dir.normalized * speed;
+    }
+
+    private void UpdateMoveSpeed()
+    {
+        Body.velocity = IsMoving ? NowSpeed * GameStaticValue.MoveSpeedUp : NowSpeed;
     }
 
     private void OnDisable()

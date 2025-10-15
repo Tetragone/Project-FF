@@ -11,13 +11,16 @@ public class SceneGame : Singleton<SceneGame>
     public Sprite RaceRepeatBg;
     public Sprite RaceFinishBg;
 
-
     private float Height;
     private float LeftLength;
+
+    private PoolData<InAquaFish> PoolFish;
 
     protected override void SetDataInAwake()
     {
         SetBg(AquaBg);
+        PoolFish = new PoolData<InAquaFish>(GameStaticValue.FishPath);
+        SetActiveLobbyFish(true);
     }
 
     public void SetBg(Sprite sprite)
@@ -69,6 +72,50 @@ public class SceneGame : Singleton<SceneGame>
             }
 
             r.transform.position = before;
+        }
+    }
+
+    public void SetLastBg(Sprite sprite)
+    {
+        SpriteRenderer rend = null;
+
+        foreach (SpriteRenderer r in ObjBg)
+        {
+            if (rend == null)
+            {
+                rend = r;
+            }
+            else
+            {
+                if (rend.transform.position.y < r.transform.position.y)
+                {
+                    rend = r;
+                }
+            }
+        }
+
+        rend.sprite = sprite;
+    }
+
+    public async void SetActiveLobbyFish(bool isActive)
+    {
+        if (isActive)
+        {
+            if (PoolFish.GetNowList().Count > 0)
+            {
+                return;
+            }
+
+            foreach (string key in UpgradeMgr.Instance.GetHasFishes())
+            {
+                InAquaFish newFish = await PoolFish.GetNew();
+                newFish.Init(key, false);
+                PoolFish.Add(newFish);
+            }
+        }
+        else
+        {
+            PoolFish.RemoveAll();
         }
     }
 }

@@ -162,16 +162,19 @@ public class UI_Lobby : Singleton<UI_Lobby>
                 if (SceneGame.Instance != null)
                 {
                     SceneGame.Instance.SetBg(SceneGame.Instance.AquaBg);
+                    SceneGame.Instance.SetActiveLobbyFish(true);
                 }
                 ObjMenu.SetActive(true);
                 break;
             case MenuType.game_play_menu:
                 ObjMenu.SetActive(false);
                 SceneGame.Instance.SetBg(SceneGame.Instance.AquaBg);
+                SceneGame.Instance.SetActiveLobbyFish(false);
                 AquaMgr.Instance.InitStart();
                 break;
             case MenuType.game_race_menu:
                 SceneGame.Instance.SetBg(SceneGame.Instance.RaceRepeatBg);
+                SceneGame.Instance.SetActiveLobbyFish(false);
                 ObjMenu.SetActive(false);
                 break;
         }

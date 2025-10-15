@@ -8,6 +8,8 @@ public static class GameStaticValue
     public static readonly string TransTable = "Trans Tables";
     #endregion
 
+    public static readonly string BaseFishFid = "1001";
+
     #region InAquaFish
     public static readonly float BaseFoodRandomValue = 0.5f;
     public static readonly float FishRandomMoveMaxTime = 5f;
@@ -42,7 +44,7 @@ public static class GameStaticValue
     public static readonly float AquaTime = 10f;
 
     public static readonly float MoveCooldown = 1f;
-    public static readonly float MoveSpeedUp = 2f;
+    public static readonly float MoveSpeedUp = 1.5f;
     #endregion
 
     #region Gold Upgrade Forumla
@@ -90,12 +92,11 @@ public static class GameStaticValue
     {
         switch (grade)
         {
-            case 1:
-                return "";
-            case 2:
-                return "";
-            default:
-                return "";
+            case 1: return "common";
+            case 2: return "rare";
+            case 3: return "eqic";
+            case 4: return "legendary";
+            default: return "common";
 
         }
     }

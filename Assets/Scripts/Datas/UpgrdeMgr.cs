@@ -82,6 +82,11 @@ public class UpgradeMgr : SingletonAllSecen<UpgradeMgr>
             FishesLv.Add(key, new SecureInt(data.FishLv[key]));
         }
 
+        if (FishesLv[GameStaticValue.BaseFishFid] == 0)
+        {
+            FishesLv[GameStaticValue.BaseFishFid] = 1;
+        }
+
         RelicCount.Clear();
         RelicLv.Clear();
 
@@ -130,6 +135,23 @@ public class UpgradeMgr : SingletonAllSecen<UpgradeMgr>
         {
             return -1;
         }
+    }
+
+    public List<string> GetHasFishes()
+    {
+        List<string> result = new List<string>();
+
+        foreach (string key in FishesLv.Keys)
+        {
+            int lv = FishesLv[key];
+
+            if (lv > 0)
+            {
+                result.Add(key);
+            }
+        }
+
+        return result;
     }
 
     public int GetRelicCount(string id)

@@ -17,6 +17,7 @@ public class AquaMgr : Singleton<AquaMgr>
     private float EndTimeMulti = 1f;
 
     private FishData Selected;
+    private List<string> HasFishes = new List<string>();
 
     protected override void SetDataInAwake()
     {
@@ -81,7 +82,14 @@ public class AquaMgr : Singleton<AquaMgr>
     public async void CreateFish()
     {
         InAquaFish newFish = await PoolFish.GetNew();
-        newFish.Init("1001");
+
+        if (HasFishes.Count == 0)
+        {
+            HasFishes = UpgradeMgr.Instance.GetHasFishes();
+        }
+
+        int idx = Random.Range(0, HasFishes.Count);
+        newFish.Init(HasFishes[idx], true);
         newFish.transform.position = SetFishPosition();
         PoolFish.Add(newFish);
     }
