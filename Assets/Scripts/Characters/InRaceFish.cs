@@ -92,18 +92,21 @@ public class InRaceFish : MonoBehaviour
     {
         InRaceFish raceFish = collision.GetComponent<InRaceFish>();
 
-        if (raceFish != null && IsMy)
+        if (RaceMgr.Instance.State == GameState.start)
         {
-            // 걍 같으면 이기는걸로
-            if (raceFish.GetData().Size > Data.Size)
+            if (raceFish != null && IsMy)
             {
-                RaceMgr.Instance.MakeEndPopup();
-                Die();
-            } 
-            else
-            {
-                Data.EatFish(raceFish.GetData());
-                raceFish.Die();
+                // 걍 같으면 이기는걸로
+                if (raceFish.GetData().Size > Data.Size)
+                {
+                    RaceMgr.Instance.MakeEndPopup();
+                    Die();
+                }
+                else
+                {
+                    Data.EatFish(raceFish.GetData());
+                    raceFish.Die();
+                }
             }
         }
     }
@@ -117,7 +120,7 @@ public class InRaceFish : MonoBehaviour
 
         IsDisablePosition();
 
-        if (FishAniController.GetCurrentAnimatorStateInfo(0).normalizedTime > 1f && RaceMgr.Instance.IsStart)
+        if (FishAniController.GetCurrentAnimatorStateInfo(0).normalizedTime > 1f && RaceMgr.Instance.State == GameState.start)
         {
             FishAniController.Rebind();
         }

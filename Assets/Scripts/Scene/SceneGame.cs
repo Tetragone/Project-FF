@@ -59,6 +59,29 @@ public class SceneGame : Singleton<SceneGame>
         }
     }
 
+    public void SetRangeOnLastBg(Sprite repeat, Sprite last, float range)
+    {
+        float repeatHeight = GetBgHeight(repeat);
+        float lastHeight = GetBgHeight(last);
+
+        float result = range / 2f;
+        // 절반만 가도록 하고 싶어서
+        result -= (lastHeight + repeatHeight) / 2f;
+        int x = Mathf.FloorToInt(result / repeatHeight);
+        result -= x * repeatHeight;
+        MoveBg(result);
+    }
+
+    public float GetBgHeight(Sprite sprite)
+    {
+        float worldScreenHeight = Camera.main.orthographicSize * 2f;
+        float worldScreenWidth = worldScreenHeight * Screen.width / Screen.height;
+        float spriteWidth = sprite.bounds.size.x;
+        float spriteHeight = sprite.bounds.size.y;
+        float scaleX = worldScreenWidth / spriteWidth;
+        return spriteHeight * scaleX;
+    }
+
     public void MoveBg(float speed)
     {
         foreach (SpriteRenderer r in ObjBg)

@@ -55,6 +55,7 @@ public class AquaMgr : Singleton<AquaMgr>
     {
         yield return new WaitForSeconds(0.5f);
         UI_Lobby.Instance.SetActiveMenu(UI_Lobby.MenuType.game_race_menu);
+        SceneGame.Instance.SetRangeOnLastBg(SceneGame.Instance.RaceRepeatBg, SceneGame.Instance.RaceFinishBg, RaceMgr.Instance.EndingMeter);
         UI_Lobby.Instance.StartFadeOut(0.5f);
     }
 

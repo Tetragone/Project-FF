@@ -25,7 +25,7 @@ public class UI_GameRace : MonoBehaviour
     {
         TextMeter.text = RaceMgr.Instance.GetMeterToString();
 
-        if (!RaceMgr.Instance.IsStart && !RaceMgr.Instance.IsEnd)
+        if (RaceMgr.Instance.State == GameState.prepare)
         {
             if (CountAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
             {
@@ -34,41 +34,50 @@ public class UI_GameRace : MonoBehaviour
 
             return;
         }
-
-        // 다중 터치시에는 첫번째 터치에만 작동하도록 
-        if (Input.touchCount > 0)
+        else if (RaceMgr.Instance.State == GameState.start)
         {
-            Touch touch = Input.GetTouch(0);
+            // 다중 터치시에는 첫번째 터치에만 작동하도록 
+            if (Input.touchCount > 0)
+            {
+                Touch touch = Input.GetTouch(0);
 
-            if (touch.phase == TouchPhase.Began)
-            {
-                TouchStart(touch.position);
+                if (touch.phase == TouchPhase.Began)
+                {
+                    TouchStart(touch.position);
+                }
+                else if (touch.phase == TouchPhase.Moved && IsDragging)
+                {
+                    Touching(touch.position);
+                }
+                else if (touch.phase == TouchPhase.Ended)
+                {
+                    TouchEnd();
+                }
             }
-            else if (touch.phase == TouchPhase.Moved && IsDragging)
+
+
+            // Unity에서 마우스 입력 받기 위함.
+            if (Input.GetMouseButtonDown(0))
             {
-                Touching(touch.position);
+                TouchStart(Input.mousePosition);
             }
-            else if (touch.phase == TouchPhase.Ended)
+
+            if (Input.GetMouseButton(0) && IsDragging)
+            {
+                Touching(Input.mousePosition);
+            }
+
+            if (Input.GetMouseButtonUp(0))
             {
                 TouchEnd();
             }
         }
-
-
-        // Unity에서 마우스 입력 받기 위함.
-        if (Input.GetMouseButtonDown(0))
+        else
         {
-            TouchStart(Input.mousePosition);
-        }
-
-        if (Input.GetMouseButton(0) && IsDragging)
-        {
-            Touching(Input.mousePosition);
-        }
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            TouchEnd();
+            if (IsDragging)
+            {
+                TouchEnd();
+            }
         }
     }
 

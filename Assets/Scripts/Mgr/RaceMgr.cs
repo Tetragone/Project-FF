@@ -10,11 +10,13 @@ public class RaceMgr : Singleton<RaceMgr>
     [HideInInspector] public InRaceFish MyFish;
 
     public int Stage = 1;
-    public bool IsStart { get; private set; } = false;
     public bool IsEnd { get; private set; } = false;
+    public GameState State { get; private set; } = GameState.prepare;
 
-    private float EndingMeter = 100f;
+    [HideInInspector] public float EndingMeter = 100f;
     private float Meter;
+    private float ChangeBgMeter;
+    private bool IsChangedBg = false;
     private FishData MyData;
     private float Timer = 0f;
 
@@ -42,8 +44,8 @@ public class RaceMgr : Singleton<RaceMgr>
         PoolFish.Add(MyFish);
         MyData = fish;
         CalEndingMeter();
-        IsStart = false;
-        IsEnd = false;
+        State = GameState.prepare;
+        IsChangedBg = false;
     }
 
     private async void CreateEmenyFish()
@@ -104,13 +106,13 @@ public class RaceMgr : Singleton<RaceMgr>
     private void CalEndingMeter()
     {
         EndingMeter = 100 * Mathf.Pow(1.2f, UserDataMgr.Instance.Stage);
+        ChangeBgMeter = SceneGame.Instance.GetBgHeight(SceneGame.Instance.RaceFinishBg);
     }
 
     public void StartGame()
     {
-        IsStart = true;
+        State = GameState.start;
         MyFish.gameObject.SetActive(true);
-        IsEnd = false;
         Timer = 0f;
 
         for (int i = 0; i < GameStaticValue.RaceInitFishCount; i++)
@@ -136,7 +138,7 @@ public class RaceMgr : Singleton<RaceMgr>
 
     public void MakeEndPopup()
     {
-        IsEnd = true;
+        State = GameState.end;
         int gold = Mathf.RoundToInt(Meter);
         PopupMgr.MakeCommonPopup("", gold.ToString(), false, false, () =>
         {
@@ -147,7 +149,7 @@ public class RaceMgr : Singleton<RaceMgr>
 
     public void EndGame()
     {
-        IsStart = false;
+        State = GameState.end;
         StartCoroutine(OpenLobyyUI());
     }
 
@@ -167,32 +169,48 @@ public class RaceMgr : Singleton<RaceMgr>
 
     private void Update()
     {
-        if (IsStart)
+        switch (State)
         {
-            if (!IsEnd)
-            {
-                Meter += MyData.Speed * Time.deltaTime;
-                SceneGame.Instance.MoveBg(MyData.Speed * Time.deltaTime);
-            }
+            case GameState.start:
+                {
+                    Meter += MyData.Speed * Time.deltaTime;
+                    SceneGame.Instance.MoveBg(MyData.Speed * Time.deltaTime);
 
-            if (Timer > GameStaticValue.RaceFishCreateTime)
-            {
-                Timer -= GameStaticValue.RaceFishCreateTime;
-                CreateEmenyFish();
-            }
+                    if (Timer > GameStaticValue.RaceFishCreateTime)
+                    {
+                        Timer -= GameStaticValue.RaceFishCreateTime;
+                        CreateEmenyFish();
+                    }
 
-            Timer += Time.deltaTime;
+                    Timer += Time.deltaTime;
 
-            if (Meter > EndingMeter)
-            {
-                MakeWinPopup();
-            }
+                    if (Meter > EndingMeter)
+                    {
+                        MakeWinPopup();
+                    }
+
+                    if (EndingMeter - Meter < ChangeBgMeter)
+                    {
+                        if (!IsChangedBg)
+                        {
+                            SceneGame.Instance.SetLastBg(SceneGame.Instance.RaceFinishBg);
+                            IsChangedBg = true;
+                        }
+                    }
+                }
+                break;
         }
+    }
+
+    private void ArriveGoal()
+    {
+        State = GameState.arrived;
+
     }
 
     private void MakeWinPopup()
     {
-        IsEnd = true;
+        State = GameState.end;
         int gold = Mathf.RoundToInt(EndingMeter * GameStaticValue.WinMulti);
         string title = string.Format("stage {0} clear", Stage);
         PopupMgr.MakeCommonPopup(title, gold.ToString(), false, false, () =>
@@ -203,4 +221,10 @@ public class RaceMgr : Singleton<RaceMgr>
             RaceMgr.Instance.EndGame();
         });
     }
+}
+
+
+public enum GameState
+{
+    prepare, start, arrived, end
 }
