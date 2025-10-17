@@ -66,7 +66,7 @@ public class SceneGame : Singleton<SceneGame>
 
         float result = range / 2f;
         // 절반만 가도록 하고 싶어서
-        result -= (lastHeight + repeatHeight) / 2f;
+        result -= lastHeight;
         int x = Mathf.FloorToInt(result / repeatHeight);
         result -= x * repeatHeight;
         MoveBg(result);

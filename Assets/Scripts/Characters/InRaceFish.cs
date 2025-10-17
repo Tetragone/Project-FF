@@ -54,20 +54,24 @@ public class InRaceFish : MonoBehaviour
 
         dir = dir.normalized;
 
-        if (Mathf.Abs(transform.position.x) > CameraMgr.CameraSize * GameStaticValue.NonWhiteSpaceOnX && dir.x * transform.position.x > 0)
+        if (RaceMgr.Instance.State == GameState.start)
         {
-            dir = new Vector3(0, dir.y);
-        }
+            if (Mathf.Abs(transform.position.x) > CameraMgr.CameraSize * GameStaticValue.NonWhiteSpaceOnX && dir.x * transform.position.x > 0)
+            {
+                dir = new Vector3(0, dir.y);
+            }
 
-        if (transform.position.y > CameraMgr.CameraSize * GameStaticValue.FishMaxYPercent && dir.y > 0)
-        {
-            dir = new Vector3(dir.x, 0);
-        }
+            if (transform.position.y > CameraMgr.CameraSize * GameStaticValue.FishMaxYPercent && dir.y > 0)
+            {
+                dir = new Vector3(dir.x, 0);
+            }
 
-        if (transform.position.y < CameraMgr.CameraSize * GameStaticValue.FishMinYPercent && dir.y < 0)
-        {
-            dir = new Vector3(dir.x, 0);
+            if (transform.position.y < CameraMgr.CameraSize * GameStaticValue.FishMinYPercent && dir.y < 0)
+            {
+                dir = new Vector3(dir.x, 0);
+            }
         }
+        
         NowDir = dir;
 
         SetMove(dir * 3f);

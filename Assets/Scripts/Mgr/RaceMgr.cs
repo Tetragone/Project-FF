@@ -43,6 +43,7 @@ public class RaceMgr : Singleton<RaceMgr>
         MyFish.gameObject.SetActive(false);
         PoolFish.Add(MyFish);
         MyData = fish;
+        Meter = 0f;
         CalEndingMeter();
         State = GameState.prepare;
         IsChangedBg = false;
@@ -105,7 +106,7 @@ public class RaceMgr : Singleton<RaceMgr>
 
     private void CalEndingMeter()
     {
-        EndingMeter = 100 * Mathf.Pow(1.2f, UserDataMgr.Instance.Stage);
+        EndingMeter = 30 * Mathf.Pow(1.2f, UserDataMgr.Instance.Stage);
         ChangeBgMeter = SceneGame.Instance.GetBgHeight(SceneGame.Instance.RaceFinishBg);
     }
 
@@ -186,10 +187,10 @@ public class RaceMgr : Singleton<RaceMgr>
 
                     if (Meter > EndingMeter)
                     {
-                        MakeWinPopup();
+                        ArriveGoal();
                     }
 
-                    if (EndingMeter - Meter < ChangeBgMeter)
+                    if (EndingMeter - Meter < ChangeBgMeter * 1.5f)
                     {
                         if (!IsChangedBg)
                         {
@@ -199,17 +200,28 @@ public class RaceMgr : Singleton<RaceMgr>
                     }
                 }
                 break;
+            case GameState.arrived:
+                {
+                    SetMyFishDir(Vector3.up);
+
+                    if (MyFish.transform.position.y > CameraMgr.CameraSize * GameStaticValue.NonWhiteSpaceOnX + 0.3f)
+                    {
+                        MakeWinPopup();
+                        SetMyFishDir(Vector3.zero);
+                    }
+                }
+                break;
         }
     }
 
     private void ArriveGoal()
     {
         State = GameState.arrived;
-        
     }
 
     private void MakeWinPopup()
     {
+        Debug.Log("end");
         State = GameState.end;
         int gold = Mathf.RoundToInt(EndingMeter * GameStaticValue.WinMulti);
         string title = string.Format("stage {0} clear", Stage);
