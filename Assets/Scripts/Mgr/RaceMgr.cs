@@ -205,7 +205,7 @@ public class RaceMgr : Singleton<RaceMgr>
     private void ArriveGoal()
     {
         State = GameState.arrived;
-
+        
     }
 
     private void MakeWinPopup()
