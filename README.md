@@ -71,6 +71,8 @@ Unity 2022.3.62f2
   ㄷ. 레이스
    <img width="576" height="1444" alt="image" src="https://github.com/user-attachments/assets/3eb528a4-e83c-4aaf-bf4e-71aefd074b4c" />  
 
-<img width="3372" height="5324" alt="image" src="https://github.com/user-attachments/assets/1ea9baf6-7a5c-4bab-8388-4968264853b0" />
+  ㄹ. 전체 흐름
+   <img width="1652" height="4032" alt="image" src="https://github.com/user-attachments/assets/c21fe958-53e1-4dc9-9f75-1b5a6e71c5a5" />
+
 
 
