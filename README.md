@@ -1,4 +1,4 @@
-<img width="3164" height="1324" alt="image" src="https://github.com/user-attachments/assets/d297dc53-1312-4eb0-b608-6963350a9e22" /># Project-FF
+Project-FF
 Unity 2022.3.62f2
 
  1. 프로젝트 소개
