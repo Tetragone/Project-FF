@@ -63,16 +63,21 @@ Unity 2022.3.62f2
 로비, 어항, 레이스에서 사용.
 
   ㄱ. 로비
+  
   <img width="777" height="315" alt="image" src="https://github.com/user-attachments/assets/b19dce98-8b34-489f-9699-e33d2ccaa975" />
 
   ㄴ. 어항
+  
   <img width="558" height="378" alt="image" src="https://github.com/user-attachments/assets/e4949fb3-c919-4f3f-92ac-55d0165289dc" />
 
   ㄷ. 레이스
+  
    <img width="488" height="392" alt="image" src="https://github.com/user-attachments/assets/d1fe10ea-c875-4e04-a471-ed5a815eea79" />
 
   ㄹ. 전체 흐름
-   <img width="1652" height="4032" alt="image" src="https://github.com/user-attachments/assets/c21fe958-53e1-4dc9-9f75-1b5a6e71c5a5" />
+  
+   <img width="556" height="1014" alt="image" src="https://github.com/user-attachments/assets/f909bb97-1018-4890-9505-0f94ed08184a" />
+
 
 
 
