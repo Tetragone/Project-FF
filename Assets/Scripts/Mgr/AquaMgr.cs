@@ -12,7 +12,7 @@ public class AquaMgr : Singleton<AquaMgr>
     
     private float Money = 0f;
     private float EanMoney = 2f;
-    private bool IsStart = false;
+    private AquaState State = AquaState.none;
     private float GameTimer = 0f;
     private float EndTimeMulti = 1f;
 
@@ -30,7 +30,7 @@ public class AquaMgr : Singleton<AquaMgr>
         Money = 0f;
         EanMoney = 2f;
         GameTimer = 0f;
-        IsStart = true;
+        State = AquaState.start;
         EndTimeMulti = GameStaticValue.EndingTimeMulti(UpgradeMgr.Instance.GetGoldUpgrade(GoldUpgrade.grow_time));
 
         for (int i = 0; i < GameStaticValue.AquaInitFishCount; i++)
@@ -41,6 +41,7 @@ public class AquaMgr : Singleton<AquaMgr>
 
     public void EndGame()
     {
+        State = AquaState.end;
         RaceMgr.Instance.InitRace(Selected);
         PoolFish.RemoveAll();
         PoolFood.RemoveAll();
@@ -163,21 +164,25 @@ public class AquaMgr : Singleton<AquaMgr>
 
     private void Update()
     {
-        if (IsStart)
+        switch (State)
         {
-            GameTimer += Time.deltaTime;
-            Money += EanMoney * Time.deltaTime;
+            case AquaState.start:
+                {
+                    GameTimer += Time.deltaTime;
+                    Money += EanMoney * Time.deltaTime;
 
-            if (GameTimer > GameStaticValue.AquaTime * EndTimeMulti)
-            {
-                OpenFishSelectPopup();
-            }
+                    if (GameTimer > GameStaticValue.AquaTime * EndTimeMulti)
+                    {
+                        OpenFishSelectPopup();
+                    }
+                }
+                break;
         }
     }
 
     private void OpenFishSelectPopup()
     {
-        IsStart = false;
+        State = AquaState.select_fish;
         RaceMgr.Instance.SettingBeforePlay();
         var data = CalFishValue();
 
@@ -232,4 +237,9 @@ public class AquaMgr : Singleton<AquaMgr>
     {
         Selected = data;
     }
+}
+
+public enum AquaState
+{
+    none, start, select_fish, end
 }
