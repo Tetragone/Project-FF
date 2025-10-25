@@ -115,6 +115,53 @@ public async void CreateFish()
 ```
 
 ---
+### Data Table (테이블)
+csv파일을 읽어오는 방식을 사용했으며,  
+`TableMgr.cs`를 이용하여 데이터를 읽어 올 수 있습니다.
+
+#### 코드 예시
+```csharp
+private Dictionary<string, string> TableName = new Dictionary<string, string>() 
+{
+    { "fish", "Tables/ff_fish" },
+};
+
+private void Awake()
+{ 
+    StartCoroutine(ReadTables());
+}
+
+private IEnumerator ReadTables()
+{
+    int cnt = 0;
+
+    foreach (string key in TableName.Keys)
+    {
+        Tables.Add(key, CSVReader.Read(TableName[key]));
+        cnt++;
+            
+        if (cnt == CorutineCount)
+        {
+            yield return null;
+        }
+    }
+
+    IsReaded = true;
+}
+
+public static string GetTableString(string name, string id, string colume)
+{
+    return Instance.Tables[name][id][colume];
+}
+```
+
+#### 사용 예시
+```csharp
+string sid = TableMgr.GetTableString("relic", key, "sid");
+string stype = TableMgr.GetTableString("stat", sid, "type");
+```
+> 테이블 이름과 id, column 이름을 넣으면 테이블 값을 불러오도록 만들었습니디.
+---
 
 ### Localization (다국어 지원)
 Unity의 **Localization 패키지**를 사용해 번역을 관리했습니다.  
@@ -122,6 +169,38 @@ Unity의 **Localization 패키지**를 사용해 번역을 관리했습니다.
 
 > **TransMgr.cs**에서 테이블 기반 언어 변경을 지원합니다.
 
+#### 코드 예시
+```csharp
+public static string GetText(string text)
+{
+    Locale locale = LocalizationSettings.AvailableLocales.GetLocale(GetLocaleString(GameLanguage.en));
+    string comfire = LocalizationSettings.StringDatabase.GetLocalizedString(GameStaticValue.TransTable, text, locale);
+
+    if (comfire == text)
+    {
+        return string.Format("NoTrans_{0}", text);
+    }
+    else
+    {
+        return LocalizationSettings.StringDatabase.GetLocalizedString(GameStaticValue.TransTable, text
+            , LocalizationSettings.SelectedLocale);
+    }
+}
+```
+
+#### 사용 예시
+```csharp
+private void InitTextTrans()
+{
+    TextTitle.text = string.Format("{0} : {1}", TransMgr.GetText("스테이지"), UserDataMgr.Instance.Stage);
+    TextUpgrade.text = TransMgr.GetText("강화");
+    TextFishes.text = TransMgr.GetText("물고기");
+    TextGameMenu.text = TransMgr.GetText("게임");
+    TextRelices.text = TransMgr.GetText("유물");
+    TextShopMenu.text = TransMgr.GetText("상점");
+    TextPlay.text = TransMgr.GetText("게임 시작");
+}
+```
 ---
 
 ### Local Save (데이터 저장)
