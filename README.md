@@ -205,15 +205,81 @@ private void InitTextTrans()
 
 ### Local Save (데이터 저장)
 간단한 게임 구조이므로 **PlayerPrefs**를 사용했습니다.  
-서버 저장 구조로의 확장도 고려하여, `UserDataMgr`에서 저장 방식을 유연하게 설계했습니다.
+서버 저장 구조로의 확장도 고려하여, `DataLoadMgr`에서 저장 방식을 유연하게 설계했습니다.
 
 > 예: PlayerPrefs ⇄ 서버 저장 방식 선택 가능 구조
 
+#### 저장 방식에 따른 데이터 호출 코드
+```csharp
+private void Awake()
+{
+    DataLoad data = DataLoad.LoadLocal();
+    IsLoadFromServer = data.IsSaveServer;
+}
+
+public static void SaveLocalData()
+{
+    if (IsLoadFromServer)
+    {
+        // 서버 저장 방식이 추가될때 사용할 공간
+    }
+    else
+    {
+        UserDataMgr.Instance.SaveData();
+        UpgradeMgr.Instance.SaveData();
+    }
+}
+```
+
+#### 로컬 데이터 호출 코드
+``` csharp
+public class UserLocalData
+{
+    public string Gold;
+    private static string GoldKey = "gk";
+
+    public static void SaveData(UserLocalData data)
+    {
+        PlayerPrefs.SetString(GoldKey, data.Gold);
+        PlayerPrefs.Save();
+    }
+
+    public static UserLocalData LoadData()
+    {
+        UserLocalData data = new UserLocalData();
+        data.Gold = PlayerPrefs.GetString(GoldKey, "");
+        return data;
+    }
+}
+```
 ---
 
 ### Sprite Atlas (Draw Call 최적화)
 `AtlasMgr.cs`를 통해 이미지 리소스를 통합 관리하며,  
 UI 렌더링 시 Draw Call 수를 줄여 경량화했습니다.
+
+``` csharp
+[SerializeField] private SpriteAtlas Common;
+
+private Dictionary<string, Sprite> DicCommon = new Dictionary<string, Sprite>();
+
+public Sprite GetCommonSprite(string path)
+{
+    if (!DicCommon.ContainsKey(path))
+    {
+        Sprite sprite = Common.GetSprite(path);
+
+        if (sprite == null)
+        {
+            return null;
+        }
+
+        DicCommon.Add(path, sprite);
+    }
+
+    return DicCommon[path];
+}
+```
 
 ---
 
@@ -245,23 +311,6 @@ UI 렌더링 시 Draw Call 수를 줄여 경량화했습니다.
   **리소스 로드 구조**와 **메모리 관리 방식**을 체험적으로 익힘.
 - 단순한 게임이지만, **확장 가능한 구조 설계**를 목표로 작성.
 - 향후에는 **Firebase 연동 및 서버 저장 기능**을 추가 예정.
-
----
-
-## 📁 Repository 구조 예시
-```
-📦 ProjectFF
- ┣ 📂 Scripts
- ┃ ┣ 📜 AquaMgr.cs
- ┃ ┣ 📜 PoolData.cs
- ┃ ┣ 📜 TransMgr.cs
- ┃ ┗ 📜 UserDataMgr.cs
- ┣ 📂 Addressables
- ┣ 📂 Tables
- ┣ 📂 Atlas
- ┣ 📜 Game.unity
- ┗ 📜 Title.unity
-```
 
 ---
 
