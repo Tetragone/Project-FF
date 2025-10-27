@@ -7,22 +7,22 @@
 > “작고 단순하지만 구조적으로 탄탄한 게임”을 목표로 한 개인 프로젝트입니다.
 
 **Project FF**는 물고기를 성장시켜 목표 지점에 도달하게 만드는 간단한 캐주얼 게임입니다.  
-Unity 엔진의 주요 기능을 체험하고, 프로젝트 구조 및 최적화를 고민하기 위해 제작되었습니다.
+Unity 엔진의 주요 기능을 사용하고, 프로젝트 구조 및 최적화를 고민하기 위해 제작되었습니다.
 
 ---
 
 ## 사용 기술 및 구조
 > Addressable, Object Pooling, Data Table, Localization, Local Save, Sprite Atlas 등  
-> 실무 개발에서 자주 사용되는 시스템을 직접 구현하고 적용했습니다.
+> 실무 개발에서 자주 사용했던 시스템과 아직 사용 못한 시스템도 적용했습니다.
 
-| 기술 | 주요 사용 파일 | 설명 |
-|------|----------------|------|
-| **Addressable** | `PopupMgr.cs`, `PoolData.cs` | 팝업 및 풀링 리소스 로드에 사용 |
-| **Pooling System** | `PoolData.cs`, `AquaMgr.cs`, `RaceMgr.cs` | Object 생성 최적화 |
-| **Data Table** | `TableMgr.cs` | 각종 설정값 및 데이터 관리 |
-| **Localization** | `TransMgr.cs` | Unity Localization 활용 |
-| **Local Save** | `UpgradeMgr.cs`, `UserDataMgr.cs` | PlayerPrefs 기반 로컬 저장 |
-| **Atlas 관리** | `AtlasMgr.cs` | Draw Call 감소 및 성능 최적화 |
+| 기술 | 주요 사용 파일 | 설명 | 실무 사용 여부 | 
+|------|----------------|------|-----|
+| **Addressable** | `PopupMgr.cs`, `PoolData.cs` | 팝업 및 풀링 리소스 로드에 사용 | X |
+| **Pooling System** | `PoolData.cs`, `AquaMgr.cs`, `RaceMgr.cs` | Object 생성 최적화 | O |
+| **Data Table** | `TableMgr.cs` | 각종 설정값 및 데이터 관리 | O |
+| **Localization** | `TransMgr.cs` | Unity Localization 활용 | X |
+| **Local Save** | `UpgradeMgr.cs`, `UserDataMgr.cs` | PlayerPrefs 기반 로컬 저장 | X |
+| **Atlas 관리** | `AtlasMgr.cs` | Draw Call 감소 및 성능 최적화 | O |
 
 ---
 
@@ -59,8 +59,6 @@ private void Awake()
     PoolFood = new PoolData<Food>(GameStaticValue.FoodPath);
 }
 ```
-
->  *Addressable을 처음 적용하며, 메모리 관리 및 로드 시점을 직접 제어하는 구조를 학습했습니다.*
 
 ---
 
@@ -306,15 +304,7 @@ public Sprite GetCommonSprite(string path)
 
 ---
 
-## 프로젝트 회고
-- Addressable 및 Pool 시스템을 처음부터 직접 설계해보며  
-  **리소스 로드 구조**와 **메모리 관리 방식**을 체험적으로 익힘.
-- 단순한 게임이지만, **확장 가능한 구조 설계**를 목표로 작성.
-- 향후에는 **Firebase 연동 및 서버 저장 기능**을 추가 예정.
-
----
-
-### 요약 포인트 (포트폴리오용)
+### 요약 포인트
 - Unity Addressable, Pooling, Localization 등 **실무형 구조 직접 설계**
 - **성능과 확장성**을 고려한 프로젝트 아키텍처 설계 경험
 - **단일 개발자 프로젝트**로, 기획 → 구현 → 최적화 전 과정을 직접 수행
