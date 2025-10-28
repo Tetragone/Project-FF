@@ -87,6 +87,11 @@ public class UpgradeMgr : SingletonAllSecen<UpgradeMgr>
             FishesLv[GameStaticValue.BaseFishFid] = 1;
         }
 
+        if (FishesCount[GameStaticValue.BaseFishFid] <= GameStaticValue.GetNeedFishLvUpCount(1))
+        {
+            FishesCount[GameStaticValue.BaseFishFid] = GameStaticValue.GetNeedFishLvUpCount(1);
+        }
+
         RelicCount.Clear();
         RelicLv.Clear();
 

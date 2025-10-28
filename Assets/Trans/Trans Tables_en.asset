@@ -310,6 +310,30 @@ MonoBehaviour:
     m_Localized: Increased chance of catching bigger fish in races
     m_Metadata:
       m_Items: []
+  - m_Id: 11211532104822784
+    m_Localized: Select
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11211532138377216
+    m_Localized: Get
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11211532138377217
+    m_Localized: Level up
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11211532138377218
+    m_Localized: Upgrade food effective
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11211532138377219
+    m_Localized: Upgrade grow time
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11211532138377220
+    m_Localized: Upgrade energy effective
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
