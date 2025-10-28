@@ -1,5 +1,3 @@
 sid,t_name,add,pid,res,category,t_category_name,price_type,price,get_type_1,get_value_1
 1001,물고기 {0}회 뽑기,1,x,random_fish,fish_gacha,물고기 뽑기,gacha_point,300,fish_gacha,1
 1002,물고기 {0}회 뽑기,10,x,random_fish,fish_gacha,물고기 뽑기,gacha_point,3000,fish_gacha,11
-1003,유물 {0}회 뽑기,1,x,random_fish,relic_gacha,유물 뽑기,relic_point,300,relic_gacha,1
-1004,유물 {0}회 뽑기,10,x,random_fish,relic_gacha,유물 뽑기,relic_point,3000,relic_gacha,11
