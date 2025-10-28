@@ -8,6 +8,9 @@
 
 **Project FF**는 물고기를 성장시켜 목표 지점에 도달하게 만드는 간단한 캐주얼 게임입니다.  
 Unity 엔진의 주요 기능을 사용하고, 프로젝트 구조 및 최적화를 고민하기 위해 제작되었습니다.
+| 로비 | 어항 | 레이스 |
+|------|------|-----|
+| <img width="219" height="389" alt="image" src="https://github.com/user-attachments/assets/6a3dc216-c2ae-41d7-86dc-8102768c35f0" /> | <img width="221" height="394" alt="image" src="https://github.com/user-attachments/assets/1f3cc5f8-b326-4550-8daa-428b30e2d593" /> | <img width="219" height="395" alt="image" src="https://github.com/user-attachments/assets/aa769a65-027e-43ec-a0f3-061194967770" /> |
 
 ---
 
