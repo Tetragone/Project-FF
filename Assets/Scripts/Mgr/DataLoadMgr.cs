@@ -7,29 +7,17 @@ public class DataLoadMgr : MonoBehaviour
     public static bool IsLoaded = false;
     private static bool IsLoadFromServer = false;
 
-    protected void Awake()
+    // Awake()에서 하면 Singleton이 활성화가 안되어 있을 수 도 있기 때문에 Start()에서 해준다.
+    private void Start()
     {
-        DataLoad data = DataLoad.LoadLocal();
-        IsLoadFromServer = data.IsSaveServer;
         IsLoaded = false;
         StartCoroutine(StartLoad());
     }
 
     private IEnumerator StartLoad()
     {
-        while (!IsVaildLoadStart())
-        {
-            yield return null;
-        }
-
-        LoadLocalData();
         yield return GameOptionData.Instance.LoadData();
-        IsLoaded = true;
-    }
-
-    private bool IsVaildLoadStart()
-    {
-        return UserDataMgr.Instance != null && UpgradeMgr.Instance != null && GameOptionData.Instance != null;
+        LoadData();
     }
 
     public static void SaveLocalData()
@@ -45,17 +33,35 @@ public class DataLoadMgr : MonoBehaviour
         }
     }
 
-    public void LoadLocalData()
+    private void LoadData()
     {
-        if (IsLoadFromServer)
+        if (Application.internetReachability == NetworkReachability.NotReachable)
         {
-
+            LoadLocalData();
         }
         else
         {
-            UserDataMgr.Instance.LoadData();
-            UpgradeMgr.Instance.LoadData();
+            if (FireAuth.Instance.IsLoginUser)
+            {
+                LoadServerData();
+            }
+            else
+            {
+                LoadLocalData();
+            }
         }
+    }
+
+    public static void LoadLocalData()
+    {
+        UserDataMgr.Instance.LoadData();
+        UpgradeMgr.Instance.LoadData();
+        IsLoaded = true;
+    }
+
+    public static void LoadServerData()
+    {
+
     }
 }
 
