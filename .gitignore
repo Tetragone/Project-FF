@@ -72,5 +72,6 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 Assets/Plugins/google-services.json
+Assets/Plugins/google-services.json.meta
 
 *.DS_Store
