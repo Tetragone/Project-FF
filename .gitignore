@@ -73,5 +73,9 @@ crashlytics-build.properties
 
 Assets/Plugins/google-services.json
 Assets/Plugins/google-services.json.meta
+Assets/Plugins/Android/FirebaseApp.androidlib/res/values/google-services.xml
+Assets/StreamingAssets/google-services-desktop.json
+Assets/StreamingAssets/google-services-desktop.json.meta
 
 *.DS_Store
+
