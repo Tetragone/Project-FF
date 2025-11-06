@@ -31,7 +31,7 @@ public class AquaMgr : Singleton<AquaMgr>
         EanMoney = 2f;
         GameTimer = 0f;
         State = AquaState.start;
-        EndTimeMulti = GameStaticValue.EndingTimeMulti(UpgradeMgr.Instance.GetGoldUpgrade(GoldUpgrade.grow_time));
+        EndTimeMulti = GameStaticValue.EndingTimeMulti(UserDataMgr.Instance.GetGoldUpgrade(GoldUpgrade.grow_time));
 
         for (int i = 0; i < GameStaticValue.AquaInitFishCount; i++)
         {
@@ -87,7 +87,7 @@ public class AquaMgr : Singleton<AquaMgr>
 
         if (HasFishes.Count == 0)
         {
-            HasFishes = UpgradeMgr.Instance.GetHasFishes();
+            HasFishes = UserDataMgr.Instance.GetHasFishes();
         }
 
         int idx = Random.Range(0, HasFishes.Count);

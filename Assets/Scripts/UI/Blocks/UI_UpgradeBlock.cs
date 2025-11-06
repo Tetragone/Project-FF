@@ -35,12 +35,12 @@ public class UI_UpgradeBlock : MonoBehaviour
         Refresh();
         UpgradeButton.onClick.AddListener(() =>
         {
-            int nowLv = UpgradeMgr.Instance.GetGoldUpgrade(Type);
+            int nowLv = UserDataMgr.Instance.GetGoldUpgrade(Type);
             int needGold = GameStaticValue.NeedGold(nowLv);
 
             if (UserDataMgr.Instance.IsEnoughGoods(needGold, GoodsType.gold))
             {
-                UpgradeMgr.Instance.AddGoldUpgrade(Type);
+                UserDataMgr.Instance.AddGoldUpgrade(Type);
                 UserDataMgr.Instance.UseGoods(needGold, GoodsType.gold);
                 UI_Lobby.Instance.RefreshTexts();
                 DataLoadMgr.SaveLocalData();
@@ -51,7 +51,7 @@ public class UI_UpgradeBlock : MonoBehaviour
 
     public void Refresh()
     {
-        int nowLv = UpgradeMgr.Instance.GetGoldUpgrade(Type);
+        int nowLv = UserDataMgr.Instance.GetGoldUpgrade(Type);
         int needGold = GameStaticValue.NeedGold(nowLv);
 
         TextLv.text = string.Format("Lv.{0}", nowLv.ToString());

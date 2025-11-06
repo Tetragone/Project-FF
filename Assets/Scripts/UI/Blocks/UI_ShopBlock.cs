@@ -80,10 +80,10 @@ public class UI_ShopBlock : MonoBehaviour
 
                 foreach (string fid in selectedFishes)
                 {
-                    UpgradeMgr.Instance.AddFishesCount(fid);
+                    UserDataMgr.Instance.AddFishesCount(fid);
                 }
 
-                UpgradeMgr.Instance.SaveData();
+                UserDataMgr.Instance.SaveData();
             }
             else if (GetType1 == "relic_gacha")
             {
@@ -91,10 +91,10 @@ public class UI_ShopBlock : MonoBehaviour
 
                 foreach (string rid in selectedRelics)
                 {
-                    UpgradeMgr.Instance.AddRelicCount(rid);
+                    UserDataMgr.Instance.AddRelicCount(rid);
                 }
 
-                UpgradeMgr.Instance.SaveData();
+                UserDataMgr.Instance.SaveData();
             }
         }
 

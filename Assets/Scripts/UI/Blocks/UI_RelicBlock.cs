@@ -29,14 +29,14 @@ public class UI_RelicBlock : MonoBehaviour
 
         ButtonRelicUpgrade.onClick.AddListener(() =>
         {
-            UpgradeMgr.Instance.AddRelicLv(rid);
+            UserDataMgr.Instance.AddRelicLv(rid);
         });
     }
 
     public void Refresh()
     {
-        int count = UpgradeMgr.Instance.GetRelicCount(rId);
-        int lv = UpgradeMgr.Instance.GetRelicLv(rId);
+        int count = UserDataMgr.Instance.GetRelicCount(rId);
+        int lv = UserDataMgr.Instance.GetRelicLv(rId);
         int usedCount = 0;
 
         for (int i = 1; i <= lv; i++)

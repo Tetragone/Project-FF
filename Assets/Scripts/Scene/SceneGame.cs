@@ -129,7 +129,7 @@ public class SceneGame : Singleton<SceneGame>
                 return;
             }
 
-            foreach (string key in UpgradeMgr.Instance.GetHasFishes())
+            foreach (string key in UserDataMgr.Instance.GetHasFishes())
             {
                 InAquaFish newFish = await PoolFish.GetNew();
                 newFish.Init(key, false);

@@ -30,14 +30,14 @@ public class UI_FishBlock : MonoBehaviour
 
         ButtonFishUpgrade.onClick.AddListener(() =>
         {
-            UpgradeMgr.Instance.AddFishesLv(fid);
+            UserDataMgr.Instance.AddFishesLv(fid);
         });
     }
 
     public void Refresh()
     {
-        int count = UpgradeMgr.Instance.GetFishesCount(fId);
-        int lv = UpgradeMgr.Instance.GetFishesLv(fId);
+        int count = UserDataMgr.Instance.GetFishesCount(fId);
+        int lv = UserDataMgr.Instance.GetFishesLv(fId);
         int usedCount = 0;
 
         for (int i = 1; i <= lv; i++)

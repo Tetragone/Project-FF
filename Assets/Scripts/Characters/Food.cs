@@ -28,7 +28,7 @@ public class Food : MonoBehaviour
     public void InitValue(string id)
     {
         Fid = id;
-        BaseValue = 2f * GameStaticValue.FishGrowMulti(UpgradeMgr.Instance.GetGoldUpgrade(GoldUpgrade.food_grow));//TableMgr.GetTableFloat("food", id, "base_value");
+        BaseValue = 2f * GameStaticValue.FishGrowMulti(UserDataMgr.Instance.GetGoldUpgrade(GoldUpgrade.food_grow));//TableMgr.GetTableFloat("food", id, "base_value");
         RandomValue = UnityEngine.Random.Range(GameStaticValue.BaseFoodRandomValue * -1, GameStaticValue.BaseFoodRandomValue);
         IsEating = false;
         IsStart = true;

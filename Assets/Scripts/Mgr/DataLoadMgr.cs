@@ -29,7 +29,7 @@ public class DataLoadMgr : MonoBehaviour
         else
         {
             UserDataMgr.Instance.SaveData();
-            UpgradeMgr.Instance.SaveData();
+            UserDataMgr.Instance.SaveData();
         }
     }
 
@@ -55,7 +55,7 @@ public class DataLoadMgr : MonoBehaviour
     public static void LoadLocalData()
     {
         UserDataMgr.Instance.LoadData();
-        UpgradeMgr.Instance.LoadData();
+        UserDataMgr.Instance.LoadData();
         IsLoaded = true;
     }
 
