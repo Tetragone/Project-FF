@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FireAuth : SingletonAllSecen<FireAuth>
 {
-    public bool IsLoginUser = false;
+    [HideInInspector] public bool IsLoginUser = false;
     private FirebaseAuth Auth = null;
     private FirebaseUser User = null;
 

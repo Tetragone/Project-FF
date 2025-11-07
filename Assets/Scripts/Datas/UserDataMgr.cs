@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class UserDataMgr : SingletonAllSecen<UserDataMgr>
 {
@@ -369,7 +370,6 @@ public class UserDataMgr : SingletonAllSecen<UserDataMgr>
     }
     #endregion
 
-    // 데이터 저장을 User Upgrade 합치는 것은 어떨까?
     #region Server Data Save 
     public void SaveDataOnServer()
     {
@@ -379,13 +379,30 @@ public class UserDataMgr : SingletonAllSecen<UserDataMgr>
         data.Add("relic_point", RelicPoint.ToString());
         data.Add("stage", Stage.ToString());
 
+        InsertDataFromDic(data, "gold_lv", GoldUpgradeLv);
+        InsertDataFromDic(data, "fish_lv", FishesLv);
+        InsertDataFromDic(data, "fish_count", FishesCount);
+        InsertDataFromDic(data, "relic_lv", RelicLv);
+        InsertDataFromDic(data, "relic_count", RelicCount);
+
         FireCloudFunction.Instance.CallHttps("user_save", data, (result =>
         {
             SaveData();
-        }));
+        }), () => SaveData());
     }
 
-    public void LoadDataOnServer()
+    private void InsertDataFromDic<TKey, TValue>(Dictionary<string, object> data, string key, Dictionary<TKey, TValue> input)
+    {
+        Dictionary<string, object> changeToInput = new Dictionary<string, object>();
+        foreach (TKey iKey in input.Keys)
+        {
+            string siKey = iKey.ToString();
+            changeToInput.Add(siKey, input[iKey]);
+        }
+        data.Add(key, changeToInput);
+    }
+
+    public void LoadDataOnServer(UnityAction action = null)
     {
         FireCloudFunction.Instance.CallHttps("user_load", new Dictionary<string, object>(), (data =>
         {
@@ -393,7 +410,36 @@ public class UserDataMgr : SingletonAllSecen<UserDataMgr>
             GachaPoint = new SecureInt(int.Parse(data["gacha_point"].ToString()));
             RelicPoint = new SecureInt(int.Parse(data["relic_point"].ToString()));
             Stage = new SecureInt(int.Parse(data["stage"].ToString()));
+
+            var goldLv = data["gold_lv"] as Dictionary<string, object>;
+            GoldUpgradeLv.Clear();
+            foreach (string key in goldLv.Keys)
+            {
+                int value = int.Parse(goldLv[key].ToString());
+                GoldUpgrade upgrade = (GoldUpgrade)Enum.Parse(typeof(GoldUpgrade), key);
+                GoldUpgradeLv.Add(upgrade, value);
+            }
+
+            SetDicFromData(FishesLv, data["fish_lv"] as Dictionary<string, object>);
+            SetDicFromData(FishesCount, data["fish_count"] as Dictionary<string, object>);
+            SetDicFromData(RelicLv, data["relic_lv"] as Dictionary<string, object>);
+            SetDicFromData(RelicCount, data["relic_count"] as Dictionary<string, object>);
+
+            if (action == null)
+            {
+                action.Invoke();
+            }
         }));
+    }
+
+    private void SetDicFromData(Dictionary<string, SecureInt> dic, Dictionary<string, object> data)
+    {
+        dic.Clear();
+        foreach (string key in data.Keys)
+        {
+            int value = int.Parse(data[key].ToString());
+            dic.Add(key, value);
+        }
     }
     #endregion
 }

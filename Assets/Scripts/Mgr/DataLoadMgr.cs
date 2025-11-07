@@ -24,11 +24,10 @@ public class DataLoadMgr : MonoBehaviour
     {
         if (IsLoadFromServer)
         {
-
+            UserDataMgr.Instance.SaveDataOnServer();
         }
         else
         {
-            UserDataMgr.Instance.SaveData();
             UserDataMgr.Instance.SaveData();
         }
     }
@@ -55,31 +54,14 @@ public class DataLoadMgr : MonoBehaviour
     public static void LoadLocalData()
     {
         UserDataMgr.Instance.LoadData();
-        UserDataMgr.Instance.LoadData();
         IsLoaded = true;
     }
 
     public static void LoadServerData()
     {
-
-    }
-}
-
-public class DataLoad
-{
-    public bool IsSaveServer = false;
-    private static string KeySaveServer = "is_save_server";
-
-    public static void SaveLocal(DataLoad data)
-    {
-        PlayerPrefs.SetInt(KeySaveServer, data.IsSaveServer ? 1 : 0);
-        PlayerPrefs.Save();
-    }
-
-    public static DataLoad LoadLocal()
-    {
-        DataLoad data = new DataLoad();
-        data.IsSaveServer = PlayerPrefs.GetInt(KeySaveServer) == 1;
-        return data;
+        UserDataMgr.Instance.LoadDataOnServer(() =>
+        {
+            IsLoaded = true;
+        });
     }
 }
