@@ -80,4 +80,17 @@ public static class PopupMgr
         popup.SetText(title, "");
         popup.InitAfterSetting(false, false, true);
     }
+
+    public static async void MakeLoginPopup()
+    {
+        ActiveLoadingPopup(true);
+        GameObject res = await AddressableMgr.LoadAndInstantiate("popup_login", UI_Lobby.Root.transform, false);
+        ActiveLoadingPopup(false);
+        PopupCommon popup = res.GetComponent<PopupCommon>();
+        popup.SetReleaseObj(res);
+
+        string title = TransMgr.GetText("이메일 로그인");
+        popup.SetText(title, "");
+        popup.InitAfterSetting(false, false, true);
+    }
 }

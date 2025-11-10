@@ -7,6 +7,7 @@ public class FireAuth : SingletonAllSecen<FireAuth>
     [HideInInspector] public bool IsLoginUser = false;
     private FirebaseAuth Auth = null;
     private FirebaseUser User = null;
+    public string UID = "";
 
     protected override void SetDataInAwake()
     {
@@ -26,6 +27,7 @@ public class FireAuth : SingletonAllSecen<FireAuth>
         if (Auth.CurrentUser != User)
         {
             User = Auth.CurrentUser;
+            UID = User.UserId;
         }
     }
 

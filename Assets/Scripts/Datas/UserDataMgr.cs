@@ -406,35 +406,71 @@ public class UserDataMgr : SingletonAllSecen<UserDataMgr>
     {
         FireCloudFunction.Instance.CallHttps("user_load", new Dictionary<string, object>(), (data =>
         {
-            Gold = new SecureInt(int.Parse(data["gold"].ToString()));
-            GachaPoint = new SecureInt(int.Parse(data["gacha_point"].ToString()));
-            RelicPoint = new SecureInt(int.Parse(data["relic_point"].ToString()));
-            Stage = new SecureInt(int.Parse(data["stage"].ToString()));
-
-            var goldLv = data["gold_lv"] as Dictionary<string, object>;
-            GoldUpgradeLv.Clear();
-            foreach (string key in goldLv.Keys)
+            if (data == null)
             {
-                int value = int.Parse(goldLv[key].ToString());
-                GoldUpgrade upgrade = (GoldUpgrade)Enum.Parse(typeof(GoldUpgrade), key);
-                GoldUpgradeLv.Add(upgrade, value);
+                Debug.LogError("data loading is error");
+                return;
             }
 
-            SetDicFromData(FishesLv, data["fish_lv"] as Dictionary<string, object>);
-            SetDicFromData(FishesCount, data["fish_count"] as Dictionary<string, object>);
-            SetDicFromData(RelicLv, data["relic_lv"] as Dictionary<string, object>);
-            SetDicFromData(RelicCount, data["relic_count"] as Dictionary<string, object>);
+            Dictionary<object, object> user = data["user"] as Dictionary<object, object>;
+            foreach (string key in user.Keys)
+            {
+                switch (key)
+                {
+                    case "gold":
+                        Gold = new SecureInt(int.Parse(user["gold"].ToString()));
+                        break;
+                    case "gacha_point":
+                        GachaPoint = new SecureInt(int.Parse(user["gacha_point"].ToString()));
+                        break;
+                    case "relic_point":
+                        RelicPoint = new SecureInt(int.Parse(user["relic_point"].ToString()));
+                        break;
+                    case "stage":
+                        Stage = new SecureInt(int.Parse(user["stage"].ToString()));
+                        break;
+                    case "gold_lv":
+                        {
+                            var goldLv = user["gold_lv"] as Dictionary<object, object>;
+                            GoldUpgradeLv.Clear();
+                            foreach (string gkey in goldLv.Keys)
+                            {
+                                int value = int.Parse(goldLv[gkey].ToString());
+                                GoldUpgrade upgrade = (GoldUpgrade)Enum.Parse(typeof(GoldUpgrade), gkey);
+                                GoldUpgradeLv.Add(upgrade, value);
+                            }
+                        }
+                        break;
+                    case "fish_lv":
+                        SetDicFromData(FishesLv, user["fish_lv"] as Dictionary<object, object>);
+                        break;
+                    case "fish_count":
+                        SetDicFromData(FishesCount, user["fish_count"] as Dictionary<object, object>);
+                        break;
+                    case "relic_lv":
+                        SetDicFromData(RelicLv, user["relic_lv"] as Dictionary<object, object>);
+                        break;
+                    case "relic_count":
+                        SetDicFromData(RelicCount, user["relic_count"] as Dictionary<object, object>);
+                        break;
+                }
+            }
 
-            if (action == null)
+            if (action != null)
             {
                 action.Invoke();
             }
         }));
     }
 
-    private void SetDicFromData(Dictionary<string, SecureInt> dic, Dictionary<string, object> data)
+    private void SetDicFromData(Dictionary<string, SecureInt> dic, Dictionary<object, object> data)
     {
-        dic.Clear();
+        if (data == null)
+        {
+            return;
+        }
+
+        dic.Clear(); 
         foreach (string key in data.Keys)
         {
             int value = int.Parse(data[key].ToString());

@@ -11,12 +11,13 @@ public class FireCloudFunction : SingletonAllSecen<FireCloudFunction>
 
     private void Start()
     {
-        functions = FirebaseFunctions.DefaultInstance;
+        functions = FirebaseFunctions.GetInstance("asia-northeast3");
     }
 
     public void CallHttps(string name, Dictionary<string, object> data
-        , UnityAction<Dictionary<string, object>> successAction, UnityAction failAction = null)
+        , UnityAction<Dictionary<object, object>> successAction, UnityAction failAction = null)
     {
+        data.Add("uid", FireAuth.Instance.UID);
         functions.GetHttpsCallable(name).CallAsync(data)
             .ContinueWithOnMainThread(task =>
             {
@@ -37,7 +38,9 @@ public class FireCloudFunction : SingletonAllSecen<FireCloudFunction>
                 }
                 else
                 {
-                    var result = task.Result.Data as Dictionary<string, object>;
+                    Debug.LogFormat("function {0} is success", name);
+                    var data = task.Result.Data;
+                    var result = (Dictionary<object, object>)data;
                     successAction.Invoke(result);
                 } 
             });
