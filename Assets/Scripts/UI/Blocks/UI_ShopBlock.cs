@@ -83,7 +83,7 @@ public class UI_ShopBlock : MonoBehaviour
                     UserDataMgr.Instance.AddFishesCount(fid);
                 }
 
-                UserDataMgr.Instance.SaveData();
+                DataLoadMgr.SaveLocalData();
             }
             else if (GetType1 == "relic_gacha")
             {
@@ -94,7 +94,7 @@ public class UI_ShopBlock : MonoBehaviour
                     UserDataMgr.Instance.AddRelicCount(rid);
                 }
 
-                UserDataMgr.Instance.SaveData();
+                DataLoadMgr.SaveLocalData();
             }
         }
 

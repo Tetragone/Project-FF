@@ -1,5 +1,6 @@
 using Firebase.Auth;
 using System;
+using UnityEditor;
 using UnityEngine;
 
 public class FireAuth : SingletonAllSecen<FireAuth>
@@ -60,6 +61,20 @@ public class FireAuth : SingletonAllSecen<FireAuth>
             PopupMgr.ActiveLoadingPopup(false);
             Debug.LogFormat("Firebase user created successfully: {0} ({1})",
                 result.User.DisplayName, result.User.UserId);
+            UserDataMgr.Instance.SaveDataOnServer(() =>
+            {
+                string title = TransMgr.GetText("안내");
+                string context = TransMgr.GetText("계정 생성이 되어 게임을 다시 시작해주세요.");
+                PopupMgr.MakeCommonPopup(title, context, false, false, () =>
+                {
+#if UNITY_EDITOR
+                    EditorApplication.isPlaying = false;
+#else
+                    Application.Quit();
+#endif
+                });
+            });
+
         });
     }
 
@@ -85,6 +100,17 @@ public class FireAuth : SingletonAllSecen<FireAuth>
             PopupMgr.ActiveLoadingPopup(false);
             Debug.LogFormat("User signed in successfully: {0} ({1})",
                 result.User.DisplayName, result.User.UserId);
+
+            string title = TransMgr.GetText("안내");
+            string context = TransMgr.GetText("로그인이 완료됐습니다. 안전한 게임을 위해 게임을 다시 시작해주세요.");
+            PopupMgr.MakeCommonPopup(title, context, false, false, () =>
+            {
+#if UNITY_EDITOR
+                EditorApplication.isPlaying = false;
+#else
+                Application.Quit();
+#endif
+            });
         });
     }
 }

@@ -135,7 +135,7 @@ public class UserDataMgr : SingletonAllSecen<UserDataMgr>
                 break;
         }
 
-        this.SaveData();
+        DataLoadMgr.SaveLocalData();
     }
 
     public void UseGoods(int value, GoodsType type)
@@ -371,7 +371,7 @@ public class UserDataMgr : SingletonAllSecen<UserDataMgr>
     #endregion
 
     #region Server Data Save 
-    public void SaveDataOnServer()
+    public void SaveDataOnServer(UnityAction action = null)
     {
         Dictionary<string, object> data = new Dictionary<string, object>();
         data.Add("gold", Gold.ToString());
@@ -388,6 +388,11 @@ public class UserDataMgr : SingletonAllSecen<UserDataMgr>
         FireCloudFunction.Instance.CallHttps("user_save", data, (result =>
         {
             SaveData();
+
+            if (action != null)
+            {
+                action.Invoke();
+            }
         }), () => SaveData());
     }
 
