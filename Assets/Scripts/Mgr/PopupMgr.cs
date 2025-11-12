@@ -92,5 +92,11 @@ public static class PopupMgr
         string title = TransMgr.GetText("이메일 로그인");
         popup.SetText(title, "");
         popup.InitAfterSetting(false, false, true);
+        FireAuth.Instance.RegistObserver(popup);
+        popup.AddObserverAction(() =>
+        {
+            popup.ButtonClose.onClick.Invoke();
+            FireAuth.Instance.RemoveObserver(popup);
+        }, true);
     }
 }

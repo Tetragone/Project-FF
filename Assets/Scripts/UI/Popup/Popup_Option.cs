@@ -14,11 +14,14 @@ public class Popup_Option : MonoBehaviour
     [Header("계정 연동")]
     public TextMeshProUGUI TextLink;
     public Button ButtonEmail;
+    public Button ButtonLogout;
+    public TextMeshProUGUI TextLogout;
 
     private void Awake()
     {
         TextLangTitle.text = TransMgr.GetText("언어 설정");
         TextLink.text = TransMgr.GetText("계정 연동");
+        TextLogout.text = TransMgr.GetText("로그아웃");
 
         for (int i = 0; i < ListToggleLang.Count; i++)
         {
@@ -28,6 +31,15 @@ public class Popup_Option : MonoBehaviour
         ButtonEmail.onClick.AddListener(() =>
         {
             PopupMgr.MakeLoginPopup();
+        });
+
+        ButtonLogout.onClick.AddListener(() =>
+        {
+            string content = TransMgr.GetText("정말로 로그아웃을 하실건가요?");
+            PopupMgr.MakeCommonPopup("", content, false, true, () =>
+            {
+                
+            });
         });
     }
 

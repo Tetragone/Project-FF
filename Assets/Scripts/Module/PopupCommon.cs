@@ -1,12 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class PopupCommon : MonoBehaviour
+public class PopupCommon : MonoBehaviour, IObserver
 {
     public TextMeshProUGUI TextTitle;
     public TextMeshProUGUI TextContent;
@@ -24,6 +22,8 @@ public class PopupCommon : MonoBehaviour
     private string Content = "";
     // 자기자신을 가능성이 높지만 확인용으로 사용.
     private GameObject ReleaseObj = null;
+
+    public UnityAction ObserverAction = null;
 
     public void InitAfterSetting(bool IsUseButtons, bool IsUseNo, bool IsUseClose)
     {
@@ -131,5 +131,23 @@ public class PopupCommon : MonoBehaviour
         {
             TextNo.text = textNo;
         }
+    }
+
+    public void UpdateObserver()
+    {
+        if (ObserverAction != null)
+        {
+            ObserverAction.Invoke();
+        }
+    }
+
+    public void AddObserverAction(UnityAction action, bool isClear)
+    {
+        if (isClear)
+        {
+            ObserverAction = null;
+        }
+
+        ObserverAction += action;
     }
 }
