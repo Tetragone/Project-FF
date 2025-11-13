@@ -334,6 +334,55 @@ MonoBehaviour:
     m_Localized: Upgrade energy effective
     m_Metadata:
       m_Items: []
+  - m_Id: 16987184024186880
+    m_Localized: email login
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16987184049352704
+    m_Localized: Information
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16987184049352705
+    m_Localized: Account creation was successful. Please restart the game.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16987184049352706
+    m_Localized: Your login has been completed. For your safety, please restart the
+      game.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16987184049352707
+    m_Localized: You have been logged out. For your safely, please restart the game.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16987184049352708
+    m_Localized: Please enter your ID.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16987184049352709
+    m_Localized: Please enter your password.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16987184049352710
+    m_Localized: log in
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16987184049352711
+    m_Localized: Create an account
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16987184049352712
+    m_Localized: Account linking
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16987184049352713
+    m_Localized: log out
+    m_Metadata:
+      m_Items: []
+  - m_Id: 16987184049352714
+    m_Localized: Do you want to log out?
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
