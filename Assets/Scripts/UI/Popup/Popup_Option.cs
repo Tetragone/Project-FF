@@ -13,7 +13,9 @@ public class Popup_Option : MonoBehaviour
 
     [Header("계정 연동")]
     public TextMeshProUGUI TextLink;
+    public GameObject ObjLogin;
     public Button ButtonEmail;
+    public GameObject ObjLogout;
     public Button ButtonLogout;
     public TextMeshProUGUI TextLogout;
 
@@ -38,7 +40,7 @@ public class Popup_Option : MonoBehaviour
             string content = TransMgr.GetText("정말로 로그아웃을 하실건가요?");
             PopupMgr.MakeCommonPopup("", content, false, true, () =>
             {
-                
+                FireAuth.Instance.TryLogout();
             });
         });
     }
@@ -46,6 +48,9 @@ public class Popup_Option : MonoBehaviour
     // Start에서 하는 이유는 Awake()에서 하면 object가 켜지지 않는다.
     private void Start()
     {
+        ObjLogin.SetActive(!FireAuth.Instance.IsLoginUser);
+        ObjLogout.SetActive(FireAuth.Instance.IsLoginUser);
+
         for (int i = 0; i < ListToggleLang.Count; i++)
         {
             int temp = i;

@@ -247,7 +247,11 @@ MonoBehaviour:
   - {fileID: 4261023938766789774}
   - {fileID: 1454138596403441211}
   TextLink: {fileID: 2140136235255413713}
+  ObjLogin: {fileID: 6405675470290517788}
   ButtonEmail: {fileID: 671113142653211653}
+  ObjLogout: {fileID: 126842015931562805}
+  ButtonLogout: {fileID: 1945490830686404744}
+  TextLogout: {fileID: 6635932095025445965}
 --- !u!1 &811319402352710252
 GameObject:
   m_ObjectHideFlags: 0

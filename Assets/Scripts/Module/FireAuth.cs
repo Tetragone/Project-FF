@@ -1,4 +1,5 @@
 using Firebase.Auth;
+using Firebase.Extensions;
 using System;
 using System.Collections.Generic;
 using UnityEditor;
@@ -31,7 +32,7 @@ public class FireAuth : SingletonAllSecen<FireAuth>, ISubject
         if (Auth.CurrentUser != User)
         {
             User = Auth.CurrentUser;
-            UID = User.UserId;
+            UID = User == null ? "" : User.UserId;
         }
     }
 
@@ -46,7 +47,7 @@ public class FireAuth : SingletonAllSecen<FireAuth>, ISubject
         // 무조건 게임 씬에서 로그인이 될것이기 때문에 이렇게
         PopupMgr.ActiveLoadingPopup(true);
         Auth = FirebaseAuth.DefaultInstance;
-        Auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task => {
+        Auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWithOnMainThread(task => {
             if (task.IsCanceled)
             {
                 Debug.LogError("Create Email was canceled.");
@@ -65,7 +66,6 @@ public class FireAuth : SingletonAllSecen<FireAuth>, ISubject
                 result.User.DisplayName, result.User.UserId);
             UserDataMgr.Instance.SaveDataOnServer(() =>
             {
-                UpdateObserver();
                 string title = TransMgr.GetText("안내");
                 string context = TransMgr.GetText("계정 생성이 되어 게임을 다시 시작해주세요.");
                 PopupMgr.MakeCommonPopup(title, context, false, false, () =>
@@ -76,6 +76,8 @@ public class FireAuth : SingletonAllSecen<FireAuth>, ISubject
                     Application.Quit();
 #endif
                 });
+
+                UpdateObserver();
             });
 
         });
@@ -86,7 +88,7 @@ public class FireAuth : SingletonAllSecen<FireAuth>, ISubject
         // 무조건 게임 씬에서 로그인이 될것이기 때문에 이렇게
         PopupMgr.ActiveLoadingPopup(true);
         Auth = FirebaseAuth.DefaultInstance;
-        Auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
+        Auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWithOnMainThread(task =>
         {
             if (task.IsCanceled)
             {
@@ -104,7 +106,6 @@ public class FireAuth : SingletonAllSecen<FireAuth>, ISubject
             Debug.LogFormat("User signed in successfully: {0} ({1})",
                 result.User.DisplayName, result.User.UserId);
 
-            UpdateObserver();
             string title = TransMgr.GetText("안내");
             string context = TransMgr.GetText("로그인이 완료됐습니다. 안전한 게임을 위해 게임을 다시 시작해주세요.");
             PopupMgr.MakeCommonPopup(title, context, false, false, () =>
@@ -115,6 +116,26 @@ public class FireAuth : SingletonAllSecen<FireAuth>, ISubject
                 Application.Quit();
 #endif
             });
+
+            UpdateObserver();
+        });
+    }
+
+    public void TryLogout()
+    {
+        PopupMgr.ActiveLoadingPopup(true);
+        Auth = FirebaseAuth.DefaultInstance;
+        Auth.SignOut();
+
+        string title = TransMgr.GetText("안내");
+        string context = TransMgr.GetText("로그아웃이 완료됐습니다. 안전한 게임을 위해 게임을 다시 시작해주세요.");
+        PopupMgr.MakeCommonPopup(title, context, false, false, () =>
+        {
+#if UNITY_EDITOR
+            EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
         });
     }
 
