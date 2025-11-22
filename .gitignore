@@ -80,3 +80,5 @@ Assets/StreamingAssets/*
 
 *.DS_Store
 
+Assets/Resources/AdIds.asset
+Assets/Resources/AdIds.asset.meta
