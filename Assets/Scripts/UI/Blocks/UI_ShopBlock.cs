@@ -43,21 +43,21 @@ public class UI_ShopBlock : MonoBehaviour
 
         ButtonGet.onClick.AddListener(() =>
         {
-            GetItems();
+            CheckAndGet();
         });
 
         RefreshInteract();
     }
 
-    private void GetItems()
+    private void CheckAndGet()
     {
         if (Enum.TryParse(PriceType, false, out GoodsType type))
         {
             if (UserDataMgr.Instance.IsEnoughGoods(Price, type))
-            { 
+            {
                 UserDataMgr.Instance.UseGoods(Price, type);
+                GetItems();
             }
-
         }
         else if (PriceType == "cash")
         {
@@ -65,9 +65,23 @@ public class UI_ShopBlock : MonoBehaviour
         }
         else if (PriceType == "ad")
         {
-
+            PopupMgr.ActiveLoadingPopup(true);
+            AdMgr.Instance.SetRewardAction(() =>
+            {
+                GetItems();
+                PopupMgr.ActiveLoadingPopup(false);
+            },
+            () =>
+            {
+                RefreshInteract();
+                PopupMgr.ActiveLoadingPopup(false);
+            });
+            AdMgr.Instance.ShowRewarded();
         }
+    }
 
+    private void GetItems()
+    {
         if (Enum.TryParse(GetType1, false, out GoodsType goods))
         {
             UserDataMgr.Instance.AddGoods(GetValue1, goods);

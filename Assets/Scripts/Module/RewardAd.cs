@@ -3,8 +3,9 @@ using GoogleMobileAds;
 using GoogleMobileAds.Api;
 using System;
 using UnityEngine.Events;
+using System.Collections.Generic;
 
-public class RewardAd
+public class RewardAd: ISubject
 {
     public bool IsLoaded 
     { 
@@ -22,6 +23,7 @@ public class RewardAd
     private int Counter = 0;
     private UnityAction SuccessAction;
     private UnityAction FailAction;
+    private List<IObserver> Observers = new List<IObserver>();
 
     public RewardAd(string adId)
     {
@@ -57,7 +59,8 @@ public class RewardAd
         RewardedAd.Load(adUnitId, adRequest, (ad, error) =>
         {
             IsLoading = false;
-
+            UpdateObserver();
+            
             if (error != null)
             {
                 Counter++;
@@ -91,6 +94,30 @@ public class RewardAd
         {
             Debug.Log("[AdMob] Rewarded not ready");
             FailAction.Invoke();
+        }
+    }
+
+    public void UpdateObserver()
+    {
+        foreach (var observer in Observers)
+        {
+            observer.UpdateObserver();
+        }
+    }
+
+    public void RegistObserver(IObserver obverser)
+    {
+        if (!Observers.Contains(obverser))
+        {
+            Observers.Add(obverser);
+        }
+    }
+
+    public void RemoveObserver(IObserver obverser)
+    {
+        if (Observers.Contains(obverser))
+        {
+            Observers.Remove(obverser);
         }
     }
 }
