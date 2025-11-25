@@ -39,7 +39,12 @@ public class UI_ShopBlock : MonoBehaviour
         TextPrice.text = Price.ToString();
         GetType1 = TableMgr.GetTableString("shop", Sid, "get_type_1");
         GetValue1 = TableMgr.GetTableInt("shop", Sid, "get_value_1");
-        ImageReward.sprite = AtlasMgr.Instance.GetCommonSprite(TableMgr.GetTableString("shop", Sid, "res"));
+        Sprite res = AtlasMgr.Instance.GetCommonSprite(TableMgr.GetTableString("shop", Sid, "res"));
+        if (res == null)
+        {
+            res = AtlasMgr.Instance.GetUISprite(TableMgr.GetTableString("shop", Sid, "res"));
+        }
+        ImageReward.sprite = res;
 
         ButtonGet.onClick.AddListener(() =>
         {
@@ -113,12 +118,21 @@ public class UI_ShopBlock : MonoBehaviour
         }
 
         Parent.RefreshAllIcon();
+        UI_Lobby.Instance.RefreshTexts();
     }
 
     public void RefreshInteract()
     {
-        GoodsType type = (GoodsType)Enum.Parse(typeof(GoodsType), PriceType);
-        bool IsEnable = UserDataMgr.Instance.IsEnoughGoods(Price, type);
+        bool IsEnable = false;
+        if (Enum.TryParse(PriceType, false, out GoodsType goods))
+        {
+            IsEnable = UserDataMgr.Instance.IsEnoughGoods(Price, goods);
+        }
+        else if (PriceType == "ad" || PriceType == "cash")
+        {
+            IsEnable = true;
+        }
+
         ButtonGet.interactable = IsEnable;
         ObjNo.SetActive(!IsEnable);
     }
