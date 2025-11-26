@@ -24,9 +24,11 @@ Unity 엔진의 주요 기능을 사용하고, 프로젝트 구조 및 최적화
 | **Pooling System** | `PoolData.cs`, `AquaMgr.cs`, `RaceMgr.cs` | Object 생성 최적화 | O |
 | **Data Table** | `TableMgr.cs` | 각종 설정값 및 데이터 관리 | O |
 | **Localization** | `TransMgr.cs` | Unity Localization 활용 | X |
+| **Auth** | `FireAuth.cs` | 로그인 | O |
 | **Local Save** | `UpgradeMgr.cs`, `UserDataMgr.cs` | PlayerPrefs 기반 로컬 저장 | X |
+| **Server Save** | `FireCloudFunction.cs` | FireFunction과 연결 | O |
 | **Atlas 관리** | `AtlasMgr.cs` | Draw Call 감소 및 성능 최적화 | O |
-
+| **Rewarded AD** | `AdMgr.cs` | 보상형 광고 | O |
 ---
 
 ## 주요 시스템 구현
@@ -163,7 +165,45 @@ string stype = TableMgr.GetTableString("stat", sid, "type");
 ```
 > 테이블 이름과 id, column 이름을 넣으면 테이블 값을 불러오도록 만들었습니디.
 ---
+### Auth
+Firebase의 Auth를 사용했습니다.
+`FireAuth.cs`에서 이메일을 이용한 로그인이 가능합니다.
 
+#### 코드 예시
+```csharp
+public void TryLogin(string email, string password)
+{
+    Auth = FirebaseAuth.DefaultInstance;
+    Auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWithOnMainThread(task =>
+    {
+        if (task.IsCanceled)
+        {
+            Debug.LogError("Sign in Email was canceled.");
+            return;
+        }
+        if (task.IsFaulted)
+        {
+            Debug.LogError("Sign in Email encountered an error: " + task.Exception);
+            return;
+        }
+
+        AuthResult result = task.Result;
+        UpdateObserver();
+    });
+}
+```
+
+#### 사용 예시
+```csharp
+ButtonLogin.onClick.AddListener(() =>
+{
+    string id = InputId.text;
+    string password = InputPass.text;
+
+    FireAuth.Instance.TryLogin(id, password);
+});
+```
+---
 ### Localization (다국어 지원)
 Unity의 **Localization 패키지**를 사용해 번역을 관리했습니다.  
 기존 직접 구현 방식과 비교하여 유지보수성과 동기화 편의성을 검증하기 위함이었습니다.
@@ -206,28 +246,36 @@ private void InitTextTrans()
 
 ### Local Save (데이터 저장)
 간단한 게임 구조이므로 **PlayerPrefs**를 사용했습니다.  
-서버 저장 구조로의 확장도 고려하여, `DataLoadMgr`에서 저장 방식을 유연하게 설계했습니다.
+`DataLoadMgr`에서 저장 방식을 선택가능하도록 설계했습니다.
 
 > 예: PlayerPrefs ⇄ 서버 저장 방식 선택 가능 구조
 
 #### 저장 방식에 따른 데이터 호출 코드
 ```csharp
+private static bool IsLoadFromServer 
+{
+    get
+    {
+        return Application.internetReachability != NetworkReachability.NotReachable
+            && FireAuth.Instance.IsLoginUser;
+    }
+}
+
 private void Awake()
 {
-    DataLoad data = DataLoad.LoadLocal();
-    IsLoadFromServer = data.IsSaveServer;
+    IsLoaded = false;
+    StartCoroutine(StartLoad());
 }
 
 public static void SaveLocalData()
 {
     if (IsLoadFromServer)
     {
-        // 서버 저장 방식이 추가될때 사용할 공간
+        UserDataMgr.Instance.SaveDataOnServer();
     }
     else
     {
         UserDataMgr.Instance.SaveData();
-        UpgradeMgr.Instance.SaveData();
     }
 }
 ```
@@ -251,6 +299,85 @@ public class UserLocalData
         data.Gold = PlayerPrefs.GetString(GoldKey, "");
         return data;
     }
+}
+```
+---
+### Server Save
+서버에 데이터를 저장하기 위해 Firebase의 Fuction 기능을 사용하여 저장하도록 했습니다.
+#### Function 호출 코드
+``` csharp
+public void CallHttps(string name, Dictionary<string, object> data
+    , UnityAction<Dictionary<object, object>> successAction, UnityAction failAction = null)
+{
+    data.Add("uid", FireAuth.Instance.UID);
+    functions.GetHttpsCallable(name).CallAsync(data)
+        .ContinueWithOnMainThread(task =>
+        {
+            if (task.IsFaulted || task.IsCanceled)
+            {
+                foreach (var e in task.Exception.Flatten().InnerExceptions)
+                {
+                    if (e is FunctionsException fe)
+                    {
+                        Debug.LogError($"Firebase 함수 에러: {fe.ErrorCode} - {fe.Message}");
+                    }
+                }
+
+                if (failAction != null)
+                {
+                    failAction.Invoke();
+                }
+            }
+            else
+            {
+                Debug.LogFormat("function {0} is success", name);
+                var data = task.Result.Data;
+                var result = (Dictionary<object, object>)data;
+                successAction.Invoke(result);
+            } 
+        });
+}
+```
+
+#### 서버 데이터 호출 코드
+``` csharp
+public void LoadDataOnServer(UnityAction action = null)
+{
+    FireCloudFunction.Instance.CallHttps("user_load", new Dictionary<string, object>(), (data =>
+    {
+        if (data == null)
+        {
+            Debug.LogError("data loading is error");
+            return;
+        }
+
+        Dictionary<object, object> user = data["user"] as Dictionary<object, object>;
+        foreach (string key in user.Keys)
+        {
+            switch (key)
+            {
+                case "gold":
+                    Gold = new SecureInt(int.Parse(user["gold"].ToString()));
+                    break;
+                case "gold_lv":
+                    {
+                        var goldLv = user["gold_lv"] as Dictionary<object, object>;
+                        GoldUpgradeLv.Clear();
+                        foreach (string gkey in goldLv.Keys)
+                        {
+                            int value = int.Parse(goldLv[gkey].ToString());
+                            GoldUpgrade upgrade = (GoldUpgrade)Enum.Parse(typeof(GoldUpgrade), gkey);
+                            GoldUpgradeLv.Add(upgrade, value);
+                        }
+                    }
+                    break;
+            }
+
+            if (action != null)
+            {
+                action.Invoke();
+            }
+        }));
 }
 ```
 ---
@@ -281,11 +408,70 @@ public Sprite GetCommonSprite(string path)
     return DicCommon[path];
 }
 ```
+---
+### Rewarded AD
+`AdMgr.cs`를 통해 모든 광고 관련된 내용을 제어,  
+`RewardAd.cs`를 통해 실제 보상형 광고 구현을 진행하였습니다.
 
+#### 보상형 광고 구현
+``` csharp
+public bool LoadRewarded()
+{
+    IsLoading = true;
+
+    if (Counter > 10)
+    {
+        return false;
+    }
+
+    if (Application.internetReachability == NetworkReachability.NotReachable)
+    {
+        return false;
+    }
+
+    var adRequest = new AdRequest();
+
+    RewardedAd.Load(adUnitId, adRequest, (ad, error) =>
+    {
+        IsLoading = false;
+        UpdateObserver();
+            
+        if (error != null)
+        {
+            Counter++;
+            return;
+        }
+
+        InitReloadCounter();
+        rewarded = ad;
+    });
+
+    return true;
+}
+```
+
+#### 사용 예시
+``` csharp
+PopupMgr.ActiveLoadingPopup(true);
+AdMgr.Instance.SetRewardAction(() =>
+{
+    GetItems();
+    PopupMgr.ActiveLoadingPopup(false);
+},
+() =>
+{
+    RefreshInteract();
+    PopupMgr.ActiveLoadingPopup(false);
+});
+AdMgr.Instance.ShowRewarded();
+```
 ---
 
 ## 프로젝트 구조
 
+<img width="532" height="71" alt="image" src="https://github.com/user-attachments/assets/fc565fa7-fa7c-424f-a3c6-44b4b11c5b91" />
+
+### 클라이언트 구조
 | Scene | 역할 |
 |--------|------|
 | **Title.scene** | 데이터 초기화 및 로딩 (서버 연결 포인트 가정) |
