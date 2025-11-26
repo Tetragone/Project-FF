@@ -5,8 +5,15 @@ using UnityEngine;
 public class DataLoadMgr : MonoBehaviour
 {
     public static bool IsLoaded = false;
-    private static bool IsLoadFromServer = false;
 
+    private static bool IsLoadFromServer 
+    {
+        get
+        {
+            return Application.internetReachability != NetworkReachability.NotReachable
+                && FireAuth.Instance.IsLoginUser;
+        }
+    }
     // Awake()에서 하면 Singleton이 활성화가 안되어 있을 수 도 있기 때문에 Start()에서 해준다.
     private void Start()
     {
@@ -34,20 +41,13 @@ public class DataLoadMgr : MonoBehaviour
 
     private void LoadData()
     {
-        if (Application.internetReachability == NetworkReachability.NotReachable)
+        if (IsLoadFromServer)
         {
-            LoadLocalData();
+            LoadServerData();
         }
         else
         {
-            if (FireAuth.Instance.IsLoginUser)
-            {
-                LoadServerData();
-            }
-            else
-            {
-                LoadLocalData();
-            }
+            LoadLocalData();
         }
     }
 

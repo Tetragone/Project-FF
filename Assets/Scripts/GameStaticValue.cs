@@ -6,6 +6,7 @@ public static class GameStaticValue
 {
     #region System Value
     public static readonly string TransTable = "Trans Tables";
+    public static readonly float AdReloadTime = 300f;
     #endregion
 
     public static readonly string BaseFishFid = "1001";
