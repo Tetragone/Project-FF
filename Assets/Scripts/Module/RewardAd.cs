@@ -49,12 +49,6 @@ public class RewardAd: ISubject
         }
 
         var adRequest = new AdRequest();
-        /*
-        // 경고: 광고를 로드하지 못했을 때 광고 요청 완료 블록에서 새 광고 로드를 시도하지 마세요.
-        // 광고 요청 완료 블록에서 광고를 로드해야 하는 경우에는 네트워크 연결이 제한된 상황 등에서
-        // 광고 요청이 계속 실패하지 않도록 광고 로드 재시도 횟수를 제한하세요.
-        라고 써져 있었으니, 이것을 고려해서 작성하자.
-        */
 
         RewardedAd.Load(adUnitId, adRequest, (ad, error) =>
         {
@@ -67,11 +61,16 @@ public class RewardAd: ISubject
                 return;
             }
 
-            Counter = 0;
+            InitReloadCounter();
             rewarded = ad;
         });
 
         return true;
+    }
+
+    public void InitReloadCounter()
+    {
+        Counter = 0;
     }
 
     public void SetAction(UnityAction successAction, UnityAction failAction)

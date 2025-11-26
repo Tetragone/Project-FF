@@ -11,6 +11,8 @@ public class AdMgr : SingletonAllSecen<AdMgr>, IObserver
     private string RewardId = "ca-app-pub-3940256099942544/5224354917";
     private AdType Ad = AdType.Reward;
 
+    private float ReloadTimer = 0f;
+
     protected override void SetDataInAwake()
     {
         AdIDs ids = Resources.Load<AdIDs>("AdIds");
@@ -48,10 +50,20 @@ public class AdMgr : SingletonAllSecen<AdMgr>, IObserver
             {
                 Rewarded.RegistObserver(this);
             }
-            else 
+            else
             {
-                // failaction이 수행될수 있도록하자
-                Rewarded.Show();
+                bool isAbleLoad = Rewarded.LoadRewarded();
+
+                if (isAbleLoad)
+                {
+                    Rewarded.RegistObserver(this);
+                }
+                else
+                {
+                    ReloadTimer = GameStaticValue.AdReloadTime;
+                    // failaction이 수행될수 있도록하자
+                    Rewarded.Show();
+                }
             }
         }
     }
@@ -66,6 +78,19 @@ public class AdMgr : SingletonAllSecen<AdMgr>, IObserver
             case AdType.Reward: 
                 ShowRewarded(); 
                 break;
+        }
+    }
+
+    private void Update()
+    {
+        if (ReloadTimer > 0f)
+        {
+            ReloadTimer -= Time.deltaTime;
+
+            if (ReloadTimer < 0f)
+            {
+                Rewarded.InitReloadCounter();
+            }
         }
     }
 
