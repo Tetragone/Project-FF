@@ -383,6 +383,22 @@ MonoBehaviour:
     m_Localized: Do you want to log out?
     m_Metadata:
       m_Items: []
+  - m_Id: 21752767320092672
+    m_Localized: ad
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21752767341064192
+    m_Localized: see an ad
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21752767341064193
+    m_Localized: Gain {0} diamonds
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21755277346795520
+    m_Localized: Gain of goods
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

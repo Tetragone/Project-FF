@@ -34,17 +34,23 @@ public class UI_ShopBlock : MonoBehaviour
         TextCount.gameObject.SetActive(added > 1);
         TextCount.text = string.Format("x{0}", added);
         PriceType = TableMgr.GetTableString("shop", Sid, "price_type");
-        ImagePriceType.sprite = AtlasMgr.Instance.GetUISprite(TableMgr.GetTableString("item", PriceType, "res"));
+        Sprite priceRes = AtlasMgr.Instance.GetCommonSprite(TableMgr.GetTableString("item", PriceType, "res"));
+        if (priceRes == null)
+        {
+            priceRes = AtlasMgr.Instance.GetUISprite(TableMgr.GetTableString("item", PriceType, "res"));
+        }
+        ImagePriceType.sprite = priceRes;
         Price = TableMgr.GetTableInt("shop", Sid, "price");
         TextPrice.text = Price.ToString();
+        TextPrice.gameObject.SetActive(Price > 0);
         GetType1 = TableMgr.GetTableString("shop", Sid, "get_type_1");
         GetValue1 = TableMgr.GetTableInt("shop", Sid, "get_value_1");
-        Sprite res = AtlasMgr.Instance.GetCommonSprite(TableMgr.GetTableString("shop", Sid, "res"));
-        if (res == null)
+        Sprite getRes = AtlasMgr.Instance.GetCommonSprite(TableMgr.GetTableString("shop", Sid, "res"));
+        if (getRes == null)
         {
-            res = AtlasMgr.Instance.GetUISprite(TableMgr.GetTableString("shop", Sid, "res"));
+            getRes = AtlasMgr.Instance.GetUISprite(TableMgr.GetTableString("shop", Sid, "res"));
         }
-        ImageReward.sprite = res;
+        ImageReward.sprite = getRes;
 
         ButtonGet.onClick.AddListener(() =>
         {

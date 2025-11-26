@@ -30,6 +30,7 @@ public class UI_Shop : MonoBehaviour
             newBlock.Parent = this;
             newBlock.SetIcon(key);
         }
+        Canvas.ForceUpdateCanvases();
     }
 
     public void RefreshAllIcon()
