@@ -14,6 +14,13 @@ Unity 엔진의 주요 기능을 사용하고, 프로젝트 구조 및 최적화
 
 ---
 
+## 코드 스타일
+
+최대한 단순한 게임 구조를 바탕으로 만들려고 노력함. 
+테이블 사용을 위한 코드, 상수를 모아둔 코드
+
+---
+
 ## 사용 기술 및 구조
 > Addressable, Object Pooling, Data Table, Localization, Local Save, Sprite Atlas 등  
 > 실무 개발에서 자주 사용했던 시스템과 아직 사용 못한 시스템도 적용했습니다.
