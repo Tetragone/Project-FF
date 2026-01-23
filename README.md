@@ -3,6 +3,268 @@
 
 ---
 
+## 개발 철학 및 코드 스타일
+
+1. 변경 가능성과 확장성에 대한 생각
+   - 게임 흐름 및 구조는 고정해두고 흐름 내부에서는 유연하게 바꿀 수 있도록 구현
+   - 공용적으로 사용될 부분 혹은 패턴등은 재사용 가능하도록 확실하게 구현
+
+2. 네이밍 규칙
+   - 이름을 보면 어떤 역활인지 드러나도록 명명.
+
+3. 예외 처리에 대한 접근
+   - 문제가 생길 수 있는 원인을 고치자.
+   - 문제는 숨기지 말고 드러나도록 하자.
+
+
+### 최대한 단순한 게임 구조 지향
+
+> 단순하며 확실하게.
+
+- 복잡한 아키텍처보다는 직관적인 흐름을 우선함. 
+- 수정해야한다는 것을 항상 생각하고 작업을 함.
+  - 게임 구조는 고정되어 있으나, 디테일한 부분은 언제든지 수정 가능하도록 설계함.
+  - Obejct Pool 혹은 Singleton등 공통 패턴이 재사용이 가능도록 작업함.
+
+
+#### 코드 예시
+
+> 게임 구조는 state를 활용하여 start 에서 arrived로 이뤄지는 자연스러운 흐름대로 큰틀이 잡아둠  
+> 실제 디테일한 구현은 state 안에서 언제든지 수정하도록 설계
+
+```csharp
+private void Update()
+{
+    switch (State)
+    {
+        case GameState.start:
+            {
+                Meter += MyData.Speed * Time.deltaTime;
+                SceneGame.Instance.MoveBg(MyData.Speed * Time.deltaTime);
+
+                if (Timer > GameStaticValue.RaceFishCreateTime)
+                {
+                    Timer -= GameStaticValue.RaceFishCreateTime;
+                    CreateEmenyFish();
+                }
+
+                Timer += Time.deltaTime;
+
+                if (Meter > EndingMeter)
+                {
+                    ArriveGoal();
+                }
+            }
+            break;
+        case GameState.arrived:
+            {
+                if (MyFish.transform.position.y > CameraMgr.CameraSize * GameStaticValue.NonWhiteSpaceOnX)
+                {
+                    MakeWinPopup();
+                }
+            }
+            break;
+    }
+}
+
+public enum GameState
+{
+    prepare, start, arrived, end
+}
+```
+
+> Object Pool과 Singleton 같은 경우 제네릭을 이용해서 구현
+
+```csharp
+// object pool
+public PoolData(string key)
+{
+    ResKey = key;
+    LoadRes();
+}
+
+public List<T> GetNowList()
+{
+    return NowObjects;
+}
+
+public async Task<T> GetNew()
+{
+    if (QueueValues.Count > 0)
+    {
+        T result = QueueValues.Dequeue();
+        result.gameObject.SetActive(true);
+
+        return result;
+    }
+    else
+    {
+        if (Res == null)
+        {
+            if (!IsLoading)
+            {
+                LoadRes();
+            }
+
+            while (IsLoading)
+            {
+                await Task.Delay(100);
+            }
+        }
+
+        if (Pool == null)
+        {
+            GameObject trans = new GameObject();
+            trans.name = string.Format("pool parent {0}", Res.gameObject.name);
+            Pool = trans.transform;
+        }
+
+        T result = Object.Instantiate<T>(Res, Pool);
+
+        return result;
+    }
+}
+
+public void Add(T obj)
+{
+    NowObjects.Add(obj);
+}
+
+public void Remove(T obj)
+{
+    obj.gameObject.SetActive(false);
+    QueueValues.Enqueue(obj);
+    NowObjects.Remove(obj);
+}
+```
+
+```csharp
+// singleton
+public static T Instance;
+
+private void Awake()
+{
+    if (Instance == null)
+    {
+       Instance = GetComponent<T>();
+    }
+}
+```
+
+### 네이밍 규칙
+
+> 이름만 보아도 역활을 알수 있도록.
+
+1. 기본 규칙
+   - 함수 / 멤버 변수 : PascalCase
+   - 지역 변수 : camelCase
+
+2. 함수 명명 방식
+   - __동사로 시작하는 것__ 을 지향.
+   - 축약을 피하고, 함수의 이름으로 기능이 예상될 수 있도록 명명함.
+   - 함수 이름만으로 의미를 드러내기 어려운 경우 __주석을 통해 보완__ 하는 편.
+   - 예시 : InitRace(), CreateEmenyFish(), StartGame()
+  
+3. 변수 명명 방식
+   - 멤버 변수로 사용될 경우 __역할과 의미가 드러도록 명명__
+   - 지역 변수로 사용될 경우 의미는 알 수 있도록 __단순하게 명명__
+   - 예시 : (멤버 변수)EndingMeter, RaceFishMaxSpeed, (지역 변수) speed, range
+
+
+### 예외 처리에 대한 접근
+
+> 문제가 생길 수 있는 __원인에 먼저 예외처리__ 를 하는편  
+> 다만 문제가 생긴다면 가리는 것보다는 드러나게 만들고 고치는 쪽을 선호
+
+- 코드 작성 후, 직접 플레이 테스트를 통해 Unity 콘솔의 Error/Warning을 확인하면서 null이 발생할 수 있는 지점을 하나씩 보완하는 스타일.
+- 문제가 드러나도록 내버려두고 원인을 수정하는 방식을 선호
+- 눈에 보이지 않는 문제는 명시적으로 Debug 로그를 남겨서 추적 가능하게 처리.
+
+#### 코드예시
+
+> MyFish가 null이라면 PoolFish가 문제인 상황이니, PoolFish를 고쳐 원인을 수정하는 코드
+
+```csharp
+public async void SettingBeforePlay()
+{
+    if (PoolFish == null)
+    {
+        SetDataInAwake();
+    }
+
+    MyFish = await PoolFish.GetNew();
+}
+
+public void InitRace(FishData fish)
+{
+    MyFish.InitData(fish, true);
+    MyFish.SetLocalScale(1f);
+    MyFish.transform.position = Vector3.zero;
+    MyFish.gameObject.SetActive(false);
+    PoolFish.Add(MyFish);
+    MyData = fish;
+    Meter = 0f;
+    CalEndingMeter();
+    State = GameState.prepare;
+    IsChangedBg = false;
+}
+```
+
+> AdultSpirte, ChildSpirte가 null이라면 게임에서 하얀 이미지로 나오도록 하는 코드
+
+```csharp
+AdultSpirte = AtlasMgr.Instance.GetFishesSprite(string.Format("{0}_adult", TableMgr.GetTableString("fish", fid, "res")));
+ChildSpirte = AtlasMgr.Instance.GetFishesSprite(string.Format("{0}_child", TableMgr.GetTableString("fish", fid, "res")));
+
+if (isChild)
+{
+    SpriteFish.sprite = ChildSpirte;
+    transform.localScale = new Vector3(GameStaticValue.FishChildSize, GameStaticValue.FishChildSize);
+}
+else
+{
+    SpriteFish.sprite = AdultSpirte;
+    transform.localScale = new Vector3(GameStaticValue.FishMaxGrowSize, GameStaticValue.FishMaxGrowSize);
+}
+```
+
+> Unity의 Error Log로 볼 수 없는 서버 통신의 경우 Debug를 남기는 코드
+
+```csharp
+public void CallHttps(string name, Dictionary<string, object> data
+    , UnityAction<Dictionary<object, object>> successAction, UnityAction failAction = null)
+{
+    data.Add("uid", FireAuth.Instance.UID);
+    functions.GetHttpsCallable(name).CallAsync(data)
+        .ContinueWithOnMainThread(task =>
+        {
+            if (task.IsFaulted || task.IsCanceled)
+            {
+                foreach (var e in task.Exception.Flatten().InnerExceptions)
+                {
+                    if (e is FunctionsException fe)
+                    {
+                        Debug.LogError($"Firebase 함수 에러: {fe.ErrorCode} - {fe.Message}");
+                    }
+                }
+
+                if (failAction != null)
+                {
+                    failAction.Invoke();
+                }
+            }
+            else
+            {
+                Debug.LogFormat("function {0} is success", name);
+                var data = task.Result.Data;
+                var result = (Dictionary<object, object>)data;
+                successAction.Invoke(result);
+            } 
+        });
+}
+```
+---
+
 ## 프로젝트 개요
 > “작고 단순하지만 구조적으로 탄탄한 게임”을 목표로 한 개인 프로젝트입니다.
 
@@ -11,60 +273,6 @@ Unity 엔진의 주요 기능을 사용하고, 프로젝트 구조 및 최적화
 | 로비 | 어항 | 레이스 |
 |------|------|-----|
 | <img width="219" height="389" alt="image" src="https://github.com/user-attachments/assets/6a3dc216-c2ae-41d7-86dc-8102768c35f0" /> | <img width="221" height="394" alt="image" src="https://github.com/user-attachments/assets/1f3cc5f8-b326-4550-8daa-428b30e2d593" /> | <img width="219" height="395" alt="image" src="https://github.com/user-attachments/assets/aa769a65-027e-43ec-a0f3-061194967770" /> |
-
----
-
-## 코드 스타일
-
-### 최대한 단순한 게임 구조 지향
-
-// 각자 사용할 예시를 생각하고 넣어두자.
-
-- 복잡한 아키텍처보다는 직관적인 흐름을 우선함. 
-- 공통적으로 사용하는 요소는 별도로 분리하려고함. // 수정하자
-  - 상수를 모아둔 전용 코드 (일단 맞음)
-  - 테이블 사용을 위한 전용 코드 (이게 왜 여기 들어갔지?)
-- 수정해야한다는 것을 항상 생각하고 작업을 함.
-  - 게임 구조 자체는 언제든지 수정 가능하도록 느슨하게 설계함.
-  - Obejct Pool 혹은 Singleton등 공통 패턴이 사용될 필요가 있다면 바로 작업함.
-
-### 네이밍 규칙
-
-1. 기본 규칙
-  - 함수 / 멤버 변수 : PascalCase
-  - 지역 변수 : camelCase
-
-2. 함수 명명 방식
-  - __동사로 시작하는 것__ 을 지향.
-  - 축약을 피하고, 함수의 이름으로 기능이 예상될 수 있도록 명명함.
-  - 함수 이름만으로 의미를 드러내기 어려운 경우 __주석을 통해 보완__ 하는 편.
-  
-3. 변수 명명 방식
-  - 멤버 변수이며 public으로 사용될 경우 __역할과 의미가 드러도록 명명__
-  - 지역 변수와 private로 사용될 경우 __단순하게 명명__
-최대한 단순한 게임 구조를 바탕으로 만들려고 노력함. 
-테이블 사용을 위한 코드, 상수를 모아둔 코드
-네이밍 방식 : 
-함수,변수 --> 파스칼 (PascalCase)
-함수 내부의 지역 변수 --> 카멜 (camelCase)
-명명 방식은 
-대체적으로 함수는 동사로 시작하는 방식. 추가적으로 함수의 이름으로 어떤 기능을 가지는지를 알 수 있도록 축약 없이 의미를 드러나는 방식으로 명명함.
-다만 이렇게도 의미를 못드러내겠다 싶은 경우나 혹은 유의점을 함수의 이름으로 알 수 없는 경우 주석을 남겨서 설명을 하는편
-
-일반적인 변수의 경우 의미를 나타내도록 하는 편. 
-다만 함수의 내부에서만 쓰이는 지역변수거나 클래스 내부에서만 쓰이는 지역변수의 경우는 한 단어로 명명하는 편.
-
-null 체크 같은 부분은 코드 분석 후 null 이 있을만한 곳에 추가하는 편이며, null이 나올만한 상황이 나오는 것을 수정하는 편임.
-그렇기 때문에 코드 작성 후 플레이를 해보면서 Unity에서 나오는 Error Debug 혹은 특정 Object가 null로 나와서 이상하게 보이는 것을 보면서 확인하는 편. 
-(이미지가 없다고 기본 이미지로 대체하는 방식을 비선호 하는 편. 이유는 기본 이미지로 대체하는 경우 게임 플레이 테스트 중 이미지가 잘 나온다고 착각하는 상황이 나올수 있기 때문임.)
-
-다만 이렇게 하는 경우 Unity에서 Error Debug가 null로 인한 이상하게 나오지 않는 부분들이 있는데 이 부분에는 Debug를 따로 남겨서 확인할 수 있도록 하는편. 
-(서버 통신 같은 경우)
-
-변경되는 것을 신경써서 작업함
-기본적인것들은 구현하고 나머지 구조 즉 언제든지 바뀔수 있는 부분은 쉽게 가자는 편.
-그래서 Object Pool 이나 패턴 같은 언제든지 사용하며 언제든지 필요한 부분은 구현을 해두고, 게임구조 같은 부분은 언제든지 바꿔도 상관없도록 구현. 
-이유는 추가를 하는 도중 기존것까지 같이 바꿔야 하는 경우가 언제든지 있기 때문
 
 ---
 
