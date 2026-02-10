@@ -276,6 +276,65 @@ Unity 엔진의 주요 기능을 사용하고, 프로젝트 구조 및 최적화
 
 ---
 
+## 프로젝트 구조
+
+<img width="532" height="71" alt="image" src="https://github.com/user-attachments/assets/fc565fa7-fa7c-424f-a3c6-44b4b11c5b91" />
+
+### 씬 구조
+| Scene | 역할 |
+|--------|------|
+| **Title.scene** | 데이터 초기화 및 로딩 (서버 연결 포인트 가정) |
+| **Game.scene** | 로비, 어항, 레이스 씬 통합 관리 |
+
+> 규모가 작은 프로젝트 특성상, 불필요한 씬 분리를 최소화했습니다.  
+> 필요시 `Lobby.scene`, `Aqua.scene`, `Race.scene` 등으로 세분화할 수 있는 구조로 설계했습니다.
+
+### 핵심 코드 설명
+
+1. 인게임 코드
+
+| 코드 | 설명 |
+| ------ | ------ |
+| AquaMgr | 어항에서 사용되는 코드로 어항에서 뽑을 수 있는 물고기 관리 및 먹이 관리를 담당하고 있습니다. |
+| RaceMgr | 레이스에서 사용되는 코드로서 레이스에서 나오는 경쟁 물고기, 내 물고기 관리를 담당하고 있습니다. |
+
+2. 리소스 관리
+
+| 코드 | 설명 |
+| ------ | ------ |
+| AddressableMgr | 오브젝트를 로딩할때 필요한 Addressable을 관리하는 코드입니다. |
+| AltasMgr | Sprite를 로딩할때 사용되는 코드입니다. Altas를 메인으로 관리하고 있으며, Altas로 만들수 없는 Sprite 또한 여기서 관리하고 있습니다. |
+| PoolData | 오브젝트 풀링에서 사용되는 코드로 오브젝트 풀링이 필요한 경우 사용되는 코드입니다. |
+
+3. 데이터 관리
+
+| 코드 | 설명 |
+| ------ | ------ |
+| DataLoadMgr | 데이터 로딩 및 데이터 저장을 담당하는 코드로 여러 데이터 매니저들이 생겼을떄 이 코드를 통해서 데이터를 로딩, 저장할 수 있도록 만든 코드입니다.  |
+| TableMgr | 테이블에서 값을 가져올수 있도록 하는 코드입니다. |
+| UserDataMgr | 유저의 기본적인 데이터를 가지고 있는 코드입니다. |
+| GameOptionData | 게임 옵션과 관련된 값을 저장하는 코드입니다. |
+
+4. UI 관리
+
+| 코드 | 설명 |
+| ------ | ------ |
+| UI_Lobby | 메인 UI로, 다른 UI들은 이 코드를 통해 사용되거나, 이 코드에서 호출되는 방식입니다. |
+| PopupMgr | Popup과 관련되어서 개념상 메인 UI의 하위가 될 수 없는 경우 이 코드를 통해서 호출됩니다. |
+
+---
+
+## 주요 화면
+
+| 구분 | 이미지 |
+|------|--------|
+| **로비** | ![로비](https://github.com/user-attachments/assets/b19dce98-8b34-489f-9699-e33d2ccaa975) |
+| **어항** | ![어항](https://github.com/user-attachments/assets/e4949fb3-c919-4f3f-92ac-55d0165289dc) |
+| **레이스** | ![레이스](https://github.com/user-attachments/assets/d1fe10ea-c875-4e04-a471-ed5a815eea79) |
+| **전체 흐름도** | ![흐름도](https://github.com/user-attachments/assets/f909bb97-1018-4890-9505-0f94ed08184a) |
+
+---
+
 ## 사용 기술 및 구조
 > Addressable, Object Pooling, Data Table, Localization, Local Save, Sprite Atlas 등  
 > 실무 개발에서 자주 사용했던 시스템과 아직 사용 못한 시스템도 적용했습니다.
@@ -727,31 +786,6 @@ AdMgr.Instance.SetRewardAction(() =>
 });
 AdMgr.Instance.ShowRewarded();
 ```
----
-
-## 프로젝트 구조
-
-<img width="532" height="71" alt="image" src="https://github.com/user-attachments/assets/fc565fa7-fa7c-424f-a3c6-44b4b11c5b91" />
-
-### 클라이언트 구조
-| Scene | 역할 |
-|--------|------|
-| **Title.scene** | 데이터 초기화 및 로딩 (서버 연결 포인트 가정) |
-| **Game.scene** | 로비, 어항, 레이스 씬 통합 관리 |
-
-> 규모가 작은 프로젝트 특성상, 불필요한 씬 분리를 최소화했습니다.  
-> 필요시 `Lobby.scene`, `Aqua.scene`, `Race.scene` 등으로 세분화할 수 있는 구조로 설계했습니다.
-
----
-
-## 주요 화면
-
-| 구분 | 이미지 |
-|------|--------|
-| **로비** | ![로비](https://github.com/user-attachments/assets/b19dce98-8b34-489f-9699-e33d2ccaa975) |
-| **어항** | ![어항](https://github.com/user-attachments/assets/e4949fb3-c919-4f3f-92ac-55d0165289dc) |
-| **레이스** | ![레이스](https://github.com/user-attachments/assets/d1fe10ea-c875-4e04-a471-ed5a815eea79) |
-| **전체 흐름도** | ![흐름도](https://github.com/user-attachments/assets/f909bb97-1018-4890-9505-0f94ed08184a) |
 
 ---
 
